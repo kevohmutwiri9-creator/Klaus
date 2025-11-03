@@ -1,9 +1,50 @@
+// Analytics helper (hoisted before any usage)
+function safeTrack(eventName, params = {}) {
+    if (typeof gtag === 'function') {
+        gtag('event', eventName, params);
+    }
+}
+
+// Theme toggle functionality
+const body = document.body;
+const themeToggle = document.getElementById('themeToggle');
+
+if (themeToggle) {
+    const themeIcon = themeToggle.querySelector('i');
+
+    const toggleTheme = () => {
+        body.classList.toggle('light-theme');
+        const isLight = body.classList.contains('light-theme');
+        if (themeIcon) {
+            themeIcon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
+        }
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    };
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        body.classList.add('light-theme');
+        if (themeIcon) {
+            themeIcon.className = 'fas fa-sun';
+        }
+    }
+
+    themeToggle.addEventListener('click', toggleTheme);
+}
+
 // Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+const smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
+smoothScrollLinks.forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const selector = this.getAttribute('href');
+        if (!selector || selector === '#') {
+            return; // allow default behavior
+        }
+
+        const target = document.querySelector(selector);
         if (target) {
+            e.preventDefault();
             target.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
@@ -12,58 +53,145 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// Newsletter form handling (AJAX submit)
+document.querySelectorAll('form[name^="newsletter"]').forEach(form => {
+    const statusTargetId = form.id === 'newsletterFormInsights' ? 'newsletterStatusInsights' : 'newsletterStatus';
+    const statusEl = document.getElementById(statusTargetId) || document.getElementById('newsletterStatus');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.classList.add('loading');
+        submitButton.disabled = true;
+
+        const formData = new FormData(form);
+
+        const setStatus = (message, tone = 'info') => {
+            if (!statusEl) return;
+            statusEl.textContent = message;
+            statusEl.classList.remove('is-success', 'is-error', 'is-info');
+            statusEl.classList.add(`is-${tone}`);
+            statusEl.style.opacity = message ? '1' : '0';
+        };
+
+        try {
+            setStatus('Submitting…', 'info');
+            const response = await fetch('/', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            setStatus('Thanks for subscribing! Watch your inbox for the next shipping note.', 'success');
+            form.reset();
+            safeTrack('newsletter_submit', { status: 'success', form: form.name });
+        } catch (error) {
+            console.error(error);
+            setStatus('Unable to subscribe right now. Please try again later.', 'error');
+            safeTrack('newsletter_submit', { status: 'error', form: form.name });
+        } finally {
+            submitButton.classList.remove('loading');
+            submitButton.disabled = false;
+            setTimeout(() => setStatus('', 'info'), 4000);
+        }
+    });
+});
+
 // Mobile menu toggle
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
-});
-
-// Close mobile menu when clicking on a link
-document.querySelectorAll('.nav-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
+if (hamburger && navMenu) {
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
     });
-});
+
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+}
 
 // Navbar background change on scroll
-window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 100) {
-        navbar.style.backgroundColor = 'rgba(10, 10, 10, 0.98)';
-    } else {
-        navbar.style.backgroundColor = 'rgba(10, 10, 10, 0.95)';
-    }
-});
+const navbar = document.querySelector('.navbar');
+if (navbar) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            navbar.style.backgroundColor = 'rgba(10, 10, 10, 0.98)';
+        } else {
+            navbar.style.backgroundColor = 'rgba(10, 10, 10, 0.95)';
+        }
+    });
+}
 
 // Form validation and submission
 const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const contactStatus = document.getElementById('contactStatus');
 
-contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
+    const setContactStatus = (message, tone = 'info') => {
+        if (!contactStatus) return;
+        contactStatus.textContent = message;
+        contactStatus.classList.remove('is-success', 'is-error', 'is-info');
+        contactStatus.classList.add(`is-${tone}`);
+        contactStatus.style.opacity = message ? '1' : '0';
+    };
 
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-    if (name === '' || email === '' || message === '') {
-        alert('Please fill in all fields.');
-        return;
-    }
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
 
-    if (!isValidEmail(email)) {
-        alert('Please enter a valid email address.');
-        return;
-    }
+        if (name === '' || email === '' || message === '') {
+            setContactStatus('Please fill in all fields.', 'error');
+            return;
+        }
 
-    // Here you would typically send the form data to a server
-    // For now, we'll just show a success message
-    alert('Thank you for your message! I will get back to you soon.');
-    contactForm.reset();
-});
+        if (!isValidEmail(email)) {
+            setContactStatus('Please enter a valid email address.', 'error');
+            return;
+        }
+
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+
+        const formData = new FormData(contactForm);
+
+        try {
+            setContactStatus('Sending your message…', 'info');
+            const response = await fetch('/', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            setContactStatus('Thank you! I will get back to you soon.', 'success');
+            contactForm.reset();
+            safeTrack('contact_form_submit', { method: 'netlify', status: 'success' });
+        } catch (error) {
+            console.error(error);
+            setContactStatus('Something went wrong. Please try again or email kevohmutwiri35@gmail.com.', 'error');
+            safeTrack('contact_form_submit', { method: 'netlify', status: 'error' });
+        } finally {
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+            setTimeout(() => setContactStatus('', 'info'), 5000);
+        }
+    });
+}
 
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -93,6 +221,185 @@ document.querySelectorAll('section').forEach(section => {
 document.querySelectorAll('.skill-item').forEach((item, index) => {
     item.style.animationDelay = `${index * 0.1}s`;
     item.classList.add('fade-in-up');
+});
+
+// Parallax effect for decorative layers
+const parallaxLayers = document.querySelectorAll('.parallax-layer');
+window.addEventListener('mousemove', (event) => {
+    const { innerWidth, innerHeight } = window;
+    const x = (event.clientX / innerWidth) - 0.5;
+    const y = (event.clientY / innerHeight) - 0.5;
+
+    parallaxLayers.forEach(layer => {
+        const speed = parseFloat(layer.dataset.speed || '0.05');
+        const translateX = -x * 40 * speed;
+        const translateY = -y * 40 * speed;
+        layer.style.transform = `translate(${translateX}px, ${translateY}px)`;
+    });
+});
+
+// Lightbox functionality
+const lightboxOverlay = document.createElement('div');
+lightboxOverlay.className = 'lightbox-overlay';
+lightboxOverlay.innerHTML = `
+    <div class="lightbox-content">
+        <img src="" alt="Lightbox preview">
+    </div>
+    <button class="lightbox-close" aria-label="Close preview">&times;</button>
+`;
+document.body.appendChild(lightboxOverlay);
+
+const lightboxImage = lightboxOverlay.querySelector('img');
+const lightboxClose = lightboxOverlay.querySelector('.lightbox-close');
+
+function openLightbox(src, alt) {
+    lightboxImage.src = src;
+    lightboxImage.alt = alt;
+    lightboxOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    lightboxOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+lightboxClose.addEventListener('click', closeLightbox);
+lightboxOverlay.addEventListener('click', (event) => {
+    if (event.target === lightboxOverlay) {
+        closeLightbox();
+    }
+});
+
+document.querySelectorAll('[data-lightbox]').forEach(img => {
+    img.addEventListener('click', () => {
+        openLightbox(img.src, img.dataset.caption || img.alt);
+    });
+});
+
+// Dynamic footer year
+const currentYearEl = document.getElementById('currentYear');
+if (currentYearEl) {
+    currentYearEl.textContent = new Date().getFullYear();
+}
+
+// Track social share interactions
+document.querySelectorAll('.share-link').forEach(link => {
+    link.addEventListener('click', () => {
+        const network = link.dataset.share || 'unknown';
+        safeTrack('insight_share_click', { network });
+    });
+});
+
+// Sticky CTA visibility
+const stickyCta = document.createElement('div');
+stickyCta.className = 'sticky-cta';
+stickyCta.innerHTML = `<button type="button"><span class="cta-icon">⚡</span> Book a discovery call</button>`;
+document.body.appendChild(stickyCta);
+
+stickyCta.querySelector('button').addEventListener('click', () => {
+    safeTrack('cta_click', { location: 'sticky' });
+    window.open('mailto:kevohmutwiri35@gmail.com?subject=Project%20Discovery', '_blank');
+});
+
+const heroSection = document.getElementById('hero');
+const footer = document.querySelector('footer.footer');
+
+const updateStickyVisibility = (isPastHero, nearFooter = false) => {
+    if (nearFooter) {
+        stickyCta.classList.remove('visible');
+        return;
+    }
+    stickyCta.classList.toggle('visible', isPastHero);
+};
+
+if (heroSection) {
+    const observerSticky = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            updateStickyVisibility(!entry.isIntersecting);
+        });
+    }, { threshold: 0, rootMargin: '-80px 0px 0px 0px' });
+
+    observerSticky.observe(heroSection);
+} else {
+    updateStickyVisibility(true);
+}
+
+if (footer) {
+    const footerObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            updateStickyVisibility(true, entry.isIntersecting);
+        });
+    }, { threshold: 0.1 });
+
+    footerObserver.observe(footer);
+}
+
+// Project carousel for standalone projects page
+const projectsGrid = document.querySelector('body.section-page .projects-grid');
+if (projectsGrid && window.innerWidth <= 768) {
+    let currentIndex = 0;
+    const cards = Array.from(projectsGrid.children);
+
+    const carouselNav = document.createElement('div');
+    carouselNav.className = 'carousel-nav';
+    carouselNav.innerHTML = `
+        <button class="carousel-btn prev" aria-label="Previous project"><i class="fas fa-chevron-left"></i></button>
+        <button class="carousel-btn next" aria-label="Next project"><i class="fas fa-chevron-right"></i></button>
+    `;
+    projectsGrid.parentElement.appendChild(carouselNav);
+
+    function updateCarousel(index) {
+        cards.forEach((card, idx) => {
+            card.style.display = idx === index ? 'block' : 'none';
+        });
+    }
+
+    updateCarousel(currentIndex);
+
+    carouselNav.querySelector('.prev').addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+        updateCarousel(currentIndex);
+        safeTrack('projects_carousel', { action: 'prev', index: currentIndex });
+    });
+
+    carouselNav.querySelector('.next').addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % cards.length;
+        updateCarousel(currentIndex);
+        safeTrack('projects_carousel', { action: 'next', index: currentIndex });
+    });
+}
+
+// Project filtering functionality
+const filterButtons = document.querySelectorAll('.filter-btn');
+const projectCards = document.querySelectorAll('.project-card');
+
+filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const filter = button.getAttribute('data-filter');
+
+        // Update active button
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        // Filter projects
+        projectCards.forEach(card => {
+            if (filter === 'all') {
+                card.style.display = 'block';
+            } else {
+                const tech = card.querySelector('.project-tech').textContent.toLowerCase();
+                if (filter === 'web' && (tech.includes('react') || tech.includes('node') || tech.includes('html') || tech.includes('css'))) {
+                    card.style.display = 'block';
+                } else if (filter === 'mobile' && (tech.includes('react native') || tech.includes('mobile'))) {
+                    card.style.display = 'block';
+                } else if (filter === 'ml' && (tech.includes('python') || tech.includes('machine learning') || tech.includes('scikit-learn'))) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            }
+        });
+    });
 });
 
 // Project cards hover effect enhancement
@@ -129,22 +436,24 @@ window.addEventListener('scroll', () => {
 
 // Typing effect for hero subtitle (optional)
 const heroSubtitle = document.querySelector('.hero-subtitle');
-const text = heroSubtitle.textContent;
-heroSubtitle.textContent = '';
+if (heroSubtitle) {
+    const text = heroSubtitle.textContent;
+    heroSubtitle.textContent = '';
 
-let i = 0;
-function typeWriter() {
-    if (i < text.length) {
-        heroSubtitle.textContent += text.charAt(i);
-        i++;
-        setTimeout(typeWriter, 100);
+    let i = 0;
+    function typeWriter() {
+        if (i < text.length) {
+            heroSubtitle.textContent += text.charAt(i);
+            i++;
+            setTimeout(typeWriter, 100);
+        }
     }
-}
 
-// Start typing effect after page load
-window.addEventListener('load', () => {
-    setTimeout(typeWriter, 1000);
-});
+    // Start typing effect after page load
+    window.addEventListener('load', () => {
+        setTimeout(typeWriter, 1000);
+    });
+}
 
 // Prevent form submission on enter key for better UX
 document.querySelectorAll('input, textarea').forEach(element => {
