@@ -14,6 +14,24 @@
     opacity: 0;
 }
 
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 16px;
+    background: #00d4ff;
+    color: #0a0a0a;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    z-index: 2000;
+    transition: top 0.3s ease;
+}
+
+.skip-link:focus {
+    top: 16px;
+    outline: none;
+}
+
 .form-status.is-success {
     color: #74f7c3;
 }
@@ -228,12 +246,34 @@ p {
     color: #e0e0e0;
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.3s ease;
     letter-spacing: 0.02em;
+    padding: 0.25rem 0;
+    position: relative;
+}
+
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #00d4ff 0%, #7b61ff 100%);
+    transition: width 0.25s ease;
 }
 
 .nav-menu a:hover {
     color: #00d4ff;
+}
+
+.nav-menu a:focus-visible {
+    color: #00d4ff;
+    outline: none;
+}
+
+.nav-menu a:focus-visible::after,
+.nav-menu a[aria-current="true"]::after {
+    width: 100%;
 }
 
 .theme-toggle {

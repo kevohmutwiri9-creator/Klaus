@@ -103,6 +103,7 @@ document.querySelectorAll('form[name^="newsletter"]').forEach(form => {
 // Mobile menu toggle
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
+const navLinks = document.querySelectorAll('.nav-menu a[data-nav-section]');
 
 if (hamburger && navMenu) {
     hamburger.addEventListener('click', () => {
@@ -117,6 +118,34 @@ if (hamburger && navMenu) {
             navMenu.classList.remove('active');
         });
     });
+}
+
+// Section observer for active nav state
+const sections = document.querySelectorAll('section[id]');
+if (sections.length && navLinks.length) {
+    const navMap = new Map();
+    navLinks.forEach(link => {
+        const sectionId = link.dataset.navSection;
+        if (sectionId) {
+            navMap.set(sectionId, link);
+        }
+    });
+
+    const navObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const id = entry.target.id;
+            const link = navMap.get(id);
+            if (!link) return;
+
+            if (entry.isIntersecting && entry.intersectionRatio > 0.45) {
+                navLinks.forEach(navLink => navLink.removeAttribute('aria-current'));
+                link.setAttribute('aria-current', 'true');
+                safeTrack('nav_section_visible', { section: id });
+            }
+        });
+    }, { threshold: [0.5, 0.75], rootMargin: '-80px 0px -200px 0px' });
+
+    sections.forEach(section => navObserver.observe(section));
 }
 
 // Navbar background change on scroll
