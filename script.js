@@ -320,48 +320,89 @@ document.querySelectorAll('.share-link').forEach(link => {
     });
 });
 
+// Project image loading shimmer toggle
+document.querySelectorAll('.project-image[data-loading]').forEach(wrapper => {
+    const image = wrapper.querySelector('img');
+    if (!image) {
+        wrapper.setAttribute('data-loading', 'false');
+        return;
+    }
+
+    const markLoaded = () => wrapper.setAttribute('data-loading', 'false');
+
+    if (image.complete) {
+        markLoaded();
+    } else {
+        image.addEventListener('load', markLoaded, { once: true });
+        image.addEventListener('error', markLoaded, { once: true });
+    }
+});
+
 // Sticky CTA visibility
 const stickyCta = document.createElement('div');
 stickyCta.className = 'sticky-cta';
-stickyCta.innerHTML = `<button type="button"><span class="cta-icon">⚡</span> Book a discovery call</button>`;
+stickyCta.innerHTML = `<button type="button"><span class="cta-icon">⚡</span> Book a discovery call <span class="cta-badge">Open slots</span></button>`;
 document.body.appendChild(stickyCta);
 
 stickyCta.querySelector('button').addEventListener('click', () => {
     safeTrack('cta_click', { location: 'sticky' });
-    window.open('mailto:kevohmutwiri35@gmail.com?subject=Project%20Discovery', '_blank');
+    window.open('https://cal.com/kevoh-mutwiri-ms633b/30min', '_blank');
 });
 
 const heroSection = document.getElementById('hero');
 const footer = document.querySelector('footer.footer');
+const contactSection = document.getElementById('contact');
 
-const updateStickyVisibility = (isPastHero, nearFooter = false) => {
-    if (nearFooter) {
+const stickyVisibilityState = {
+    pastHero: false,
+    nearFooter: false,
+    contactVisible: false
+};
+
+const refreshStickyVisibility = () => {
+    const shouldHide = stickyVisibilityState.nearFooter || stickyVisibilityState.contactVisible;
+    if (shouldHide) {
         stickyCta.classList.remove('visible');
         return;
     }
-    stickyCta.classList.toggle('visible', isPastHero);
+
+    stickyCta.classList.toggle('visible', stickyVisibilityState.pastHero);
 };
 
 if (heroSection) {
     const observerSticky = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-            updateStickyVisibility(!entry.isIntersecting);
+            stickyVisibilityState.pastHero = !entry.isIntersecting;
+            refreshStickyVisibility();
         });
     }, { threshold: 0, rootMargin: '-80px 0px 0px 0px' });
 
     observerSticky.observe(heroSection);
 } else {
-    updateStickyVisibility(true);
+    stickyVisibilityState.pastHero = true;
+    refreshStickyVisibility();
 }
 
 if (footer) {
     const footerObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-            updateStickyVisibility(true, entry.isIntersecting);
+            stickyVisibilityState.nearFooter = entry.isIntersecting;
+            refreshStickyVisibility();
         });
     }, { threshold: 0.1 });
 
     footerObserver.observe(footer);
+}
+
+if (contactSection) {
+    const contactObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            stickyVisibilityState.contactVisible = entry.isIntersecting;
+            refreshStickyVisibility();
+        });
+    }, { threshold: 0.25 });
+
+    contactObserver.observe(contactSection);
 }
 
 // Project carousel for standalone projects page
