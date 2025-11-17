@@ -635,6 +635,44 @@ document.querySelectorAll('.project-card').forEach(card => {
     });
 });
 
+// Back to Top Button functionality
+const backToTopButton = document.getElementById('backToTop');
+
+if (backToTopButton) {
+    // Show/hide button based on scroll position
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTopButton.classList.add('visible');
+        } else {
+            backToTopButton.classList.remove('visible');
+        }
+    });
+
+    // Smooth scroll to top when clicked
+    backToTopButton.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        
+        // Track the event
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'back_to_top_click', {
+                event_category: 'Navigation',
+                event_label: 'Back to Top Button'
+            });
+        }
+    });
+
+    // Keyboard support
+    backToTopButton.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            backToTopButton.click();
+        }
+    });
+}
+
 // Scroll to top button (optional)
 const scrollToTopBtn = document.createElement('div');
 scrollToTopBtn.className = 'scroll-to-top';

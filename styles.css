@@ -359,7 +359,7 @@ p {
     align-items: center;
     padding: 120px 2rem 80px;
     background: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(26, 26, 46, 0.92) 50%, rgba(22, 33, 62, 0.92) 100%),
-                url('img/hero-bg.jpg') center/cover no-repeat;
+                url('img/hero-bg-optimized.jpg') center/cover no-repeat;
     position: relative;
     overflow: hidden;
 }
@@ -1295,11 +1295,26 @@ p {
 }
 
 .blog-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.875rem;
-    color: #7dd3fc;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #8eeaff;
+}
+
+.blog-meta span {
+    margin-right: 1rem;
+}
+
+.blog-meta span:last-child {
+    margin-right: 0;
+}
+
+.blog-read-time {
+    background: rgba(0, 212, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    color: #00d4ff;
+    font-weight: 500;
 }
 
 .blog-date {
@@ -1677,6 +1692,77 @@ p {
 
 .ai-response-content p strong {
     color: #7be8ff;
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #00d4ff, #00a8ff);
+    border: none;
+    border-radius: 50%;
+    color: #061220;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 8px 25px rgba(0, 164, 255, 0.3);
+}
+
+.back-to-top:hover {
+    background: linear-gradient(135deg, #04c0f7, #0096e0);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 164, 255, 0.4);
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top:focus {
+    outline: 2px solid #8eeaff;
+    outline-offset: 2px;
+}
+
+/* Light theme back to top button */
+body.light-theme .back-to-top {
+    background: linear-gradient(135deg, #00a8ff, #007acc);
+    color: #ffffff;
+    box-shadow: 0 8px 25px rgba(0, 168, 255, 0.2);
+}
+
+body.light-theme .back-to-top:hover {
+    background: linear-gradient(135deg, #0096e0, #0066aa);
+    box-shadow: 0 12px 30px rgba(0, 168, 255, 0.3);
+}
+
+/* Responsive back to top button */
+@media (max-width: 768px) {
+    .back-to-top {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .back-to-top {
+        bottom: 1rem;
+        right: 1rem;
+        width: 40px;
+        height: 40px;
+        font-size: 0.9rem;
+    }
 }
 
 /* Medium screen navigation adjustment */

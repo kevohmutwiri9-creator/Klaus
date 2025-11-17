@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klaus - Computer Science Graduate & Software Developer</title>
-    <meta name="description" content="Computer Science Graduate & Software Developer specializing in full-stack development, machine learning, and innovative solutions.">
-    <meta name="keywords" content="Computer Science, Software Developer, Full-Stack, Machine Learning, Web Development, Kenya">
+    <title>Klaus - Full-Stack Developer & Machine Learning Enthusiast</title>
+    <meta name="description" content="Klaus - Full-Stack Developer & Machine Learning Enthusiast. Computer Science graduate specializing in scalable web applications, AI integration, and user-centered product development. View my portfolio and projects.">
+    <meta name="keywords" content="full-stack developer, machine learning, web development, software engineer, portfolio, React, Node.js, Python, AI, ML, computer science, Klaus">
     <meta name="author" content="Klaus">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="icon" type="image/png" href="img/favicon-optimized.png">
     <link rel="stylesheet" href="styles.css">
     <link rel="canonical" href="https://klaus-portifolio-website.netlify.app/">
     <!-- SEO Enhancements -->
-    <meta property="og:title" content="Klaus - Computer Science Graduate & Software Developer">
-    <meta property="og:description" content="Passionate Computer Science graduate specializing in full-stack development, machine learning, and innovative solutions. View my portfolio and projects.">
-    <meta property="og:image" content="https://klaus-portifolio-website.netlify.app/img/profile.jpg">
-    <meta property="og:url" content="https://klaus-portifolio-website.netlify.app/">
+    <meta property="og:title" content="Klaus - Full-Stack Developer & ML Enthusiast">
+    <meta property="og:description" content="Computer Science graduate building scalable web applications and AI-powered solutions. Explore my portfolio of projects and technical insights.">
+    <meta property="og:image" content="https://klaus-portifoliowebsite.netlify.app/img/profile.jpg">
+    <meta property="og:url" content="https://klaus-portifoliowebsite.netlify.app/">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Klaus Portfolio">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Klaus - Computer Science Graduate & Software Developer">
-    <meta name="twitter:description" content="Passionate Computer Science graduate specializing in full-stack development, machine learning, and innovative solutions.">
-    <meta name="twitter:image" content="https://klaus-portifolio-website.netlify.app/img/profile.jpg">
+    <meta name="twitter:title" content="Klaus - Full-Stack Developer & ML Enthusiast">
+    <meta name="twitter:description" content="Building scalable web applications and AI-powered solutions. Explore my portfolio.">
+    <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/profile.jpg">
+    <meta name="twitter:creator" content="@klaus_dev">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -59,6 +61,21 @@
       gtag('config', 'G-Y037Y95D4M');
     </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2396098605485959" crossorigin="anonymous"></script>
+    <script type="module" src="web-vitals.js"></script>
+    <script>
+      // Register Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('SW registered: ', registration);
+            })
+            .catch(registrationError => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
 <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
     <nav class="navbar" role="navigation">
@@ -745,6 +762,11 @@
             </div>
         </div>
     </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top" title="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <script src="script.js"></script>
 </body>
