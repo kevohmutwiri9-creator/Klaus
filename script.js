@@ -72,6 +72,15 @@ document.querySelectorAll('form[name^="newsletter"]').forEach(form => {
             statusEl.classList.remove('is-success', 'is-error', 'is-info');
             statusEl.classList.add(`is-${tone}`);
             statusEl.style.opacity = message ? '1' : '0';
+
+            if (message && tone !== 'info') {
+                statusEl.setAttribute('tabindex', '-1');
+                requestAnimationFrame(() => {
+                    statusEl.focus({ preventScroll: true });
+                });
+            } else if (!message) {
+                statusEl.removeAttribute('tabindex');
+            }
         };
 
         try {
@@ -172,6 +181,15 @@ if (contactForm) {
         contactStatus.classList.remove('is-success', 'is-error', 'is-info');
         contactStatus.classList.add(`is-${tone}`);
         contactStatus.style.opacity = message ? '1' : '0';
+
+        if (message && tone !== 'info') {
+            contactStatus.setAttribute('tabindex', '-1');
+            requestAnimationFrame(() => {
+                contactStatus.focus({ preventScroll: true });
+            });
+        } else if (!message) {
+            contactStatus.removeAttribute('tabindex');
+        }
     };
 
     contactForm.addEventListener('submit', async function(e) {
@@ -225,6 +243,140 @@ if (contactForm) {
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+}
+
+// AI project advisor form
+const aiAdvisorForm = document.getElementById('aiAdvisorForm');
+if (aiAdvisorForm) {
+    const aiStatus = document.getElementById('aiStatus');
+    const aiResponse = document.getElementById('aiResponse');
+    const aiResponseContent = document.getElementById('aiResponseContent');
+    const aiResetButton = document.getElementById('aiResetButton');
+    const promptField = document.getElementById('aiPrompt');
+    const submitBtn = aiAdvisorForm.querySelector('button[type="submit"]');
+
+    const setAiStatus = (message, tone = 'info') => {
+        if (!aiStatus) return;
+        aiStatus.textContent = message;
+        aiStatus.classList.remove('is-success', 'is-error', 'is-info');
+        aiStatus.classList.add(`is-${tone}`);
+        aiStatus.style.opacity = message ? '1' : '0';
+
+        if (message && tone !== 'info') {
+            aiStatus.setAttribute('tabindex', '-1');
+            requestAnimationFrame(() => {
+                aiStatus.focus({ preventScroll: true });
+            });
+        } else if (!message) {
+            aiStatus.removeAttribute('tabindex');
+        }
+    };
+
+    const resetAdvisor = () => {
+        if (promptField) {
+            promptField.value = '';
+            promptField.focus();
+        }
+        aiAdvisorForm.reset();
+        aiResponse.hidden = true;
+        aiResponseContent.innerHTML = '';
+        aiResetButton.hidden = true;
+        setAiStatus('');
+    };
+
+    aiResetButton?.addEventListener('click', resetAdvisor);
+
+    const generatePlan = (prompt) => {
+        const lower = prompt.toLowerCase();
+        const suggestions = [];
+
+        if (lower.includes('mobile') || lower.includes('android') || lower.includes('ios')) {
+            suggestions.push('Architecture & stack: React Native or Flutter with a cloud backend (Supabase/Firebase) so teens can sync across devices.');
+            suggestions.push('Community & safety: Moderate content via Firestore security rules plus reporting workflows; add onboarding nudges that highlight community guidelines.');
+        }
+
+        if (lower.includes('habit') || lower.includes('tracker') || lower.includes('productivity')) {
+            suggestions.push('Engagement loop: Implement weekly streaks, progress charts, and lightweight push reminders; validate with a 2-week pilot cohort.');
+        }
+
+        if (lower.includes('teens') || lower.includes('youth') || lower.includes('students')) {
+            suggestions.push('Research & validation: Co-create with a small teen advisory group, run moderated tests for tone and privacy expectations.');
+        }
+
+        if (lower.includes('community')) {
+            suggestions.push('Social features: Start with invite-only circles and shared challenges; add async leaderboards before live chat to keep moderation light.');
+        }
+
+        if (lower.includes('ai') || lower.includes('recommendation')) {
+            suggestions.push('Personalization: Use rule-based onboarding first, then layer in a simple recommendation job (e.g., daily habit tips) once engagement data exists.');
+        }
+
+        if (lower.includes('web') || lower.includes('saas') || lower.includes('dashboard')) {
+            suggestions.push('Web delivery: Ship as a responsive web app, gated behind email/SSO to let parents review usage insights.');
+        }
+
+        if (!suggestions.length) {
+            suggestions.push('Discovery: Map the core user journey, define must-have outcomes, and validate with three user interviews before writing code.');
+            suggestions.push('Execution: Build a slice that proves the primary value, instrument analytics, and ship within a 2-week sprint for quick feedback.');
+            suggestions.push('Risks: Watch for scope creep—capture every nice-to-have in a backlog and focus on activating the first cohort.');
+        } else {
+            suggestions.push('Next steps: Time-box a prototype sprint, gather feedback from 5 early adopters, and expand the roadmap based on validated signals.');
+        }
+
+        return suggestions;
+    };
+
+    aiAdvisorForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const prompt = (promptField?.value || '').trim();
+
+        if (!prompt) {
+            setAiStatus('Please describe your project so I can help.', 'error');
+            return;
+        }
+
+        if (prompt.length < 20) {
+            setAiStatus('A bit more detail will help me tailor the plan. Aim for at least a couple of sentences.', 'error');
+            return;
+        }
+
+        submitBtn?.classList.add('loading');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+        }
+        setAiStatus('Drafting your plan…', 'info');
+        aiResponse.hidden = true;
+        aiResponseContent.innerHTML = '';
+
+        try {
+            const suggestions = generatePlan(prompt);
+
+            aiResponseContent.innerHTML = suggestions
+                .map((item) => {
+                    const [heading, ...rest] = item.split(':');
+                    const details = rest.join(':').trim();
+                    return `<p><strong>${heading.trim()}</strong>${details ? `: ${details}` : ''}</p>`;
+                })
+                .join('');
+
+            aiResponse.hidden = false;
+            aiResetButton.hidden = false;
+            setAiStatus('Here’s a tailored plan using my internal playbook.', 'success');
+            safeTrack('ai_advisor_submit', { status: 'success', mode: 'heuristic' });
+        } catch (error) {
+            console.error(error);
+            setAiStatus('Something went wrong. Please try again shortly.', 'error');
+            aiResponse.hidden = true;
+            aiResponseContent.innerHTML = '';
+            aiResetButton.hidden = true;
+            safeTrack('ai_advisor_submit', { status: 'error', mode: 'heuristic' });
+        } finally {
+            submitBtn?.classList.remove('loading');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+            }
+        }
+    });
 }
 
 // Intersection Observer for animations
