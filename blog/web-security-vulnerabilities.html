@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Web Security Vulnerabilities and How to Prevent Them | Klaus Portfolio</title>
+    <meta name="description" content="An overview of the most common web security threats including XSS, CSRF, and SQL injection. Learn practical prevention strategies and secure coding practices.">
+    <meta name="keywords" content="web security, XSS, CSRF, SQL injection, security vulnerabilities, secure coding, OWASP">
+    <meta name="author" content="Klaus">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Common Web Security Vulnerabilities and How to Prevent Them">
+    <meta property="og:description" content="An overview of the most common web security threats including XSS, CSRF, and SQL injection. Learn practical prevention strategies and secure coding practices.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://klaus-portifoliowebsite.netlify.app/blog/web-security-vulnerabilities.html">
+    <meta property="og:image" content="https://klaus-portifoliowebsite.netlify.app/img/blog/web-security-hero.jpg">
+    <meta property="og:site_name" content="Klaus Portfolio">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Common Web Security Vulnerabilities and How to Prevent Them">
+    <meta name="twitter:description" content="An overview of the most common web security threats including XSS, CSRF, and SQL injection. Learn practical prevention strategies and secure coding practices.">
+    <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/blog/web-security-hero.jpg">
+    
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" type="image/png" href="../img/favicon-optimized.png">
+    <link rel="canonical" href="https://klaus-portifoliowebsite.netlify.app/blog/web-security-vulnerabilities.html">
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Portfolio</div>
+            <nav class="nav-menu">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../blog.html" class="nav-link">Blog</a>
+                <a href="../projects.html" class="nav-link">Projects</a>
+                <a href="../index.html#contact" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="blog-post">
+        <article class="article-container">
+            <header class="article-header">
+                <div class="article-meta">
+                    <span class="article-date">October 15, 2025</span>
+                    <span class="article-category">Security</span>
+                    <span class="article-read-time">9 min read</span>
+                </div>
+                <h1 class="article-title">Common Web Security Vulnerabilities and How to Prevent Them</h1>
+                <p class="article-subtitle">Protect your web applications from the most prevalent security threats with this comprehensive guide to web security best practices.</p>
+            </header>
+
+            <div class="article-content">
+                <p>Web security is a critical aspect of modern web development. As applications become more complex and interconnected, the attack surface for malicious actors grows exponentially. Understanding common vulnerabilities and implementing proper security measures is essential for protecting your users and your business.</p>
+
+                <h2>Why Web Security Matters</h2>
+                <p>The consequences of security breaches can be devastating:</p>
+                <ul>
+                    <li><strong>Data Breaches</strong>: Exposure of sensitive user information</li>
+                    <li><strong>Financial Loss</strong>: Direct costs and regulatory fines</li>
+                    <li><strong>Reputation Damage</strong>: Loss of user trust and business credibility</li>
+                    <li><strong>Legal Consequences</strong>: Compliance violations and lawsuits</li>
+                </ul>
+
+                <h2>OWASP Top 10 Overview</h2>
+                <p>The OWASP (Open Web Application Security Project) Top 10 is a standard awareness document representing a broad consensus about the most critical security risks to web applications. Let's explore the most common vulnerabilities.</p>
+
+                <h2>1. Injection Flaws</h2>
+                <p>Injection flaws occur when untrusted data is sent to an interpreter as part of a command or query.</p>
+
+                <h3>SQL Injection</h3>
+                <p>SQL injection is one of the most common and dangerous vulnerabilities:</p>
+                
+                <h4>Vulnerable Code Example</h4>
+                <pre><code class="language-javascript">// Dangerous - vulnerable to SQL injection
+const userId = req.params.id;
+const query = `SELECT * FROM users WHERE id = ${userId}`;
+db.query(query, (err, results) => {
+  // This allows attackers to inject malicious SQL
+});</code></pre>
+
+                <h4>Prevention Strategies</h4>
+                <pre><code class="language-javascript">// Safe - using parameterized queries
+const userId = req.params.id;
+const query = 'SELECT * FROM users WHERE id = ?';
+db.query(query, [userId], (err, results) => {
+  // Safe from SQL injection
+});
+
+// Using ORM with built-in protection
+const user = await User.findByPk(userId);
+// Or
+const user = await User.findOne({ where: { id: userId } });</code></pre>
+
+                <h3>NoSQL Injection</h3>
+                <pre><code class="language-javascript">// Vulnerable NoSQL query
+const username = req.body.username;
+const query = { username: username };
+db.collection('users').findOne(query);
+
+// Safe approach with input validation
+const username = req.body.username;
+if (typeof username !== 'string' || username.length > 50) {
+  return res.status(400).json({ error: 'Invalid username' });
+}
+db.collection('users').findOne({ username: username });</code></pre>
+
+                <h2>2. Cross-Site Scripting (XSS)</h2>
+                <p>XSS allows attackers to inject malicious scripts into web pages viewed by other users.</p>
+
+                <h3>Types of XSS</h3>
+                <ul>
+                    <li><strong>Stored XSS</strong>: Malicious script is permanently stored on the server</li>
+                    <li><strong>Reflected XSS</strong>: Malicious script is reflected off the web server</li>
+                    <li><strong>DOM-based XSS</strong>: Vulnerability exists in client-side code</li>
+                </ul>
+
+                <h3>Vulnerable Example</h3>
+                <pre><code class="language-javascript">// Dangerous - renders unescaped user input
+app.get('/search', (req, res) => {
+  const query = req.query.q;
+  res.send(`<h1>Search Results for: ${query}</h1>`);
+  // If query contains &lt;script&gt;alert('XSS')&lt;/script&gt;, it will execute
+});</code></pre>
+
+                <h3>Prevention Strategies</h3>
+                <pre><code class="language-javascript">// Safe - using template engines with auto-escaping
+app.get('/search', (req, res) => {
+  const query = req.query.q;
+  res.render('search-results', { query: query });
+});
+
+// Manual escaping
+const escapeHtml = (text) => {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, (m) => map[m]);
+};
+
+// Content Security Policy header
+app.use((req, res, next) => {
+  res.setHeader('Content-Security-Policy', 
+    "default-src 'self'; script-src 'self' 'unsafe-inline'");
+  next();
+});</code></pre>
+
+                <h2>3. Cross-Site Request Forgery (CSRF)</h2>
+                <p>CSRF tricks a user into performing actions they didn't intend to perform.</p>
+
+                <h3>CSRF Attack Example</h3>
+                <pre><code class="language-html">&lt;!-- Malicious website --&gt;
+&lt;img src="https://bank.com/transfer?to=attacker&amp;amount=1000" style="display:none;"&gt;
+&lt;!-- This makes the user transfer money without their knowledge --&gt;</code></pre>
+
+                <h3>Prevention Strategies</h3>
+                <pre><code class="language-javascript">// CSRF token implementation
+const crypto = require('crypto');
+
+// Generate CSRF token
+function generateCSRFToken() {
+  return crypto.randomBytes(32).toString('hex');
+}
+
+// Middleware to validate CSRF token
+function validateCSRF(req, res, next) {
+  const token = req.session.csrfToken;
+  const userToken = req.body._csrf || req.headers['x-csrf-token'];
+  
+  if (!token || !userToken || token !== userToken) {
+    return res.status(403).json({ error: 'Invalid CSRF token' });
+  }
+  
+  next();
+}
+
+// Usage in routes
+app.post('/transfer', validateCSRF, (req, res) => {
+  // Process transfer
+});</code></pre>
+
+                <pre><code class="language-html">&lt;!-- Include CSRF token in forms --&gt;
+&lt;form action="/transfer" method="POST"&gt;
+  &lt;input type="hidden" name="_csrf" value="{{csrfToken}}"&gt;
+  &lt;input type="text" name="amount" placeholder="Amount"&gt;
+  &lt;button type="submit"&gt;Transfer&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+                <h2>4. Authentication and Session Management</h2>
+                <p>Weak authentication mechanisms can lead to unauthorized access.</p>
+
+                <h3>Common Issues</h3>
+                <ul>
+                    <li>Weak password policies</li>
+                    <li>Insecure session storage</li>
+                    <li>Missing multi-factor authentication</li>
+                    <li>Poor password reset implementation</li>
+                </ul>
+
+                <h3>Secure Authentication Implementation</h3>
+                <pre><code class="language-javascript">// Secure password hashing
+const bcrypt = require('bcrypt');
+const saltRounds = 12;
+
+async function hashPassword(password) {
+  return await bcrypt.hash(password, saltRounds);
+}
+
+async function verifyPassword(password, hash) {
+  return await bcrypt.compare(password, hash);
+}
+
+// Secure session configuration
+app.use(session({
+  name: 'sessionId',
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: true, // HTTPS only
+    httpOnly: true, // Prevent client-side access
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    sameSite: 'strict'
+  }
+}));</code></pre>
+
+                <h2>5. Sensitive Data Exposure</h2>
+                <p>Exposing sensitive data can lead to serious security breaches.</p>
+
+                <h3>Common Mistakes</h3>
+                <ul>
+                    <li>Hardcoded credentials in code</li>
+                    <li>Storing passwords in plain text</li>
+                    <li>Insufficient encryption</li>
+                    <li>Logging sensitive information</li>
+                </ul>
+
+                <h3>Secure Data Handling</h3>
+                <pre><code class="language-javascript">// Environment variables for sensitive data
+const dbConfig = {
+  host: process.env.DB_HOST,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+};
+
+// Encryption for sensitive data
+const crypto = require('crypto');
+
+function encrypt(text, key) {
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipher('aes-256-cbc', key);
+  let encrypted = cipher.update(text, 'utf8', 'hex');
+  encrypted += cipher.final('hex');
+  return iv.toString('hex') + ':' + encrypted;
+}
+
+// Secure logging (avoid sensitive data)
+const logger = winston.createLogger({
+  format: winston.format.combine(
+    winston.format.json(),
+    winston.format((info) => {
+      // Remove sensitive fields
+      delete info.password;
+      delete info.creditCard;
+      return info;
+    })()
+  )
+});</code></pre>
+
+                <h2>6. XML External Entity (XXE) Attacks</h2>
+                <p>XXE attacks target XML parsers that process external entity references.</p>
+
+                <h3>Vulnerable Code</h3>
+                <pre><code class="language-javascript">// Vulnerable XML parsing
+const xml2js = require('xml2js');
+
+app.post('/process-xml', (req, res) => {
+  const xmlData = req.body.xml;
+  xml2js.parseString(xmlData, (err, result) => {
+    // Vulnerable to XXE attacks
+  });
+});</code></pre>
+
+                <h3>Prevention</h3>
+                <pre><code class="language-javascript">// Secure XML parsing
+const xml2js = require('xml2js');
+
+const parser = new xml2js.Parser({
+  xmlMode: true,
+  explicitArray: false,
+  // Disable external entities
+  validator: (value) => {
+    // Custom validation logic
+    return value;
+  }
+});
+
+// Alternative: Use secure XML parser
+const libxmljs = require('libxmljs');
+
+function parseSecureXML(xmlString) {
+  try {
+    const doc = libxmljs.parseXml(xmlString, {
+      noent: false,      // Disable entity substitution
+      noblanks: true,    // Remove blank nodes
+      noerror: true      // Suppress errors
+    });
+    return doc;
+  } catch (error) {
+    throw new Error('Invalid XML format');
+  }
+}</code></pre>
+
+                <h2>7. Broken Access Control</h2>
+                <p>Improper implementation of access controls can allow unauthorized access to resources.</p>
+
+                <h3>Authorization Middleware</h3>
+                <pre><code class="language-javascript">// Role-based access control
+function authorize(roles) {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    
+    next();
+  };
+}
+
+// Usage
+app.get('/admin/users', authorize(['admin']), getUsers);
+app.get('/moderator/reports', authorize(['admin', 'moderator']), getReports);
+
+// Resource-level access control
+function checkResourceOwnership(req, res, next) {
+  const resourceId = req.params.id;
+  const userId = req.user.id;
+  
+  if (req.user.role !== 'admin') {
+    // Check if user owns the resource
+    Resource.findOne({ where: { id: resourceId, userId: userId } })
+      .then(resource => {
+        if (!resource) {
+          return res.status(403).json({ error: 'Access denied' });
+        }
+        next();
+      });
+  } else {
+    next();
+  }
+}</code></pre>
+
+                <h2>8. Security Headers</h2>
+                <p>Implement proper security headers to protect against various attacks.</p>
+
+                <h3>Security Headers Middleware</h3>
+                <pre><code class="language-javascript">app.use((req, res, next) => {
+  // Prevent clickjacking
+  res.setHeader('X-Frame-Options', 'DENY');
+  
+  // Prevent MIME type sniffing
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  
+  // Enable XSS protection
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  
+  // Strict Transport Security
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  
+  // Content Security Policy
+  res.setHeader('Content-Security-Policy', 
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline'; " +
+    "style-src 'self' 'unsafe-inline'; " +
+    "img-src 'self' data: https:; " +
+    "font-src 'self'; " +
+    "connect-src 'self'"
+  );
+  
+  // Referrer Policy
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  
+  next();
+});</code></pre>
+
+                <h2>9. Input Validation</h2>
+                <p>Validate all input data to prevent injection attacks and data corruption.</p>
+
+                <h3>Comprehensive Validation</h3>
+                <pre><code class="language-javascript">// Input validation middleware
+const { body, validationResult } = require('express-validator');
+
+// User registration validation
+const validateUserRegistration = [
+  body('email')
+    .isEmail()
+    .normalizeEmail()
+    .withMessage('Valid email is required'),
+  body('password')
+    .isLength({ min: 8 })
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)
+    .withMessage('Password must be at least 8 characters with uppercase, lowercase, number, and special character'),
+  body('name')
+    .trim()
+    .isLength({ min: 2, max: 50 })
+    .withMessage('Name must be between 2 and 50 characters'),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  }
+];
+
+// Custom validation functions
+function validateFileType(file) {
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+  if (!allowedTypes.includes(file.mimetype)) {
+    throw new Error('Invalid file type');
+  }
+}
+
+function sanitizeInput(input) {
+  return input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+}</code></pre>
+
+                <h2>10. Rate Limiting and DDoS Protection</h2>
+                <p>Implement rate limiting to prevent abuse and DDoS attacks.</p>
+
+                <h3>Rate Limiting Implementation</h3>
+                <pre><code class="language-javascript">const rateLimit = require('express-rate-limit');
+
+// General rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Strict rate limiting for authentication
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // limit each IP to 5 requests per windowMs
+  message: 'Too many authentication attempts, please try again later.',
+  skipSuccessfulRequests: true,
+});
+
+app.use('/api/', limiter);
+app.post('/api/login', authLimiter);
+app.post('/api/register', authLimiter);
+
+// Custom rate limiting for sensitive endpoints
+const sensitiveLimiter = new Map();
+
+function customRateLimit(maxRequests, windowMs) {
+  return (req, res, next) => {
+    const key = req.ip + req.path;
+    const now = Date.now();
+    const windowStart = now - windowMs;
+    
+    if (!sensitiveLimiter.has(key)) {
+      sensitiveLimiter.set(key, []);
+    }
+    
+    const requests = sensitiveLimiter.get(key);
+    const validRequests = requests.filter(timestamp => timestamp > windowStart);
+    
+    if (validRequests.length >= maxRequests) {
+      return res.status(429).json({ error: 'Too many requests' });
+    }
+    
+    validRequests.push(now);
+    sensitiveLimiter.set(key, validRequests);
+    next();
+  };
+}</code></pre>
+
+                <h2>Security Testing</h2>
+                <p>Regular security testing helps identify vulnerabilities before attackers do.</p>
+
+                <h3>Security Testing Tools</h3>
+                <pre><code class="language-bash"># OWASP ZAP for automated security testing
+docker run -t owasp/zap2docker-stable zap-baseline.py -t http://yourapp.com
+
+# Nmap for network scanning
+nmap -sV -sC yourapp.com
+
+# SQLMap for SQL injection testing
+sqlmap -u "http://yourapp.com/search?q=test" --dbs</code></pre>
+
+                <h3>Security Testing in CI/CD</h3>
+                <pre><code class="language-yaml"># GitHub Actions security workflow
+name: Security Scan
+on: [push, pull_request]
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run npm audit
+        run: npm audit --audit-level high
+      - name: Run OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.4.0
+        with:
+          target: "http://localhost:3000"</code></pre>
+
+                <h2>Security Best Practices Checklist</h2>
+                <ul>
+                    <li>✅ Use parameterized queries to prevent SQL injection</li>
+                    <li>✅ Implement Content Security Policy headers</li>
+                    <li>✅ Use HTTPS everywhere</li>
+                    <li>✅ Implement proper authentication and authorization</li>
+                    <li>✅ Validate all input data</li>
+                    <li>✅ Use secure session management</li>
+                    <li>✅ Implement rate limiting</li>
+                    <li>✅ Keep dependencies updated</li>
+                    <li>✅ Log security events</li>
+                    <li>✅ Regular security audits</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Web security is an ongoing process that requires constant vigilance and improvement. By understanding common vulnerabilities and implementing proper security measures, you can significantly reduce the risk of security breaches.</p>
+                
+                <p>Remember these key principles:</p>
+                <ul>
+                    <li>Defense in depth - implement multiple layers of security</li>
+                    <li>Principle of least privilege - give minimal necessary permissions</li>
+                    <li>Regular security audits and updates</li>
+                    <li>Security by design, not by addition</li>
+                    <li>Stay informed about new vulnerabilities and threats</li>
+                </ul>
+                
+                <p>Security is not a feature—it's a fundamental requirement for any web application. Invest in security from the beginning, and you'll save yourself from costly breaches and protect your users' trust.</p>
+            </div>
+
+            <footer class="article-footer">
+                <div class="article-tags">
+                    <span class="tag">Web Security</span>
+                    <span class="tag">XSS</span>
+                    <span class="tag">CSRF</span>
+                    <span class="tag">SQL Injection</span>
+                </div>
+                <div class="article-navigation">
+                    <a href="../blog.html" class="nav-link">← Back to Blog</a>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <script src="../script.js"></script>
+    <script>
+        // Add syntax highlighting for code blocks
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeBlocks = document.querySelectorAll('pre code');
+            codeBlocks.forEach(block => {
+                const language = block.className.includes('language-bash') ? 'bash' :
+                               block.className.includes('language-yaml') ? 'yaml' :
+                               'javascript';
+                block.classList.add(`language-${language}`);
+            });
+        });
+    </script>
+</body>
+</html>

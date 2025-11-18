@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESTful API Design Best Practices | Klaus Portfolio</title>
+    <meta name="description" content="Discover the principles and patterns for designing scalable, maintainable REST APIs. Covering everything from resource naming to error handling and versioning strategies.">
+    <meta name="keywords" content="REST API, API design, web services, HTTP, RESTful, API development, backend development">
+    <meta name="author" content="Klaus">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="RESTful API Design Best Practices">
+    <meta property="og:description" content="Discover the principles and patterns for designing scalable, maintainable REST APIs. Covering everything from resource naming to error handling and versioning strategies.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://klaus-portifoliowebsite.netlify.app/blog/restful-api-best-practices.html">
+    <meta property="og:image" content="https://klaus-portifoliowebsite.netlify.app/img/blog/rest-api-hero.jpg">
+    <meta property="og:site_name" content="Klaus Portfolio">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="RESTful API Design Best Practices">
+    <meta name="twitter:description" content="Discover the principles and patterns for designing scalable, maintainable REST APIs. Covering everything from resource naming to error handling and versioning strategies.">
+    <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/blog/rest-api-hero.jpg">
+    
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" type="image/png" href="../img/favicon-optimized.png">
+    <link rel="canonical" href="https://klaus-portifoliowebsite.netlify.app/blog/restful-api-best-practices.html">
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Portfolio</div>
+            <nav class="nav-menu">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../blog.html" class="nav-link">Blog</a>
+                <a href="../projects.html" class="nav-link">Projects</a>
+                <a href="../index.html#contact" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="blog-post">
+        <article class="article-container">
+            <header class="article-header">
+                <div class="article-meta">
+                    <span class="article-date">October 28, 2025</span>
+                    <span class="article-category">API Design</span>
+                    <span class="article-read-time">8 min read</span>
+                </div>
+                <h1 class="article-title">RESTful API Design Best Practices</h1>
+                <p class="article-subtitle">Master the art of building scalable, maintainable REST APIs that developers love to use.</p>
+            </header>
+
+            <div class="article-content">
+                <p>Designing a good REST API is both an art and a science. A well-designed API is intuitive, consistent, and easy to use, while a poorly designed one can frustrate developers and lead to maintenance nightmares. This guide covers the essential best practices for building RESTful APIs that stand the test of time.</p>
+
+                <h2>Core REST Principles</h2>
+                <p>Before diving into specific practices, let's review the fundamental principles of REST:</p>
+                <ul>
+                    <li><strong>Client-Server Architecture</strong>: Clear separation of concerns</li>
+                    <li><strong>Stateless</strong>: Each request contains all necessary information</li>
+                    <li><strong>Cacheable</strong>: Responses should indicate if they can be cached</li>
+                    <li><strong>Uniform Interface</strong>: Consistent conventions and standards</li>
+                    <li><strong>Layered System</strong>: Architecture can be composed of hierarchical layers</li>
+                </ul>
+
+                <h2>1. Resource Naming and URL Design</h2>
+                <p>Good API design starts with clear, consistent resource naming:</p>
+
+                <h3>Use Nouns, Not Verbs</h3>
+                <p>Resources should be identified by nouns, not verbs:</p>
+                <pre><code class="language-http">// Good
+GET /users
+GET /users/123
+POST /users
+
+// Bad
+GET /getAllUsers
+GET /getUserById/123
+POST /createUser</code></pre>
+
+                <h3>Use Plural Nouns</h3>
+                <p>Consistently use plural nouns for resource collections:</p>
+                <pre><code class="language-http">// Good
+GET /users
+GET /products
+GET /orders
+
+// Avoid mixing singular and plural
+GET /user
+GET /products
+GET /order</code></pre>
+
+                <h3>Nesting Resources Logically</h3>
+                <p>Nest resources when they have a clear parent-child relationship:</p>
+                <pre><code class="language-http">// Good
+GET /users/123/orders
+GET /users/123/orders/456
+
+// Bad - too deep nesting
+GET /users/123/orders/456/items/789/details
+
+// Better approach for deep relationships
+GET /orders/456/items
+GET /items/789/details</code></pre>
+
+                <h2>2. HTTP Methods and Status Codes</h2>
+                <p>Use HTTP methods and status codes correctly and consistently:</p>
+
+                <h3>Proper HTTP Method Usage</h3>
+                <pre><code class="language-http">GET    /users      # Retrieve all users
+GET    /users/123  # Retrieve specific user
+POST   /users      # Create new user
+PUT    /users/123  # Update entire user
+PATCH  /users/123  # Partial update user
+DELETE /users/123  # Delete user</code></pre>
+
+                <h3>Consistent Status Code Usage</h3>
+                <pre><code class="language-javascript">// Success codes
+200 OK          # Request successful
+201 Created     # Resource created successfully
+204 No Content  # Request successful, no content to return
+
+// Client error codes
+400 Bad Request        # Invalid request
+401 Unauthorized       # Authentication required
+403 Forbidden         # Permission denied
+404 Not Found         # Resource not found
+409 Conflict          # Resource conflict
+422 Unprocessable Entity # Validation errors
+
+// Server error codes
+500 Internal Server Error # Server error
+502 Bad Gateway          # Gateway error
+503 Service Unavailable  # Service temporarily unavailable</code></pre>
+
+                <h2>3. Request and Response Formats</h2>
+                <p>Consistent data formats make APIs predictable and easy to use:</p>
+
+                <h3>Use JSON for Data Exchange</h3>
+                <pre><code class="language-json">// Standard response format
+{
+  "data": {
+    "id": 123,
+    "name": "John Doe",
+    "email": "john@example.com"
+  },
+  "meta": {
+    "timestamp": "2025-10-28T10:30:00Z",
+    "version": "v1"
+  }
+}</code></pre>
+
+                <h3>Error Response Format</h3>
+                <pre><code class="language-json">// Consistent error format
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid input data",
+    "details": [
+      {
+        "field": "email",
+        "message": "Email is required"
+      }
+    ]
+  },
+  "meta": {
+    "timestamp": "2025-10-28T10:30:00Z",
+    "requestId": "req_123456"
+  }
+}</code></pre>
+
+                <h3>Pagination Format</h3>
+                <pre><code class="language-json">// Paginated response
+{
+  "data": [
+    { "id": 1, "name": "User 1" },
+    { "id": 2, "name": "User 2" }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 100,
+    "totalPages": 5,
+    "next": "/users?page=2",
+    "prev": null
+  }
+}</code></pre>
+
+                <h2>4. Authentication and Authorization</h2>
+                <p>Secure your APIs with proper authentication and authorization:</p>
+
+                <h3>JWT Authentication</h3>
+                <pre><code class="language-javascript">// JWT token structure
+{
+  "header": {
+    "alg": "HS256",
+    "typ": "JWT"
+  },
+  "payload": {
+    "sub": "1234567890",
+    "name": "John Doe",
+    "iat": 1516239022,
+    "exp": 1516242622
+  }
+}</code></pre>
+
+                <h3>API Key Authentication</h3>
+                <pre><code class="language-http">// API key in header
+Authorization: Bearer your-api-key-here
+
+// API key in query parameter (less secure)
+GET /users?api_key=your-api-key-here</code></pre>
+
+                <h3>Rate Limiting</h3>
+                <pre><code class="language-http">// Rate limiting headers
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 999
+X-RateLimit-Reset: 1443785400</code></pre>
+
+                <h2>5. API Versioning</h2>
+                <p>Plan for API evolution from the beginning:</p>
+
+                <h3>URI Versioning</h3>
+                <pre><code class="language-http">// Version in URI
+GET /v1/users
+GET /v2/users</code></pre>
+
+                <h3>Header Versioning</h3>
+                <pre><code class="language-http">// Version in custom header
+Accept: application/vnd.api+json;version=1
+API-Version: v1</code></pre>
+
+                <h3>Query Parameter Versioning</h3>
+                <pre><code class="language-http">// Version in query parameter
+GET /users?version=v1</code></pre>
+
+                <h2>6. Documentation and Testing</h2>
+                <p>Good APIs are well-documented and thoroughly tested:</p>
+
+                <h3>OpenAPI Specification</h3>
+                <pre><code class="language-yaml"># OpenAPI 3.0 example
+openapi: 3.0.0
+info:
+  title: User API
+  version: 1.0.0
+  description: API for managing users
+paths:
+  /users:
+    get:
+      summary: Get all users
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'</code></pre>
+
+                <h3>API Testing Strategy</h3>
+                <pre><code class="language-javascript">// Example API test
+describe('User API', () => {
+  test('should create a new user', async () => {
+    const response = await request(app)
+      .post('/users')
+      .send({
+        name: 'John Doe',
+        email: 'john@example.com'
+      })
+      .expect(201);
+      
+    expect(response.body.data.name).toBe('John Doe');
+  });
+});</code></pre>
+
+                <h2>7. Performance and Caching</h2>
+                <p>Optimize API performance for better user experience:</p>
+
+                <h3>HTTP Caching Headers</h3>
+                <pre><code class="language-http">// Cache control headers
+Cache-Control: public, max-age=3600
+ETag: "123456789"
+Last-Modified: Wed, 21 Oct 2015 07:28:00 GMT</code></pre>
+
+                <h3>Response Compression</h3>
+                <pre><code class="language-http">// Compression headers
+Accept-Encoding: gzip, deflate, br
+Content-Encoding: gzip
+Content-Length: 1024</code></pre>
+
+                <h3>Database Optimization</h3>
+                <pre><code class="language-sql">// Use database indexes effectively
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_orders_user_id ON orders(user_id);
+
+// Implement pagination at database level
+SELECT * FROM users 
+ORDER BY created_at DESC 
+LIMIT 20 OFFSET 0;</code></pre>
+
+                <h2>8. Security Best Practices</h2>
+                <p>Security should be a primary concern in API design:</p>
+
+                <h3>Input Validation</h3>
+                <pre><code class="language-javascript">// Example validation middleware
+const validateUser = (req, res, next) => {
+  const { name, email } = req.body;
+  
+  if (!name || name.length < 2) {
+    return res.status(400).json({
+      error: { message: 'Name must be at least 2 characters' }
+    });
+  }
+  
+  if (!email || !isValidEmail(email)) {
+    return res.status(400).json({
+      error: { message: 'Valid email is required' }
+    });
+  }
+  
+  next();
+};</code></pre>
+
+                <h3>SQL Injection Prevention</h3>
+                <pre><code class="language-javascript">// Use parameterized queries
+// Bad - vulnerable to SQL injection
+const query = `SELECT * FROM users WHERE email = '${email}'`;
+
+// Good - parameterized query
+const query = 'SELECT * FROM users WHERE email = ?';
+db.query(query, [email]);</code></pre>
+
+                <h3>CORS Configuration</h3>
+                <pre><code class="language-javascript">// Proper CORS setup
+const corsOptions = {
+  origin: ['https://yourdomain.com', 'https://app.yourdomain.com'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};</code></pre>
+
+                <h2>9. Monitoring and Logging</h2>
+                <p>Implement comprehensive monitoring and logging:</p>
+
+                <h3>Structured Logging</h3>
+                <pre><code class="language-javascript">// Structured logging example
+const logger = require('./logger');
+
+app.use((req, res, next) => {
+  const start = Date.now();
+  
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    logger.info('API Request', {
+      method: req.method,
+      url: req.url,
+      statusCode: res.statusCode,
+      duration,
+      userAgent: req.get('User-Agent'),
+      ip: req.ip
+    });
+  });
+  
+  next();
+});</code></pre>
+
+                <h3>Health Check Endpoint</h3>
+                <pre><code class="language-javascript">// Health check implementation
+app.get('/health', async (req, res) => {
+  try {
+    const dbStatus = await checkDatabase();
+    const cacheStatus = await checkCache();
+    
+    const status = dbStatus && cacheStatus ? 'healthy' : 'unhealthy';
+    const statusCode = status === 'healthy' ? 200 : 503;
+    
+    res.status(statusCode).json({
+      status,
+      timestamp: new Date().toISOString(),
+      checks: {
+        database: dbStatus,
+        cache: cacheStatus
+      }
+    });
+  } catch (error) {
+    res.status(503).json({
+      status: 'unhealthy',
+      timestamp: new Date().toISOString(),
+      error: error.message
+    });
+  }
+});</code></pre>
+
+                <h2>10. Common Anti-Patterns to Avoid</h2>
+
+                <h3>Anti-Pattern 1: Inconsistent Naming</h3>
+                <pre><code class="language-http">// Bad - inconsistent naming
+GET /getUser/123
+GET /products
+POST /createOrder
+
+// Good - consistent naming
+GET /users/123
+GET /products
+POST /orders</code></pre>
+
+                <h3>Anti-Pattern 2: Over-Nesting</h3>
+                <pre><code class="language-http">// Bad - too deep
+GET /companies/123/departments/456/employees/789/tasks
+
+// Good - flatter structure
+GET /employees/789/tasks
+GET /tasks?employeeId=789</code></pre>
+
+                <h3>Anti-Pattern 3: Missing Metadata</h3>
+                <pre><code class="language-json">// Bad - no metadata
+[
+  { "id": 1, "name": "User 1" },
+  { "id": 2, "name": "User 2" }
+]
+
+// Good - includes metadata
+{
+  "data": [...],
+  "meta": {
+    "total": 2,
+    "page": 1,
+    "limit": 20
+  }
+}</code></pre>
+
+                <h2>Real-World Examples</h2>
+
+                <h3>GitHub API</h3>
+                <pre><code class="language-http">// GitHub API example
+GET /repos/owner/repo/issues
+GET /repos/owner/repo/issues/123
+POST /repos/owner/repo/issues</code></pre>
+
+                <h3>Stripe API</h3>
+                <pre><code class="language-http">// Stripe API example
+GET /v1/customers
+POST /v1/customers
+GET /v1/customers/cus_123</code></pre>
+
+                <h2>Tools and Resources</h2>
+
+                <h3>API Documentation Tools</h3>
+                <ul>
+                    <li>Swagger/OpenAPI for specification</li>
+                    <li>Postman for API testing</li>
+                    <li>Insomnia for API development</li>
+                </ul>
+
+                <h3>Testing Frameworks</h3>
+                <ul>
+                    <li>Jest for unit testing</li>
+                    <li>Supertest for API testing</li>
+                    <li>Newman for automated API testing</li>
+                </ul>
+
+                <h3>Monitoring Tools</h3>
+                <ul>
+                    <li>DataDog for application monitoring</li>
+                    <li>New Relic for performance monitoring</li>
+                    <li>Sentry for error tracking</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Designing a good REST API requires attention to detail, consistency, and a focus on the developer experience. By following these best practices, you'll create APIs that are intuitive, maintainable, and scalable.</p>
+                
+                <p>Remember these key takeaways:</p>
+                <ul>
+                    <li>Be consistent in naming and conventions</li>
+                    <li>Use HTTP methods and status codes correctly</li>
+                    <li>Provide comprehensive documentation</li>
+                    <li>Implement proper security measures</li>
+                    <li>Plan for API evolution and versioning</li>
+                    <li>Monitor performance and usage patterns</li>
+                </ul>
+                
+                <p>A well-designed API is a product in itself—invest the time to make it exceptional, and your fellow developers will thank you.</p>
+            </div>
+
+            <footer class="article-footer">
+                <div class="article-tags">
+                    <span class="tag">REST API</span>
+                    <span class="tag">API Design</span>
+                    <span class="tag">Backend Development</span>
+                    <span class="tag">Web Services</span>
+                </div>
+                <div class="article-navigation">
+                    <a href="../blog.html" class="nav-link">← Back to Blog</a>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <script src="../script.js"></script>
+    <script>
+        // Add syntax highlighting for code blocks
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeBlocks = document.querySelectorAll('pre code');
+            codeBlocks.forEach(block => {
+                const language = block.className.includes('language-http') ? 'http' :
+                               block.className.includes('language-json') ? 'json' :
+                               block.className.includes('language-yaml') ? 'yaml' :
+                               block.className.includes('language-sql') ? 'sql' :
+                               'javascript';
+                block.classList.add(`language-${language}`);
+            });
+        });
+    </script>
+</body>
+</html>

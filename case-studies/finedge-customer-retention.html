@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boosting Retention for FinEdge - Case Study | Klaus Mutwiri</title>
+    <meta name="description" content="How I increased FinEdge's Day-14 activation by 18% through data pipelines, cohort analysis, and personalized product tours.">
+    <meta name="keywords" content="fintech, customer retention, data analytics, cohort analysis, product tours, user activation, segmentation">
+    <meta name="author" content="Klaus Mutwiri">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Boosting Retention for FinEdge - Case Study">
+    <meta property="og:description" content="How I increased FinEdge's Day-14 activation by 18% through data pipelines, cohort analysis, and personalized product tours.">
+    <meta property="og:image" content="https://klaus-portifoliowebsite.netlify.app/img/case-study-finedge.jpg">
+    <meta property="og:url" content="https://klaus-portifoliowebsite.netlify.app/case-studies/finedge-customer-retention.html">
+    <meta property="og:type" content="article">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Boosting Retention for FinEdge - Case Study">
+    <meta name="twitter:description" content="How I increased FinEdge's Day-14 activation by 18% through data pipelines, cohort analysis, and personalized product tours.">
+    <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/case-study-finedge.jpg">
+    
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://klaus-portifoliowebsite.netlify.app/case-studies/finedge-customer-retention.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-optimized.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/favicon-optimized.png">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../styles.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="case-study-page">
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation">
+        <div class="nav-container">
+            <div class="nav-logo">Portfolio</div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li><a href="../case-studies.html">Case Studies</a></li>
+                <li><a href="../blog.html">Blog</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="case-study-container">
+        <div class="case-study-header">
+            <div class="case-study-meta">
+                <span class="case-study-client">FinEdge</span>
+                <span class="case-study-industry">Fintech Analytics</span>
+                <span class="case-study-duration">6 weeks engagement</span>
+            </div>
+            <h1>Boosting Customer Retention Through Data-Driven Product Tours</h1>
+            <p class="case-study-subtitle">Increasing Day-14 activation by 18% through behavioral analytics, segmentation, and personalized onboarding experiences.</p>
+        </div>
+
+        <div class="case-study-content">
+            <!-- Overview -->
+            <section class="case-study-section">
+                <h2>The Challenge</h2>
+                <p>FinEdge, a B2B financial analytics platform, was experiencing significant customer churn after the initial onboarding period. Despite having a sophisticated product, users weren't reaching key activation milestones, leading to low retention rates and high customer acquisition costs.</p>
+                
+                <h3>Key Problems Identified</h3>
+                <ul>
+                    <li>35% of users dropped off within the first 14 days of signing up</li>
+                    <li>Product tours were generic and didn't adapt to user roles or needs</li>
+                    <li>No visibility into which features drove long-term engagement</li>
+                    <li>Customer success team couldn't proactively identify at-risk users</li>
+                </ul>
+            </section>
+
+            <!-- Approach -->
+            <section class="case-study-section">
+                <h2>My Approach</h2>
+                <p>I implemented a comprehensive data-driven retention strategy that combined behavioral analytics, intelligent segmentation, and personalized user experiences.</p>
+                
+                <h3>Phase 1: Data Infrastructure & Analysis</h3>
+                <ul>
+                    <li>Built event tracking pipeline to capture all user interactions</li>
+                    <li>Created cohort analysis framework to identify retention patterns</li>
+                    <li>Developed user segmentation based on behavior and firmographics</li>
+                    <li>Established activation metrics and leading indicators</li>
+                </ul>
+
+                <h3>Phase 2: Personalization Engine</h3>
+                <ul>
+                    <li>Implemented dynamic product tour system based on user segments</li>
+                    <li>Created contextual in-app guidance and tooltips</li>
+                    <li>Built personalized email nurture sequences</li>
+                    <li>Developed customer success dashboard for proactive outreach</li>
+                </ul>
+
+                <h3>Phase 3: Experimentation & Optimization</h3>
+                <ul>
+                    <li>A/B tested different onboarding flows and messaging</li>
+                    <li>Iterated on segmentation models based on performance data</li>
+                    <li>Established weekly experimentation rituals</li>
+                    <li>Created feedback loops for continuous improvement</li>
+                </ul>
+            </section>
+
+            <!-- Technical Implementation -->
+            <section class="case-study-section">
+                <h2>Technical Implementation</h2>
+                
+                <h3>Event Tracking Pipeline</h3>
+                <pre><code class="language-javascript">// Event tracking service with user segmentation
+const express = require('express');
+const { PrismaClient } = require('@prisma/client');
+const segment = require('analytics-node');
+
+const app = express();
+const prisma = new PrismaClient();
+const analytics = new segment(process.env.SEGMENT_WRITE_KEY);
+
+// Track user events with context
+app.post('/track', async (req, res) => {
+    const { userId, event, properties, timestamp } = req.body;
+    
+    // Get user context for segmentation
+    const user = await prisma.user.findUnique({
+        where: { id: userId },
+        include: { company: true, subscription: true }
+    });
+    
+    // Enrich event with segmentation data
+    const enrichedEvent = {
+        userId,
+        event,
+        properties: {
+            ...properties,
+            userSegment: getUserSegment(user),
+            companySize: user.company.employeeCount,
+            subscriptionTier: user.subscription.tier,
+            activationStage: calculateActivationStage(userId)
+        },
+        timestamp: timestamp || new Date()
+    };
+    
+    // Store in database for analysis
+    await prisma.event.create({ data: enrichedEvent });
+    
+    // Send to Segment for real-time processing
+    analytics.track(enrichedEvent);
+    
+    res.status(200).json({ tracked: true });
+});
+
+// Dynamic user segmentation
+function getUserSegment(user) {
+    const { role, company, subscription } = user;
+    
+    if (role === 'admin' && company.employeeCount > 100) {
+        return 'enterprise_admin';
+    } else if (role === 'analyst' && subscription.tier === 'pro') {
+        return 'power_analyst';
+    } else if (company.employeeCount < 50) {
+        return 'small_business';
+    }
+    
+    return 'standard_user';
+}</code></pre>
+
+                <h3>Personalized Product Tour System</h3>
+                <pre><code class="language-javascript">// Dynamic tour generation based on user segment
+import React, { useState, useEffect } from 'react';
+import { Joyride } from 'react-joyride';
+
+const PersonalizedTour = ({ userId, userSegment }) => {
+    const [tourSteps, setTourSteps] = useState([]);
+    const [runTour, setRunTour] = useState(false);
+    
+    useEffect(() => {
+        const tourConfig = getTourConfigForSegment(userSegment);
+        setTourSteps(tourConfig.steps);
+        setRunTour(tourConfig.shouldShow);
+    }, [userSegment]);
+    
+    const getTourConfigForSegment = (segment) => {
+        const configs = {
+            enterprise_admin: {
+                shouldShow: true,
+                steps: [
+                    {
+                        target: '.admin-dashboard',
+                        content: 'Welcome! As an admin, you have access to team management and advanced analytics.',
+                        placement: 'bottom'
+                    },
+                    {
+                        target: '.team-performance',
+                        content: 'Monitor your team\'s performance and identify training opportunities.',
+                        placement: 'right'
+                    },
+                    {
+                        target: '.advanced-reports',
+                        content: 'Generate custom reports for stakeholders and board meetings.',
+                        placement: 'left'
+                    }
+                ]
+            },
+            power_analyst: {
+                shouldShow: true,
+                steps: [
+                    {
+                        target: '.data-import',
+                        content: 'Import your data sources to unlock powerful analytics capabilities.',
+                        placement: 'bottom'
+                    },
+                    {
+                        target: '.advanced-charts',
+                        content: 'Create sophisticated visualizations with our advanced charting tools.',
+                        placement: 'right'
+                    },
+                    {
+                        target: '.api-access',
+                        content: 'Access our API for custom integrations and automated workflows.',
+                        placement: 'left'
+                    }
+                ]
+            },
+            small_business: {
+                shouldShow: true,
+                steps: [
+                    {
+                        target: '.quick-start',
+                        content: 'Get started quickly with our pre-built templates for small businesses.',
+                        placement: 'bottom'
+                    },
+                    {
+                        target: '.cash-flow',
+                        content: 'Track your cash flow and identify potential issues before they become problems.',
+                        placement: 'right'
+                    }
+                ]
+            }
+        };
+        
+        return configs[segment] || configs.standard_user;
+    };
+    
+    return (
+        &lt;Joyride
+            steps={tourSteps}
+            run={runTour}
+            continuous={true}
+            showProgress={true}
+            showSkipButton={true}
+            styles={{
+                options: {
+                    arrowColor: '#fff',
+                    backgroundColor: '#00d4ff',
+                    primaryColor: '#007bff',
+                    textColor: '#fff',
+                    zIndex: 1000,
+                }
+            }}
+        /&gt;
+    );
+};</code></pre>
+
+                <h3>Cohort Analysis Dashboard</h3>
+                <pre><code class="language-sql">// SQL for cohort retention analysis
+WITH user_cohorts AS (
+  SELECT 
+    user_id,
+    DATE_TRUNC('week', created_at) AS cohort_week,
+    DATE_TRUNC('week', created_at) AS start_week
+  FROM users
+  WHERE created_at >= DATE_SUB(NOW(), INTERVAL 12 WEEK)
+),
+
+weekly_activity AS (
+  SELECT 
+    uc.user_id,
+    uc.cohort_week,
+    uc.start_week,
+    DATE_TRUNC('week', e.created_at) AS activity_week,
+    DATEDIFF(DATE_TRUNC('week', e.created_at), uc.cohort_week) / 7 AS week_number
+  FROM user_cohorts uc
+  JOIN events e ON uc.user_id = e.user_id
+  WHERE e.created_at >= uc.created_at
+    AND e.event_type IN ('login', 'feature_used', 'report_generated')
+),
+
+cohort_metrics AS (
+  SELECT 
+    cohort_week,
+    week_number,
+    COUNT(DISTINCT user_id) AS active_users,
+    COUNT(DISTINCT FIRST_VALUE(user_id) OVER (PARTITION BY cohort_week ORDER BY week_number)) AS cohort_size
+  FROM weekly_activity
+  WHERE week_number >= 0 AND week_number <= 11
+  GROUP BY cohort_week, week_number
+)
+
+SELECT 
+  cohort_week,
+  week_number,
+  cohort_size,
+  active_users,
+  ROUND((active_users * 100.0 / cohort_size), 2) AS retention_rate
+FROM cohort_metrics
+ORDER BY cohort_week, week_number;</code></pre>
+            </section>
+
+            <!-- Results -->
+            <section class="case-study-section">
+                <h2>Results & Impact</h2>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h3>18%</h3>
+                        <p>Increase in Day-14 activation after surfacing contextual tips</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3>27%</h3>
+                        <p>Reduction in customer churn within the first 30 days</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3>3.2×</h3>
+                        <p>Improvement in feature adoption for power users</p>
+                    </div>
+                </div>
+
+                <h3>Business Impact</h3>
+                <ul>
+                    <li><strong>Revenue Impact:</strong> $125K monthly recurring revenue increase from improved retention</li>
+                    <li><strong>Support Efficiency:</strong> 40% reduction in support tickets related to feature discovery</li>
+                    <li><strong>Customer Satisfaction:</strong> NPS score improved from 32 to 68 within 3 months</li>
+                    <li><strong>Team Productivity:</strong> Customer success team could handle 3× more accounts proactively</li>
+                </ul>
+
+                <h3>Adoption by Teams</h3>
+                <ul>
+                    <li>Product team uses segmentation data for feature prioritization</li>
+                    <li>Marketing team leverages cohorts for targeted campaigns</li>
+                    <li>Customer success team monitors at-risk accounts in real-time</li>
+                    <li>Leadership team tracks retention metrics in weekly business reviews</li>
+                </ul>
+            </section>
+
+            <!-- Lessons Learned -->
+            <section class="case-study-section">
+                <h2>Key Learnings</h2>
+                
+                <h3>Context is King</h3>
+                <p>Generic product tours don't work. Understanding user context—role, company size, goals—was critical for delivering relevant guidance that users actually followed.</p>
+
+                <h3>Measure What Matters</h3>
+                <p>We initially tracked too many vanity metrics. Focusing on leading indicators of retention (like feature adoption patterns) helped us intervene before users churned.</p>
+
+                <h3>Experimentation Culture</h3>
+                <p>Establishing weekly experimentation rituals created a culture of continuous improvement. Small, incremental changes compounded into significant results over time.</p>
+
+                <h3>Data Quality Foundation</h3>
+                <p>Garbage in, garbage out. Investing in clean, comprehensive event tracking was essential for accurate segmentation and analysis.</p>
+            </section>
+
+            <!-- Next Steps -->
+            <section class="case-study-section">
+                <h2>Future Enhancements</h2>
+                <ul>
+                    <li><strong>Machine Learning:</strong> Predictive models to identify users at risk of churn</li>
+                    <li><strong>Advanced Personalization:</strong> AI-driven content recommendations based on behavior patterns</li>
+                    <li><strong>Cross-Platform Tracking:</strong> Unified user journey across web, mobile, and email</li>
+                    <li><strong>Automated Interventions:</strong> Smart triggers for contextual help and support outreach</li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- Navigation -->
+        <div class="case-study-navigation">
+            <a href="../case-studies.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Case Studies
+            </a>
+            <a href="mailto:kevohmutwiri35@gmail.com?subject=FinEdge%20Case%20Study%20Discussion" class="cta-link">
+                <i class="fas fa-envelope"></i>
+                Discuss Similar Project
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Klaus Mutwiri. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="../privacy.html">Privacy Policy</a>
+                <a href="../terms.html">Terms of Service</a>
+                <a href="../disclaimer.html">Disclaimer</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

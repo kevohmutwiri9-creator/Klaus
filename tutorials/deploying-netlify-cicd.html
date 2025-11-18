@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deploying to Netlify with CI/CD - Tutorial | Klaus Mutwiri</title>
+    <meta name="description" content="Learn how to set up automated deployments, CI/CD pipelines, and optimize your web applications on Netlify. Includes GitHub Actions, environment variables, and performance optimization.">
+    <meta name="keywords" content="Netlify, CI/CD, deployment, GitHub Actions, continuous integration, web hosting, tutorial, step-by-step">
+    <meta name="author" content="Klaus Mutwiri">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Deploying to Netlify with CI/CD - Tutorial">
+    <meta property="og:description" content="Learn how to set up automated deployments, CI/CD pipelines, and optimize your web applications on Netlify. Includes GitHub Actions, environment variables, and performance optimization.">
+    <meta property="og:image" content="https://klaus-portifoliowebsite.netlify.app/img/tutorial-netlify.jpg">
+    <meta property="og:url" content="https://klaus-portifoliowebsite.netlify.app/tutorials/deploying-netlify-cicd.html">
+    <meta property="og:type" content="article">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Deploying to Netlify with CI/CD - Tutorial">
+    <meta name="twitter:description" content="Learn how to set up automated deployments, CI/CD pipelines, and optimize your web applications on Netlify. Includes GitHub Actions, environment variables, and performance optimization.">
+    <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/tutorial-netlify.jpg">
+    
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://klaus-portifoliowebsite.netlify.app/tutorials/deploying-netlify-cicd.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-optimized.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/favicon-optimized.png">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../styles.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="tutorial-page">
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation">
+        <div class="nav-container">
+            <div class="nav-logo">Portfolio</div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../tutorials.html">Tutorials</a></li>
+                <li><a href="../blog.html">Blog</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="tutorial-container">
+        <div class="tutorial-header">
+            <div class="tutorial-meta">
+                <span class="tutorial-category">DevOps & Deployment</span>
+                <span class="tutorial-difficulty">Intermediate</span>
+                <span class="tutorial-duration">45 min</span>
+            </div>
+            <h1>Deploying to Netlify with CI/CD</h1>
+            <p class="tutorial-subtitle">Learn how to set up automated deployments, CI/CD pipelines, and optimize your web applications on Netlify. Includes GitHub Actions, environment variables, and performance optimization.</p>
+        </div>
+
+        <div class="tutorial-content">
+            <!-- Prerequisites -->
+            <section class="tutorial-section">
+                <h2>Prerequisites</h2>
+                <p>Before starting this tutorial, you should have:</p>
+                <ul>
+                    <li>A GitHub account with a repository</li>
+                    <li>Basic knowledge of Git and version control</li>
+                    <li>A web application ready for deployment</li>
+                    <li>Node.js installed (for build tools)</li>
+                    <li>Basic understanding of CI/CD concepts</li>
+                </ul>
+            </section>
+
+            <!-- Netlify Setup -->
+            <section class="tutorial-section">
+                <h2>Step 1: Setting Up Netlify</h2>
+                <p>Let's start by creating a Netlify account and setting up your first site:</p>
+                
+                <h3>Create Netlify Account</h3>
+                <pre><code class="language-bash"># 1. Sign up at https://app.netlify.com
+# 2. Choose GitHub authentication
+# 3. Authorize Netlify to access your repositories</code></pre>
+
+                <h3>Create New Site</h3>
+                <pre><code class="language-bash"># In Netlify dashboard:
+# 1. Click "Add new site" > "Git-based workflow"
+# 2. Select GitHub as the Git provider
+# 3. Choose your repository
+# 4. Configure build settings (we'll detail this next)</code></pre>
+
+                <h3>Basic Build Configuration</h3>
+                <pre><code class="language-yaml"># Build settings in Netlify UI
+# Build command: npm run build
+# Publish directory: dist
+# Node version: 18
+
+# For React/Vue apps:
+# Build command: npm run build
+# Publish directory: build
+
+# For static sites:
+# Build command: npm run build
+# Publish directory: public</code></pre>
+
+                <h3>Netlify Configuration File</h3>
+                <pre><code class="language-toml"># netlify.toml
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://your-api.com/:splat"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"</code></pre>
+            </section>
+
+            <!-- Environment Variables -->
+            <section class="tutorial-section">
+                <h2>Step 2: Managing Environment Variables</h2>
+                <p>Learn how to handle sensitive data and configuration across environments:</p>
+                
+                <h3>Setting Environment Variables in Netlify</h3>
+                <pre><code class="language-bash"># In Netlify dashboard:
+# Site settings > Build & deploy > Environment variables
+
+# Common variables:
+API_URL=https://api.example.com
+API_KEY=your_api_key_here
+NODE_ENV=production
+GOOGLE_ANALYTICS_ID=GA_MEASUREMENT_ID
+SENTRY_DSN=your_sentry_dsn</code></pre>
+
+                <h3>Environment Variables in Code</h3>
+                <pre><code class="language-javascript">// JavaScript/Node.js
+const apiUrl = process.env.API_URL || 'http://localhost:3000';
+const apiKey = process.env.API_KEY;
+const isProduction = process.env.NODE_ENV === 'production';
+
+// React example
+const config = {
+  apiUrl: process.env.REACT_APP_API_URL,
+  googleAnalyticsId: process.env.REACT_APP_GA_ID,
+  environment: process.env.NODE_ENV
+};
+
+// Export for use in components
+export default config;</code></pre>
+
+                <h3>Environment-specific Builds</h3>
+                <pre><code class="language-javascript">// webpack.config.js
+module.exports = (env) => {
+  const isProduction = env.NODE_ENV === 'production';
+  
+  return {
+    mode: isProduction ? 'production' : 'development',
+    devtool: isProduction ? 'source-map' : 'eval-source-map',
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env.API_URL': JSON.stringify(
+          process.env.API_URL || 'http://localhost:3000'
+        ),
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      })
+    ]
+  };
+};</code></pre>
+
+                <h3>Secret Management</h3>
+                <pre><code class="language-bash"># Using Netlify CLI for secrets
+netlify env:set API_KEY "your_api_key_here"
+netlify env:set DATABASE_URL "your_database_url"
+
+# List environment variables
+netlify env:list
+
+# Remove environment variable
+netlify env:unset API_KEY</code></pre>
+            </section>
+
+            <!-- Custom Build Scripts -->
+            <section class="tutorial-section">
+                <h2>Step 3: Custom Build Scripts and Optimization</h2>
+                <p>Create optimized build processes for different types of applications:</p>
+                
+                <h3>Optimized Build Script</h3>
+                <pre><code class="language-json">// package.json
+{
+  "scripts": {
+    "build": "npm run clean && npm run build:prod",
+    "build:prod": "NODE_ENV=production webpack --mode production",
+    "build:dev": "NODE_ENV=development webpack --mode development",
+    "build:analyze": "npm run build:prod && npx webpack-bundle-analyzer dist/stats.json",
+    "clean": "rimraf dist",
+    "prebuild": "npm run lint && npm run test",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "test": "jest --coverage",
+    "deploy:prod": "netlify deploy --prod --dir=dist",
+    "deploy:preview": "netlify deploy --dir=dist"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "webpack-bundle-analyzer": "^4.7.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0"
+  }
+}</code></pre>
+
+                <h3>Webpack Production Configuration</h3>
+                <pre><code class="language-javascript">// webpack.prod.js
+const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
+module.exports = {
+  mode: 'production',
+  devtool: 'source-map',
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true,
+            drop_debugger: true
+          }
+        }
+      }),
+      new CssMinimizerPlugin()
+    ],
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
+  },
+  plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
+      reportFilename: 'bundle-report.html'
+    })
+  ],
+  performance: {
+    hints: 'warning',
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  }
+};</code></pre>
+
+                <h3>Image Optimization Script</h3>
+                <pre><code class="language-javascript">// scripts/optimize-images.js
+const sharp = require('sharp');
+const fs = require('fs').promises;
+const path = require('path');
+
+async function optimizeImages(inputDir, outputDir) {
+  const files = await fs.readdir(inputDir);
+  
+  for (const file of files) {
+    if (file.match(/\.(jpg|jpeg|png)$/i)) {
+      const inputPath = path.join(inputDir, file);
+      const outputPath = path.join(outputDir, file);
+      
+      await sharp(inputPath)
+        .resize(1200, 1200, { 
+          fit: 'inside',
+          withoutEnlargement: true 
+        })
+        .jpeg({ quality: 80, progressive: true })
+        .png({ compressionLevel: 8 })
+        .toFile(outputPath);
+        
+      console.log(`Optimized: ${file}`);
+    }
+  }
+}
+
+optimizeImages('src/images', 'dist/images');</code></pre>
+
+                <h3>Build Performance Script</h3>
+                <pre><code class="language-javascript">// scripts/build-performance.js
+const { execSync } = require('child_process');
+const fs = require('fs');
+const gzipSize = require('gzip-size');
+
+async function analyzeBuildPerformance() {
+  console.log('🚀 Starting build performance analysis...\n');
+  
+  // Run build
+  const startTime = Date.now();
+  execSync('npm run build', { stdio: 'inherit' });
+  const buildTime = Date.now() - startTime;
+  
+  console.log(`⏱️  Build completed in ${buildTime}ms\n`);
+  
+  // Analyze bundle sizes
+  const stats = JSON.parse(fs.readFileSync('dist/stats.json', 'utf8'));
+  
+  for (const asset of stats.assets) {
+    const size = fs.statSync(`dist/${asset.name}`).size;
+    const gzipped = await gzipSize(fs.readFileSync(`dist/${asset.name}`));
+    
+    console.log(`📦 ${asset.name}:`);
+    console.log(`   Raw: ${(size / 1024).toFixed(2)} KB`);
+    console.log(`   Gzipped: ${(gzipped / 1024).toFixed(2)} KB\n`);
+  }
+  
+  // Performance recommendations
+  console.log('💡 Performance Recommendations:');
+  if (buildTime > 30000) {
+    console.log('   - Consider using cache-loader or thread-loader');
+  }
+  
+  const totalSize = stats.assets.reduce((sum, asset) => {
+    return sum + fs.statSync(`dist/${asset.name}`).size;
+  }, 0);
+  
+  if (totalSize > 1024 * 1024) {
+    console.log('   - Bundle size is large, consider code splitting');
+  }
+}
+
+analyzeBuildPerformance().catch(console.error);</code></pre>
+            </section>
+
+            <!-- GitHub Actions Integration -->
+            <section class="tutorial-section">
+                <h2>Step 4: GitHub Actions CI/CD Pipeline</h2>
+                <p>Create a comprehensive CI/CD pipeline with GitHub Actions:</p>
+                
+                <h3>Basic CI/CD Workflow</h3>
+                <pre><code class="language-yaml"># .github/workflows/deploy.yml
+name: Deploy to Netlify
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run linting
+      run: npm run lint
+    
+    - name: Run tests
+      run: npm run test:coverage
+    
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage/lcov.info
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build application
+      run: npm run build
+      env:
+        NODE_ENV: production
+        API_URL: ${{ secrets.API_URL }}
+    
+    - name: Optimize images
+      run: npm run optimize:images
+    
+    - name: Generate build report
+      run: npm run build:report
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist
+        path: dist/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: dist
+        path: dist/
+    
+    - name: Deploy to Netlify
+      uses: netlify/actions/cli@master
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      with:
+        args: deploy --prod --dir=dist
+    
+    - name: Deploy preview
+      if: github.event_name == 'pull_request'
+      uses: netlify/actions/cli@master
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      with:
+        args: deploy --dir=dist --message "PR: ${{ github.event.pull_request.title }}"</code></pre>
+
+                <h3>Advanced Pipeline with Testing</h3>
+                <pre><code class="language-yaml"># .github/workflows/advanced-deploy.yml
+name: Advanced CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  NODE_VERSION: 18
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Run security audit
+      run: npm audit --audit-level high
+    
+    - name: Run Snyk security scan
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+  accessibility:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build application
+      run: npm run build
+    
+    - name: Run accessibility tests
+      run: npm run test:a11y
+    
+    - name: Run Lighthouse CI
+      run: |
+        npm install -g @lhci/cli@0.12.x
+        lhci autorun
+      env:
+        LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+  performance:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build application
+      run: npm run build
+    
+    - name: Bundle size analysis
+      run: npm run build:analyze
+    
+    - name: Check bundle size
+      run: |
+        node scripts/check-bundle-size.js
+      env:
+        BUDGET_JS: 250000
+        BUDGET_CSS: 50000
+
+  deploy-staging:
+    needs: [security, accessibility, performance]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build application
+      run: npm run build
+      env:
+        NODE_ENV: staging
+    
+    - name: Deploy to staging
+      uses: netlify/actions/cli@master
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_STAGING_SITE_ID }}
+      with:
+        args: deploy --prod --dir=dist
+
+  deploy-production:
+    needs: [security, accessibility, performance]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build application
+      run: npm run build
+      env:
+        NODE_ENV: production
+    
+    - name: Deploy to production
+      uses: netlify/actions/cli@master
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PRODUCTION_SITE_ID }}
+      with:
+        args: deploy --prod --dir=dist
+    
+    - name: Notify Slack
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        channel: '#deployments'
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}</code></pre>
+
+                <h3>Bundle Size Check Script</h3>
+                <pre><code class="language-javascript">// scripts/check-bundle-size.js
+const fs = require('fs');
+const gzipSize = require('gzip-size');
+
+const budgets = {
+  js: process.env.BUDGET_JS || 250000, // 250KB
+  css: process.env.BUDGET_CSS || 50000, // 50KB
+  total: process.env.BUDGET_TOTAL || 500000 // 500KB
+};
+
+function checkBundleSize(filePath, budget, type) {
+  if (!fs.existsSync(filePath)) {
+    console.log(`⚠️  ${filePath} not found, skipping size check`);
+    return true;
+  }
+  
+  const size = fs.statSync(filePath).size;
+  const gzipped = gzipSize.sync(fs.readFileSync(filePath));
+  
+  console.log(`📊 ${type}:`);
+  console.log(`   Raw: ${(size / 1024).toFixed(2)} KB`);
+  console.log(`   Gzipped: ${(gzipped / 1024).toFixed(2)} KB`);
+  console.log(`   Budget: ${(budget / 1024).toFixed(2)} KB`);
+  
+  if (gzipped > budget) {
+    console.log(`❌ ${type} exceeds budget by ${((gzipped - budget) / 1024).toFixed(2)} KB`);
+    return false;
+  }
+  
+  console.log(`✅ ${type} within budget\n`);
+  return true;
+}
+
+async function runChecks() {
+  console.log('🔍 Checking bundle sizes...\n');
+  
+  let allPassed = true;
+  
+  // Check JavaScript bundles
+  const jsFiles = fs.readdirSync('dist').filter(f => f.endsWith('.js'));
+  for (const file of jsFiles) {
+    if (!checkBundleSize(`dist/${file}`, budgets.js, `JS: ${file}`)) {
+      allPassed = false;
+    }
+  }
+  
+  // Check CSS bundles
+  const cssFiles = fs.readdirSync('dist').filter(f => f.endsWith('.css'));
+  for (const file of cssFiles) {
+    if (!checkBundleSize(`dist/${file}`, budgets.css, `CSS: ${file}`)) {
+      allPassed = false;
+    }
+  }
+  
+  // Check total bundle size
+  const totalSize = fs.readdirSync('dist')
+    .filter(f => f.match(/\.(js|css)$/))
+    .reduce((sum, file) => sum + fs.statSync(`dist/${file}`).size, 0);
+  
+  const totalGzipped = fs.readdirSync('dist')
+    .filter(f => f.match(/\.(js|css)$/))
+    .reduce((sum, file) => sum + gzipSize.sync(fs.readFileSync(`dist/${file}`)), 0);
+  
+  console.log(`📊 Total Bundle:`);
+  console.log(`   Raw: ${(totalSize / 1024).toFixed(2)} KB`);
+  console.log(`   Gzipped: ${(totalGzipped / 1024).toFixed(2)} KB`);
+  console.log(`   Budget: ${(budgets.total / 1024).toFixed(2)} KB`);
+  
+  if (totalGzipped > budgets.total) {
+    console.log(`❌ Total bundle exceeds budget by ${((totalGzipped - budgets.total) / 1024).toFixed(2)} KB`);
+    allPassed = false;
+  } else {
+    console.log(`✅ Total bundle within budget\n`);
+  }
+  
+  if (!allPassed) {
+    console.log('💡 Optimization suggestions:');
+    console.log('   - Remove unused dependencies');
+    console.log('   - Implement code splitting');
+    console.log('   - Use dynamic imports');
+    console.log('   - Optimize images and assets');
+    process.exit(1);
+  }
+}
+
+runChecks().catch(console.error);</code></pre>
+            </section>
+
+            <!-- Netlify Functions -->
+            <section class="tutorial-section">
+                <h2>Step 5: Serverless Functions with Netlify</h2>
+                <p>Add serverless functionality to your static sites:</p>
+                
+                <h3>Create a Netlify Function</h3>
+                <pre><code class="language-javascript">// netlify/functions/api.js
+const handler = async (event, context) => {
+  const { httpMethod, path, body, headers } = event;
+  
+  try {
+    switch (httpMethod) {
+      case 'GET':
+        if (path === '/api/users') {
+          return await getUsers();
+        } else if (path.startsWith('/api/users/')) {
+          const userId = path.split('/').pop();
+          return await getUser(userId);
+        }
+        break;
+        
+      case 'POST':
+        if (path === '/api/users') {
+          return await createUser(JSON.parse(body));
+        }
+        break;
+        
+      case 'PUT':
+        if (path.startsWith('/api/users/')) {
+          const userId = path.split('/').pop();
+          return await updateUser(userId, JSON.parse(body));
+        }
+        break;
+        
+      case 'DELETE':
+        if (path.startsWith('/api/users/')) {
+          const userId = path.split('/').pop();
+          return await deleteUser(userId);
+        }
+        break;
+        
+      default:
+        return {
+          statusCode: 405,
+          body: JSON.stringify({ error: 'Method not allowed' })
+        };
+    }
+    
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ error: 'Not found' })
+    };
+    
+  } catch (error) {
+    console.error('API Error:', error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Internal server error' })
+    };
+  }
+};
+
+// Helper functions
+async function getUsers() {
+  // Fetch users from database or API
+  const users = [
+    { id: 1, name: 'John Doe', email: 'john@example.com' },
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
+  ];
+  
+  return {
+    statusCode: 200,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify(users)
+  };
+}
+
+async function getUser(userId) {
+  // Fetch specific user
+  const user = { id: userId, name: 'John Doe', email: 'john@example.com' };
+  
+  return {
+    statusCode: 200,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify(user)
+  };
+}
+
+async function createUser(userData) {
+  // Create new user
+  const newUser = {
+    id: Date.now(),
+    ...userData,
+    createdAt: new Date().toISOString()
+  };
+  
+  return {
+    statusCode: 201,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify(newUser)
+  };
+}
+
+module.exports = { handler };</code></pre>
+
+                <h3>Function Configuration</h3>
+                <pre><code class="language-toml"># netlify.toml
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[functions]
+  directory = "netlify/functions"
+  node_version = "18"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[dev]
+  command = "npm run dev"
+  port = 3000
+  targetPort = 3000
+  functionsPort = 9000</code></pre>
+
+                <h3>Environment-specific Functions</h3>
+                <pre><code class="language-javascript">// netlify/functions/protected.js
+const handler = async (event, context) => {
+  // Check for authentication
+  const authHeader = event.headers.authorization;
+  
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return {
+      statusCode: 401,
+      body: JSON.stringify({ error: 'Unauthorized' })
+    };
+  }
+  
+  const token = authHeader.substring(7);
+  
+  try {
+    // Verify token (simplified example)
+    const user = await verifyToken(token);
+    
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: 'Protected data',
+        user: user
+      })
+    };
+  } catch (error) {
+    return {
+      statusCode: 401,
+      body: JSON.stringify({ error: 'Invalid token' })
+    };
+  }
+};
+
+async function verifyToken(token) {
+  // In production, use proper JWT verification
+  if (token === process.env.API_TOKEN) {
+    return { id: 1, name: 'Authenticated User' };
+  }
+  throw new Error('Invalid token');
+}
+
+module.exports = { handler };</code></pre>
+            </section>
+
+            <!-- Performance Optimization -->
+            <section class="tutorial-section">
+                <h2>Step 6: Performance Optimization</h2>
+                <p>Optimize your Netlify site for maximum performance:</p>
+                
+                <h3>Cache Headers and Optimization</h3>
+                <pre><code class="language-toml"># netlify.toml
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"</code></pre>
+
+                <h3>Image Optimization</h3>
+                <pre><code class="language-html">&lt;!-- Use Netlify Large Media for image optimization --&gt;
+&lt;img 
+  src="https://images.example.com/image.jpg?w=800&h=600&fit=crop&fm=webp"
+  alt="Optimized image"
+  loading="lazy"
+  width="800"
+  height="600"
+/&gt;
+
+&lt;!-- Picture element for multiple formats --&gt;
+&lt;picture&gt;
+  &lt;source srcset="image.webp" type="image/webp"&gt;
+  &lt;source srcset="image.jpg" type="image/jpeg"&gt;
+  &lt;img src="image.jpg" alt="Fallback image" loading="lazy"&gt;
+&lt;/picture&gt;</code></pre>
+
+                <h3>CDN and Edge Functions</h3>
+                <pre><code class="language-javascript">// netlify/edge/geo-location.js
+export default async (request, context) => {
+  const country = request.cf.country;
+  const city = request.cf.city;
+  
+  // Custom content based on location
+  if (country === 'US') {
+    return new Response('Welcome US visitor!', {
+      headers: { 'content-type': 'text/html' }
+    });
+  }
+  
+  return new Response('Welcome international visitor!', {
+    headers: { 'content-type': 'text/html' }
+  });
+};
+
+// netlify/edge/a-b-testing.js
+export default async (request, context) => {
+  const url = new URL(request.url);
+  const cookie = request.headers.get('cookie') || '';
+  
+  // A/B testing logic
+  const variant = cookie.includes('variant=B') ? 'B' : 'A';
+  
+  // Redirect to variant-specific page
+  if (variant === 'B') {
+    return Response.redirect(`${url.origin}/variant-b`, 302);
+  }
+  
+  return fetch(request);
+};</code></pre>
+
+                <h3>Performance Monitoring</h3>
+                <pre><code class="language-javascript">// scripts/performance-monitor.js
+const { performance } = require('perf_hooks');
+
+class PerformanceMonitor {
+  constructor() {
+    this.metrics = {};
+    this.startTime = performance.now();
+  }
+  
+  startTimer(name) {
+    this.metrics[name] = {
+      start: performance.now()
+    };
+  }
+  
+  endTimer(name) {
+    if (this.metrics[name]) {
+      this.metrics[name].end = performance.now();
+      this.metrics[name].duration = 
+        this.metrics[name].end - this.metrics[name].start;
+      
+      console.log(`⏱️  ${name}: ${this.metrics[name].duration.toFixed(2)}ms`);
+    }
+  }
+  
+  measureMemory() {
+    if (process.memoryUsage) {
+      const memory = process.memoryUsage();
+      console.log('💾 Memory Usage:');
+      console.log(`   RSS: ${(memory.rss / 1024 / 1024).toFixed(2)} MB`);
+      console.log(`   Heap Used: ${(memory.heapUsed / 1024 / 1024).toFixed(2)} MB`);
+      console.log(`   Heap Total: ${(memory.heapTotal / 1024 / 1024).toFixed(2)} MB`);
+    }
+  }
+  
+  generateReport() {
+    const totalTime = performance.now() - this.startTime;
+    
+    console.log('\n📊 Performance Report:');
+    console.log(`Total time: ${totalTime.toFixed(2)}ms`);
+    
+    Object.entries(this.metrics).forEach(([name, metric]) => {
+      const percentage = (metric.duration / totalTime * 100).toFixed(1);
+      console.log(`${name}: ${metric.duration.toFixed(2)}ms (${percentage}%)`);
+    });
+    
+    this.measureMemory();
+  }
+}
+
+// Usage in build process
+const monitor = new PerformanceMonitor();
+
+monitor.startTimer('build');
+// Build process here
+monitor.endTimer('build');
+
+monitor.startTimer('optimization');
+// Optimization process here
+monitor.endTimer('optimization');
+
+monitor.generateReport();</code></pre>
+            </section>
+
+            <!-- Monitoring and Analytics -->
+            <section class="tutorial-section">
+                <h2>Step 7: Monitoring and Analytics</h2>
+                <p>Set up comprehensive monitoring for your deployed applications:</p>
+                
+                <h3>Netlify Analytics Setup</h3>
+                <pre><code class="language-html">&lt;!-- Add to your HTML head --&gt;
+&lt;script defer src="https://app.netlify.com/analytics/browser.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.netlifyAnalytics = {
+    site: 'your-site-id.netlify.app'
+  };
+&lt;/script&gt;</code></pre>
+
+                <h3>Custom Analytics Implementation</h3>
+                <pre><code class="language-javascript">// analytics.js
+class Analytics {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.endpoint = 'https://api.example.com/analytics';
+    this.events = [];
+    this.userId = this.getUserId();
+  }
+  
+  getUserId() {
+    let userId = localStorage.getItem('analytics_user_id');
+    if (!userId) {
+      userId = 'user_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('analytics_user_id', userId);
+    }
+    return userId;
+  }
+  
+  track(eventName, properties = {}) {
+    const event = {
+      name: eventName,
+      properties: {
+        ...properties,
+        timestamp: new Date().toISOString(),
+        url: window.location.href,
+        userAgent: navigator.userAgent,
+        userId: this.userId
+      }
+    };
+    
+    this.events.push(event);
+    this.sendEvent(event);
+  }
+  
+  trackPageView() {
+    this.track('page_view', {
+      title: document.title,
+      path: window.location.pathname
+    });
+  }
+  
+  trackClick(element, properties = {}) {
+    this.track('click', {
+      element: element.tagName,
+      text: element.textContent?.substring(0, 50),
+      ...properties
+    });
+  }
+  
+  trackFormSubmission(formName) {
+    this.track('form_submit', {
+      form: formName
+    });
+  }
+  
+  trackError(error, context = {}) {
+    this.track('error', {
+      message: error.message,
+      stack: error.stack,
+      ...context
+    });
+  }
+  
+  async sendEvent(event) {
+    try {
+      await fetch(this.endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.apiKey}`
+        },
+        body: JSON.stringify(event)
+      });
+    } catch (error) {
+      console.error('Analytics error:', error);
+      // Retry later
+      setTimeout(() => this.sendEvent(event), 5000);
+    }
+  }
+  
+  batchSend() {
+    if (this.events.length > 0) {
+      const batch = this.events.splice(0);
+      fetch(`${this.endpoint}/batch`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.apiKey}`
+        },
+        body: JSON.stringify({ events: batch })
+      }).catch(console.error);
+    }
+  }
+}
+
+// Initialize analytics
+const analytics = new Analytics(process.env.ANALYTICS_API_KEY);
+
+// Track page views
+analytics.trackPageView();
+
+// Track clicks
+document.addEventListener('click', (event) => {
+  analytics.trackClick(event.target);
+});
+
+// Track form submissions
+document.addEventListener('submit', (event) => {
+  analytics.trackFormSubmission(event.target.name || 'unknown');
+});
+
+// Track errors
+window.addEventListener('error', (event) => {
+  analytics.trackError(event.error);
+});
+
+// Batch send events every 30 seconds
+setInterval(() => analytics.batchSend(), 30000);</code></pre>
+
+                <h3>Error Tracking Integration</h3>
+                <pre><code class="language-javascript">// error-tracking.js
+import * as Sentry from '@sentry/browser';
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  environment: process.env.NODE_ENV,
+  tracesSampleRate: 1.0,
+  beforeSend(event) {
+    // Filter out certain errors
+    if (event.exception) {
+      const error = event.exception.values[0];
+      if (error.value.includes('Network error')) {
+        return null; // Don't send network errors
+      }
+    }
+    return event;
+  }
+});
+
+// Custom error reporting
+class ErrorTracker {
+  static report(error, context = {}) {
+    console.error('Application Error:', error);
+    
+    // Send to Sentry
+    Sentry.captureException(error, {
+      contexts: {
+        custom: context
+      }
+    });
+    
+    // Send to custom analytics
+    if (window.analytics) {
+      window.analytics.trackError(error, context);
+    }
+  }
+  
+  static reportUserFeedback(message, rating) {
+    Sentry.captureMessage(`User Feedback: ${message}`, {
+      level: 'info',
+      extra: { rating }
+    });
+  }
+}
+
+// Global error handler
+window.addEventListener('error', (event) => {
+  ErrorTracker.report(event.error, {
+    filename: event.filename,
+    lineno: event.lineno,
+    colno: event.colno
+  });
+});
+
+// Unhandled promise rejections
+window.addEventListener('unhandledrejection', (event) => {
+  ErrorTracker.report(event.reason, {
+    type: 'unhandled_promise_rejection'
+  });
+});</code></pre>
+            </section>
+
+            <!-- Best Practices -->
+            <section class="tutorial-section">
+                <h2>Step 8: Best Practices and Tips</h2>
+                
+                <h3>Security Best Practices</h3>
+                <ul>
+                    <li><strong>Environment Variables:</strong> Never commit secrets to Git</li>
+                    <li><strong>HTTPS Only:</strong> Force HTTPS for all requests</li>
+                    <li><strong>Security Headers:</strong> Implement proper security headers</li>
+                    <li><strong>Dependency Scanning:</strong> Regular security audits</li>
+                    <li><strong>Access Control:</strong> Implement proper authentication</li>
+                </ul>
+
+                <h3>Performance Best Practices</h3>
+                <ul>
+                    <li><strong>Bundle Splitting:</strong> Split bundles by routes and features</li>
+                    <li><strong>Image Optimization:</strong> Use modern formats and lazy loading</li>
+                    <li><strong>Caching Strategy:</strong> Implement proper cache headers</li>
+                    <li><strong>CDN Usage:</strong> Leverage Netlify's global CDN</li>
+                    <li><strong>Performance Budgets:</strong> Set and monitor performance budgets</li>
+                </ul>
+
+                <h3>Deployment Best Practices</h3>
+                <ul>
+                    <li><strong>Atomic Deploys:</strong> Ensure deployments are atomic</li>
+                    <li><strong>Rollback Strategy:</strong> Have quick rollback procedures</li>
+                    <li><strong>Blue-Green Deployments:</strong> Use preview deployments</li>
+                    <li><strong>Health Checks:</strong> Implement post-deploy health checks</li>
+                    <li><strong>Monitoring:</strong> Set up comprehensive monitoring</li>
+                </ul>
+
+                <h3>CI/CD Best Practices</h3>
+                <ul>
+                    <li><strong>Fast Builds:</strong> Optimize build times with caching</li>
+                    <li><strong>Parallel Testing:</strong> Run tests in parallel</li>
+                    <li><strong>Fail Fast:</strong> Fail builds early on errors</li>
+                    <li><strong>Artifact Management:</strong> Properly manage build artifacts</li>
+                    <li><strong>Notification Strategy:</strong> Set up appropriate notifications</li>
+                </ul>
+
+                <h3>Common Pitfalls to Avoid</h3>
+                <ul>
+                    <li><strong>Hard-coded URLs:</strong> Use environment variables for URLs</li>
+                    <li><strong>Missing Error Handling:</strong> Always handle errors gracefully</li>
+                    <li><strong>Ignoring Bundle Size:</strong> Monitor and optimize bundle sizes</li>
+                    <li><strong>No Rollback Plan:</strong> Always have a rollback strategy</li>
+                    <li><strong>Poor Monitoring:</strong> Don't deploy without proper monitoring</li>
+                </ul>
+            </section>
+
+            <!-- Next Steps -->
+            <section class="tutorial-section">
+                <h2>Next Steps</h2>
+                <p>You've mastered Netlify deployment! Here are advanced topics to explore:</p>
+                
+                <ul>
+                    <li><strong>Netlify Edge Functions:</strong> Global serverless functions</li>
+                    <li><strong>Netlify Forms:</strong> Handle form submissions without backend</li>
+                    <li><strong>Netlify Split Testing:</strong> A/B testing made easy</li>
+                    <li><strong>Advanced CI/CD:</strong> Multi-environment deployments</li>
+                    <li><strong>Performance Monitoring:</strong> Real user monitoring (RUM)</li>
+                    <li><strong>Progressive Web Apps:</strong> PWA deployment strategies</li>
+                    <li><strong>GraphQL Integration:</strong> Deploy GraphQL APIs</li>
+                    <li><strong>Micro-frontends:</strong> Deploy micro-frontend architectures</li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- Navigation -->
+        <div class="tutorial-navigation">
+            <a href="css-grid-responsive-layouts.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Previous Tutorial: CSS Grid Responsive Layouts
+            </a>
+            <a href="../tutorials.html" class="next-link">
+                Back to All Tutorials
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Klaus Mutwiri. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="../privacy.html">Privacy Policy</a>
+                <a href="../terms.html">Terms of Service</a>
+                <a href="../disclaimer.html">Disclaimer</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

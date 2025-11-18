@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driving Faster Deliveries for SwiftShip - Case Study | Klaus Mutwiri</title>
+    <meta name="description" content="How I helped SwiftShip reduce customer follow-up calls by 40% and triple ETA calculation speed through real-time fleet visibility and data pipeline optimization.">
+    <meta name="keywords" content="logistics, real-time data, Node.js, fleet management, delivery optimization, data pipeline, telemetry dashboard">
+    <meta name="author" content="Klaus Mutwiri">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Driving Faster Deliveries for SwiftShip - Case Study">
+    <meta property="og:description" content="How I helped SwiftShip reduce customer follow-up calls by 40% and triple ETA calculation speed through real-time fleet visibility and data pipeline optimization.">
+    <meta property="og:image" content="https://klaus-portifoliowebsite.netlify.app/img/case-study-swiftship.jpg">
+    <meta property="og:url" content="https://klaus-portifoliowebsite.netlify.app/case-studies/swiftship-logistics-platform.html">
+    <meta property="og:type" content="article">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Driving Faster Deliveries for SwiftShip - Case Study">
+    <meta name="twitter:description" content="How I helped SwiftShip reduce customer follow-up calls by 40% and triple ETA calculation speed through real-time fleet visibility and data pipeline optimization.">
+    <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/case-study-swiftship.jpg">
+    
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://klaus-portifoliowebsite.netlify.app/case-studies/swiftship-logistics-platform.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-optimized.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/favicon-optimized.png">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../styles.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="case-study-page">
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation">
+        <div class="nav-container">
+            <div class="nav-logo">Portfolio</div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li><a href="../case-studies.html">Case Studies</a></li>
+                <li><a href="../blog.html">Blog</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="case-study-container">
+        <div class="case-study-header">
+            <div class="case-study-meta">
+                <span class="case-study-client">SwiftShip</span>
+                <span class="case-study-industry">Logistics SaaS</span>
+                <span class="case-study-duration">2 weeks sprint</span>
+            </div>
+            <h1>Driving Faster Deliveries with Real-Time Fleet Visibility</h1>
+            <p class="case-study-subtitle">Transforming delivery operations through data pipeline optimization and real-time telemetry dashboard development.</p>
+        </div>
+
+        <div class="case-study-content">
+            <!-- Overview -->
+            <section class="case-study-section">
+                <h2>The Challenge</h2>
+                <p>SwiftShip, a growing logistics SaaS platform, was struggling with poor visibility across their delivery fleet. Dispatchers operated with outdated information, leading to inefficient routing and frustrated customers. The company was experiencing:</p>
+                <ul>
+                    <li>High volume of customer follow-up calls asking for delivery status</li>
+                    <li>Inaccurate ETAs causing customer dissatisfaction</li>
+                    <li>Manual dispatch processes that couldn't scale with business growth</li>
+                    <li>Lack of real-time performance metrics for fleet optimization</li>
+                </ul>
+            </section>
+
+            <!-- Approach -->
+            <section class="case-study-section">
+                <h2>My Approach</h2>
+                <p>I led a focused two-week discovery sprint to understand the pain points and design a solution that would provide immediate value while laying the groundwork for future enhancements.</p>
+                
+                <h3>Week 1: Discovery & User Research</h3>
+                <ul>
+                    <li>Conducted 15+ interviews with dispatchers, drivers, and customer service reps</li>
+                    <li>Mapped current user journeys and identified key friction points</li>
+                    <li>Analyzed existing data flows and system limitations</li>
+                    <li>Defined success metrics and technical constraints</li>
+                </ul>
+
+                <h3>Week 2: Prototyping & Technical Implementation</h3>
+                <ul>
+                    <li>Built a Node.js data pipeline to ingest real-time GPS and delivery status data</li>
+                    <li>Developed a telemetry dashboard with live fleet visualization</li>
+                    <li>Implemented caching and batched updates for performance optimization</li>
+                    <li>Created automated alerts for delivery exceptions and delays</li>
+                </ul>
+            </section>
+
+            <!-- Technical Implementation -->
+            <section class="case-study-section">
+                <h2>Technical Implementation</h2>
+                
+                <h3>Architecture Overview</h3>
+                <p>The solution consisted of three main components working together to provide real-time visibility:</p>
+                
+                <h4>Data Pipeline (Node.js + Redis)</h4>
+                <pre><code class="language-javascript">// Real-time data ingestion service
+const express = require('express');
+const redis = require('redis');
+const WebSocket = require('ws');
+
+const app = express();
+const client = redis.createClient();
+const wss = new WebSocket.Server({ port: 8080 });
+
+// Process incoming telemetry data
+app.post('/telemetry', async (req, res) => {
+    const { vehicleId, location, status, timestamp } = req.body;
+    
+    // Cache latest position (5min TTL)
+    await client.setex(`vehicle:${vehicleId}`, 300, JSON.stringify({
+        location, status, timestamp
+    }));
+    
+    // Broadcast to connected dashboard clients
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ vehicleId, location, status }));
+        }
+    });
+    
+    res.status(200).json({ received: true });
+});</code></pre>
+
+                <h4>Real-time Dashboard (React + WebSocket)</h4>
+                <pre><code class="language-javascript">// Live fleet tracking component
+import React, { useState, useEffect } from 'react';
+import useWebSocket from 'react-use-websocket';
+
+const FleetDashboard = () => {
+    const [vehicles, setVehicles] = useState({});
+    
+    const { lastJsonMessage } = useWebSocket('ws://localhost:8080', {
+        onOpen: () => console.log('Connected to telemetry stream'),
+        shouldReconnect: (closeEvent) => true,
+    });
+    
+    useEffect(() => {
+        if (lastJsonMessage) {
+            const { vehicleId, location, status } = lastJsonMessage;
+            setVehicles(prev => ({
+                ...prev,
+                [vehicleId]: { location, status, lastUpdate: Date.now() }
+            }));
+        }
+    }, [lastJsonMessage]);
+    
+    return (
+        &lt;div className="fleet-map"&gt;
+            {Object.entries(vehicles).map(([id, data]) => (
+                &lt;VehicleMarker 
+                    key={id} 
+                    vehicleId={id} 
+                    {...data} 
+                /&gt;
+            ))}
+        &lt;/div&gt;
+    );
+};</code></pre>
+
+                <h4>Performance Optimizations</h4>
+                <ul>
+                    <li><strong>Redis Caching:</strong> Implemented 5-minute TTL for vehicle positions to reduce database load</li>
+                    <li><strong>Batched Updates:</strong> Grouped multiple telemetry updates into single database transactions</li>
+                    <li><strong>WebSocket Compression:</strong> Enabled per-message compression to reduce bandwidth usage</li>
+                    <li><strong>Lazy Loading:</strong> Only loaded active vehicles in dashboard view</li>
+                </ul>
+            </section>
+
+            <!-- Results -->
+            <section class="case-study-section">
+                <h2>Results & Impact</h2>
+                <p>The implementation delivered immediate and measurable improvements across key business metrics:</p>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h3>40%</h3>
+                        <p>Reduction in customer follow-up calls within the first month</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3>3×</h3>
+                        <p>Faster ETA calculations after introducing caching and batched updates</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3>50%</h3>
+                        <p>Reduction in new engineer onboarding time with documented deployment playbooks</p>
+                    </div>
+                </div>
+
+                <h3>Qualitative Improvements</h3>
+                <ul>
+                    <li>Dispatchers now make data-driven routing decisions instead of relying on gut feelings</li>
+                    <li>Customer service team can proactively address delivery issues before customers call</li>
+                    <li>Management has access to real-time performance metrics for strategic planning</li>
+                    <li>Development team can rapidly iterate on new features with established patterns</li>
+                </ul>
+            </section>
+
+            <!-- Lessons Learned -->
+            <section class="case-study-section">
+                <h2>Key Learnings</h2>
+                
+                <h3>Start with the Pain Point</h3>
+                <p>Instead of building a comprehensive system from day one, we focused on the most painful problem: customer follow-up calls. This laser focus allowed us to deliver value quickly and build momentum for larger initiatives.</p>
+
+                <h3>Data Quality Matters</h3>
+                <p>We discovered that GPS data quality varied significantly between vehicles. Implementing data validation and fallback mechanisms was crucial for maintaining dashboard reliability.</p>
+
+                <h3>Performance is a Feature</h3>
+                <p>Real-time systems need to be fast by design. The caching and batching strategies we implemented weren't afterthoughts—they were essential for the system to be usable at scale.</p>
+            </section>
+
+            <!-- Next Steps -->
+            <section class="case-study-section">
+                <h2>Future Roadmap</h2>
+                <p>The success of this initial implementation has opened doors for additional enhancements:</p>
+                <ul>
+                    <li><strong>Predictive Analytics:</strong> ML models to predict delivery delays based on traffic patterns</li>
+                    <li><strong>Route Optimization:</strong> Automated routing suggestions based on real-time conditions</li>
+                    <li><strong>Customer Portal:</strong> Self-service delivery tracking for end customers</li>
+                    <li><strong>Mobile Driver App:</strong> Native app for better driver experience and data capture</li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- Navigation -->
+        <div class="case-study-navigation">
+            <a href="../case-studies.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Case Studies
+            </a>
+            <a href="mailto:kevohmutwiri35@gmail.com?subject=SwiftShip%20Case%20Study%20Discussion" class="cta-link">
+                <i class="fas fa-envelope"></i>
+                Discuss Similar Project
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Klaus Mutwiri. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="../privacy.html">Privacy Policy</a>
+                <a href="../terms.html">Terms of Service</a>
+                <a href="../disclaimer.html">Disclaimer</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

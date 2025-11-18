@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Responsive Layouts with Modern CSS Grid - Tutorial | Klaus Mutwiri</title>
+    <meta name="description" content="Create complex, responsive layouts without frameworks using CSS Grid, Flexbox, and modern CSS features. Build real-world layouts step by step.">
+    <meta name="keywords" content="CSS Grid, Flexbox, responsive design, CSS custom properties, layout, tutorial, step-by-step">
+    <meta name="author" content="Klaus Mutwiri">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Building Responsive Layouts with Modern CSS Grid - Tutorial">
+    <meta property="og:description" content="Create complex, responsive layouts without frameworks using CSS Grid, Flexbox, and modern CSS features. Build real-world layouts step by step.">
+    <meta property="og:image" content="https://klaus-portifoliowebsite.netlify.app/img/tutorial-css-grid.jpg">
+    <meta property="og:url" content="https://klaus-portifoliowebsite.netlify.app/tutorials/css-grid-responsive-layouts.html">
+    <meta property="og:type" content="article">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Building Responsive Layouts with Modern CSS Grid - Tutorial">
+    <meta name="twitter:description" content="Create complex, responsive layouts without frameworks using CSS Grid, Flexbox, and modern CSS features. Build real-world layouts step by step.">
+    <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/tutorial-css-grid.jpg">
+    
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://klaus-portifoliowebsite.netlify.app/tutorials/css-grid-responsive-layouts.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-optimized.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/favicon-optimized.png">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../styles.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="tutorial-page">
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation">
+        <div class="nav-container">
+            <div class="nav-logo">Portfolio</div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../tutorials.html">Tutorials</a></li>
+                <li><a href="../blog.html">Blog</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="tutorial-container">
+        <div class="tutorial-header">
+            <div class="tutorial-meta">
+                <span class="tutorial-category">CSS & Styling</span>
+                <span class="tutorial-difficulty">Beginner</span>
+                <span class="tutorial-duration">30 min</span>
+            </div>
+            <h1>Building Responsive Layouts with Modern CSS Grid</h1>
+            <p class="tutorial-subtitle">Create complex, responsive layouts without frameworks using CSS Grid, Flexbox, and modern CSS features. Build real-world layouts step by step.</p>
+        </div>
+
+        <div class="tutorial-content">
+            <!-- Prerequisites -->
+            <section class="tutorial-section">
+                <h2>Prerequisites</h2>
+                <p>Before starting this tutorial, you should have:</p>
+                <ul>
+                    <li>Basic understanding of HTML and CSS</li>
+                    <li>Familiarity with CSS selectors and properties</li>
+                    <li>Understanding of responsive design concepts</li>
+                    <li>Modern browser with CSS Grid support</li>
+                </ul>
+            </section>
+
+            <!-- CSS Grid Fundamentals -->
+            <section class="tutorial-section">
+                <h2>Step 1: CSS Grid Fundamentals</h2>
+                <p>Let's start with the basics of CSS Grid and understand its core concepts:</p>
+                
+                <h3>Grid Container and Items</h3>
+                <pre><code class="language-html">&lt;!-- HTML Structure --&gt;
+&lt;div class="grid-container"&gt;
+  &lt;div class="grid-item header"&gt;Header&lt;/div&gt;
+  &lt;div class="grid-item sidebar"&gt;Sidebar&lt;/div&gt;
+  &lt;div class="grid-item main"&gt;Main Content&lt;/div&gt;
+  &lt;div class="grid-item footer"&gt;Footer&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+                <h3>Basic Grid Setup</h3>
+                <pre><code class="language-css">/* Basic Grid Container */
+.grid-container {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 20px;
+  min-height: 100vh;
+}
+
+.grid-item {
+  padding: 20px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+}
+
+/* Specific item styling */
+.header {
+  grid-column: 1 / -1; /* Span all columns */
+}
+
+.sidebar {
+  grid-row: 2 / 4; /* Span main and footer rows */
+}
+
+.main {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.footer {
+  grid-column: 2;
+  grid-row: 3;
+}</code></pre>
+
+                <h3>Grid Terminology</h3>
+                <ul>
+                    <li><strong>Grid Container:</strong> The parent element with <code>display: grid</code></li>
+                    <li><strong>Grid Items:</strong> Direct children of a grid container</li>
+                    <li><strong>Grid Lines:</strong> The horizontal and vertical lines that divide the grid</li>
+                    <li><strong>Grid Tracks:</strong> The space between two adjacent grid lines</li>
+                    <li><strong>Grid Cells:</strong> The smallest unit on a grid</li>
+                    <li><strong>Grid Areas:</strong> Rectangular areas covering one or more cells</li>
+                </ul>
+            </section>
+
+            <!-- Building a Magazine Layout -->
+            <section class="tutorial-section">
+                <h2>Step 2: Building a Magazine Layout</h2>
+                <p>Let's create a complex magazine-style layout that demonstrates CSS Grid's power:</p>
+                
+                <h3>HTML Structure</h3>
+                <pre><code class="language-html">&lt;div class="magazine-layout"&gt;
+  &lt;header class="magazine-header"&gt;
+    &lt;h1&gt;Tech Magazine&lt;/h1&gt;
+    &lt;nav&gt;Navigation&lt;/nav&gt;
+  &lt;/header&gt;
+  
+  &lt;main class="magazine-main"&gt;
+    &lt;article class="featured-article"&gt;
+      &lt;h2&gt;Featured Story&lt;/h2&gt;
+      &lt;p&gt;Main content goes here...&lt;/p&gt;
+    &lt;/article&gt;
+    
+    &lt;section class="article-grid"&gt;
+      &lt;article class="article-card"&gt;Article 1&lt;/article&gt;
+      &lt;article class="article-card"&gt;Article 2&lt;/article&gt;
+      &lt;article class="article-card"&gt;Article 3&lt;/article&gt;
+      &lt;article class="article-card"&gt;Article 4&lt;/article&gt;
+      &lt;article class="article-card"&gt;Article 5&lt;/article&gt;
+      &lt;article class="article-card"&gt;Article 6&lt;/article&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+  
+  &lt;aside class="magazine-sidebar"&gt;
+    &lt;div class="sidebar-widget"&gt;Widget 1&lt;/div&gt;
+    &lt;div class="sidebar-widget"&gt;Widget 2&lt;/div&gt;
+    &lt;div class="sidebar-widget"&gt;Widget 3&lt;/div&gt;
+  &lt;/aside&gt;
+  
+  &lt;footer class="magazine-footer"&gt;
+    &lt;p&gt;&copy; 2025 Tech Magazine&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/div&gt;</code></pre>
+
+                <h3>CSS Grid Implementation</h3>
+                <pre><code class="language-css">/* Magazine Layout Grid */
+.magazine-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  grid-template-rows: auto 1fr auto;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header spans full width */
+.magazine-header {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 2px solid #333;
+}
+
+/* Main content area */
+.magazine-main {
+  grid-column: 1;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+/* Featured article */
+.featured-article {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 40px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+/* Article grid */
+.article-grid {
+  grid-column: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.article-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Sidebar */
+.magazine-sidebar {
+  grid-column: 2;
+  grid-row: 2;
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  gap: 20px;
+}
+
+.sidebar-widget {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+}
+
+/* Footer */
+.magazine-footer {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  text-align: center;
+  padding: 20px 0;
+  border-top: 1px solid #ddd;
+}</code></pre>
+
+                <h3>Responsive Design for Magazine Layout</h3>
+                <pre><code class="language-css">/* Tablet Styles */
+@media (max-width: 768px) {
+  .magazine-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .magazine-main {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  
+  .magazine-sidebar {
+    grid-column: 1;
+    grid-row: 3;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+  }
+  
+  .article-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile Styles */
+@media (max-width: 480px) {
+  .magazine-layout {
+    padding: 10px;
+  }
+  
+  .magazine-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .featured-article {
+    padding: 20px;
+  }
+  
+  .magazine-sidebar {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, auto);
+  }
+}</code></pre>
+            </section>
+
+            <!-- Dashboard Layout -->
+            <section class="tutorial-section">
+                <h2>Step 3: Creating a Dashboard Layout</h2>
+                <p>Let's build a responsive dashboard layout with cards and charts:</p>
+                
+                <h3>Dashboard HTML</h3>
+                <pre><code class="language-html">&lt;div class="dashboard"&gt;
+  &lt;header class="dashboard-header"&gt;
+    &lt;h1&gt;Analytics Dashboard&lt;/h1&gt;
+    &lt;div class="user-menu"&gt;User Menu&lt;/div&gt;
+  &lt;/header&gt;
+  
+  &lt;nav class="dashboard-nav"&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="#"&gt;Overview&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="#"&gt;Analytics&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="#"&gt;Reports&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="#"&gt;Settings&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+  
+  &lt;main class="dashboard-main"&gt;
+    &lt;section class="stats-grid"&gt;
+      &lt;div class="stat-card"&gt;
+        &lt;h3&gt;Total Users&lt;/h3&gt;
+        &lt;p class="stat-number"&gt;12,543&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="stat-card"&gt;
+        &lt;h3&gt;Revenue&lt;/h3&gt;
+        &lt;p class="stat-number"&gt;$45,678&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="stat-card"&gt;
+        &lt;h3&gt;Conversion Rate&lt;/h3&gt;
+        &lt;p class="stat-number"&gt;3.2%&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="stat-card"&gt;
+        &lt;h3&gt;Avg. Session&lt;/h3&gt;
+        &lt;p class="stat-number"&gt;5:42&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+    
+    &lt;section class="charts-section"&gt;
+      &lt;div class="chart-container large"&gt;
+        &lt;h3&gt;Revenue Overview&lt;/h3&gt;
+        &lt;div class="chart-placeholder"&gt;Chart&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="chart-container small"&gt;
+        &lt;h3&gt;User Activity&lt;/h3&gt;
+        &lt;div class="chart-placeholder"&gt;Chart&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+    
+    &lt;section class="data-tables"&gt;
+      &lt;div class="table-container"&gt;
+        &lt;h3&gt;Recent Transactions&lt;/h3&gt;
+        &lt;table&gt;Table content&lt;/table&gt;
+      &lt;/div&gt;
+      &lt;div class="table-container"&gt;
+        &lt;h3&gt;Top Products&lt;/h3&gt;
+        &lt;table&gt;Table content&lt;/table&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+&lt;/div&gt;</code></pre>
+
+                <h3>Dashboard CSS Grid</h3>
+                <pre><code class="language-css">/* Dashboard Layout */
+.dashboard {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 0;
+  min-height: 100vh;
+  background: #f5f7fa;
+}
+
+/* Header */
+.dashboard-header {
+  grid-column: 2;
+  grid-row: 1;
+  background: white;
+  padding: 20px 30px;
+  border-bottom: 1px solid #e1e8ed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Navigation */
+.dashboard-nav {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  background: #2c3e50;
+  color: white;
+  padding: 30px 20px;
+}
+
+.dashboard-nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dashboard-nav li {
+  margin-bottom: 10px;
+}
+
+.dashboard-nav a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: block;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.dashboard-nav a:hover {
+  background: #34495e;
+}
+
+/* Main Content */
+.dashboard-main {
+  grid-column: 2;
+  grid-row: 2;
+  padding: 30px;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 30px;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #3498db;
+  margin: 10px 0;
+}
+
+/* Charts Section */
+.charts-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.chart-container {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.chart-placeholder {
+  height: 200px;
+  background: #f8f9fa;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+}
+
+/* Data Tables */
+.data-tables {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.table-container {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Responsive Dashboard */
+@media (max-width: 1024px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-nav {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 15px;
+  }
+  
+  .dashboard-header {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  
+  .dashboard-main {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  
+  .dashboard-nav ul {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .dashboard-nav li {
+    margin: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .charts-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .data-tables {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-nav ul {
+    flex-wrap: wrap;
+  }
+}</code></pre>
+            </section>
+
+            <!-- Combining Grid and Flexbox -->
+            <section class="tutorial-section">
+                <h2>Step 4: Combining Grid and Flexbox</h2>
+                <p>Learn when to use Grid vs Flexbox and how to combine them effectively:</p>
+                
+                <h3>When to Use Grid</h3>
+                <ul>
+                    <li>Two-dimensional layouts (rows AND columns)</li>
+                    <li>Complex page layouts</li>
+                    <li>When you need precise control over item placement</li>
+                    <li>Overlapping elements</li>
+                </ul>
+
+                <h3>When to Use Flexbox</h3>
+                <ul>
+                    <li>One-dimensional layouts (row OR column)</li>
+                    <li>Component-level layouts</li>
+                    <li>Content alignment and distribution</li>
+                    <li>Navigation bars and menus</li>
+                </ul>
+
+                <h3>Combined Layout Example</h3>
+                <pre><code class="language-html">&lt;div class="ecommerce-layout"&gt;
+  &lt;header class="ecommerce-header"&gt;
+    &lt;div class="logo"&gt;Logo&lt;/div&gt;
+    &lt;nav class="main-nav"&gt;Navigation&lt;/nav&gt;
+    &lt;div class="header-actions"&gt;Actions&lt;/div&gt;
+  &lt;/header&gt;
+  
+  &lt;main class="ecommerce-main"&gt;
+    &lt;aside class="filters-sidebar"&gt;Filters&lt;/aside&gt;
+    &lt;section class="products-grid"&gt;
+      &lt;div class="product-card"&gt;Product 1&lt;/div&gt;
+      &lt;div class="product-card"&gt;Product 2&lt;/div&gt;
+      &lt;div class="product-card"&gt;Product 3&lt;/div&gt;
+      &lt;div class="product-card"&gt;Product 4&lt;/div&gt;
+      &lt;div class="product-card"&gt;Product 5&lt;/div&gt;
+      &lt;div class="product-card"&gt;Product 6&lt;/div&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+&lt;/div&gt;</code></pre>
+
+                <h3>Combined CSS</h3>
+                <pre><code class="language-css">/* Overall Layout - Grid */
+.ecommerce-layout {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+/* Header - Flexbox for alignment */
+.ecommerce-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.main-nav {
+  display: flex;
+  gap: 30px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+/* Main Content - Grid */
+.ecommerce-main {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 30px;
+  padding: 30px;
+}
+
+/* Filters - Flexbox */
+.filters-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Products Grid - Grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+/* Product Cards - Flexbox for content */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  flex: 1;
+}
+
+.product-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 15px;
+}</code></pre>
+            </section>
+
+            <!-- CSS Custom Properties -->
+            <section class="tutorial-section">
+                <h2>Step 5: CSS Custom Properties for Maintainable Grids</h2>
+                <p>Use CSS custom properties to create flexible and maintainable grid systems:</p>
+                
+                <h3>Grid System with Custom Properties</h3>
+                <pre><code class="language-css">/* Grid System Variables */
+:root {
+  /* Grid spacing */
+  --grid-gap-xs: 0.5rem;
+  --grid-gap-sm: 1rem;
+  --grid-gap-md: 1.5rem;
+  --grid-gap-lg: 2rem;
+  --grid-gap-xl: 3rem;
+  
+  /* Container max widths */
+  --container-sm: 540px;
+  --container-md: 720px;
+  --container-lg: 960px;
+  --container-xl: 1140px;
+  --container-xxl: 1320px;
+  
+  /* Grid columns */
+  --grid-columns: 12;
+  
+  /* Breakpoints */
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+}
+
+/* Base Grid Container */
+.grid-container {
+  display: grid;
+  gap: var(--grid-gap-md);
+  max-width: var(--container-lg);
+  margin: 0 auto;
+  padding: 0 var(--grid-gap-md);
+}
+
+/* Grid Column System */
+.grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-cols-6 { grid-template-columns: repeat(6, 1fr); }
+.grid-cols-12 { grid-template-columns: repeat(12, 1fr); }
+
+/* Auto-fit columns */
+.grid-auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.grid-auto-fill {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+/* Responsive Grid with Custom Properties */
+.responsive-grid {
+  display: grid;
+  gap: var(--grid-gap-md);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--grid-gap-lg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .responsive-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--grid-gap-xl);
+  }
+}</code></pre>
+
+                <h3>Theme-based Grid System</h3>
+                <pre><code class="language-css">/* Light Theme Grid */
+[data-theme="light"] {
+  --grid-bg: #ffffff;
+  --grid-border: #e1e8ed;
+  --grid-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  --grid-gap: 1.5rem;
+}
+
+/* Dark Theme Grid */
+[data-theme="dark"] {
+  --grid-bg: #1a1a1a;
+  --grid-border: #333333;
+  --grid-shadow: 0 2px 10px rgba(255,255,255,0.1);
+  --grid-gap: 1.5rem;
+}
+
+/* Themed Grid Container */
+.themed-grid {
+  display: grid;
+  gap: var(--grid-gap);
+  background: var(--grid-bg);
+  border: 1px solid var(--grid-border);
+  box-shadow: var(--grid-shadow);
+}
+
+.themed-grid-item {
+  background: var(--grid-bg);
+  border: 1px solid var(--grid-border);
+  padding: var(--grid-gap);
+}</code></pre>
+            </section>
+
+            <!-- Advanced Grid Techniques -->
+            <section class="tutorial-section">
+                <h2>Step 6: Advanced Grid Techniques</h2>
+                <p>Explore advanced CSS Grid features for complex layouts:</p>
+                
+                <h3>Grid Areas and Named Templates</h3>
+                <pre><code class="language-css">/* Named Grid Areas */
+.advanced-layout {
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    "sidebar main main"
+    "sidebar footer footer";
+  grid-template-columns: 250px 1fr 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 20px;
+  min-height: 100vh;
+}
+
+.header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main { grid-area: main; }
+.footer { grid-area: footer; }
+
+/* Responsive Grid Areas */
+@media (max-width: 768px) {
+  .advanced-layout {
+    grid-template-areas:
+      "header"
+      "main"
+      "sidebar"
+      "footer";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+  }
+}</code></pre>
+
+                <h3>Subgrid (CSS Grid Level 2)</h3>
+                <pre><code class="language-css">/* Parent Grid */
+.parent-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr 200px;
+  gap: 20px;
+}
+
+/* Subgrid inherits parent's column tracks */
+.subgrid-container {
+  display: grid;
+  grid-template-columns: subgrid; /* Inherits parent columns */
+  grid-column: 2; /* Spans middle column */
+  gap: inherit; /* Inherits parent gap */
+}</code></pre>
+
+                <h3>Masonry-like Layout with Grid</h3>
+                <pre><code class="language-css">/* Masonry Grid */
+.masonry-grid {
+  display: grid;
+  grid-template-rows: masonry; /* Experimental feature */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* Alternative masonry with flexbox */
+.masonry-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.masonry-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.masonry-item {
+  break-inside: avoid; /* Prevent item breaking */
+}</code></pre>
+
+                <h3>Grid Animation and Transitions</h3>
+                <pre><code class="language-css">/* Animated Grid */
+.animated-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  transition: all 0.3s ease;
+}
+
+.animated-grid-item {
+  transition: all 0.3s ease;
+  transform: scale(1);
+}
+
+.animated-grid-item:hover {
+  transform: scale(1.05);
+  z-index: 10;
+}
+
+/* Grid reordering animation */
+@media (prefers-reduced-motion: no-preference) {
+  .animated-grid-item {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .animated-grid-item:nth-child(odd) {
+    animation: slideInLeft 0.5s ease;
+  }
+  
+  .animated-grid-item:nth-child(even) {
+    animation: slideInRight 0.5s ease;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}</code></pre>
+            </section>
+
+            <!-- Cross-browser Compatibility -->
+            <section class="tutorial-section">
+                <h2>Step 7: Cross-browser Compatibility</h2>
+                <p>Ensure your grid layouts work across all browsers:</p>
+                
+                <h3>Browser Support and Fallbacks</h3>
+                <pre><code class="language-css">/* Progressive Enhancement for Grid */
+.grid-layout {
+  /* Fallback for older browsers */
+  display: block;
+  width: 100%;
+}
+
+/* Modern browsers - Grid support */
+@supports (display: grid) {
+  .grid-layout {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+/* Feature detection with CSS */
+.grid-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.grid-item {
+  flex: 1 1 calc(33.333% - 20px);
+  min-width: 250px;
+}
+
+/* Override with Grid when supported */
+@supports (display: grid) {
+  .grid-layout {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .grid-item {
+    flex: none;
+    min-width: auto;
+  }
+}</code></pre>
+
+                <h3>IE11 Grid Fallback</h3>
+                <pre><code class="language-css">/* IE11 Support */
+.grid-ie11 {
+  display: -ms-grid;
+  -ms-grid-columns: 1fr 20px 1fr 20px 1fr;
+  -ms-grid-rows: auto;
+}
+
+.grid-ie11-item:nth-child(1) {
+  -ms-grid-column: 1;
+  -ms-grid-row: 1;
+}
+
+.grid-ie11-item:nth-child(2) {
+  -ms-grid-column: 3;
+  -ms-grid-row: 1;
+}
+
+.grid-ie11-item:nth-child(3) {
+  -ms-grid-column: 5;
+  -ms-grid-row: 1;
+}</code></pre>
+
+                <h3>Testing and Debugging</h3>
+                <ul>
+                    <li><strong>Browser DevTools:</strong> Use Grid inspector in Chrome/Firefox</li>
+                    <li><strong>Can I Use:</strong> Check feature support</li>
+                    <li><strong>Autoprefixer:</strong> Add vendor prefixes automatically</li>
+                    <li><strong>Progressive Enhancement:</strong> Start with basic layout, enhance with Grid</li>
+                </ul>
+            </section>
+
+            <!-- Best Practices Summary -->
+            <section class="tutorial-section">
+                <h2>Step 8: Best Practices and Tips</h2>
+                
+                <h3>Performance Optimization</h3>
+                <ul>
+                    <li><strong>Avoid Over-nesting:</strong> Keep grid structure simple</li>
+                    <li><strong>Use Auto-fit/auto-fill:</strong> Responsive columns without media queries</li>
+                    <li><strong>Minimize Reflows:</strong> Batch DOM updates</li>
+                    <li><strong>CSS Containment:</strong> Use contain property for performance</li>
+                </ul>
+
+                <h3>Accessibility Considerations</h3>
+                <ul>
+                    <li><strong>Semantic HTML:</strong> Use proper HTML5 elements</li>
+                    <li><strong>Focus Management:</strong> Ensure logical tab order</li>
+                    <li><strong>Screen Readers:</strong> Test with assistive technologies</li>
+                    <li><strong>Keyboard Navigation:</strong> Ensure all interactive elements are accessible</li>
+                </ul>
+
+                <h3>Maintainability</h3>
+                <ul>
+                    <li><strong>CSS Custom Properties:</strong> Use variables for consistent spacing and sizing</li>
+                    <li><strong>Component-based Approach:</strong> Create reusable grid components</li>
+                    <li><strong>Documentation:</strong> Comment complex grid layouts</li>
+                    <li><strong>Testing:</strong> Test layouts across different screen sizes</li>
+                </ul>
+
+                <h3>Common Pitfalls to Avoid</h3>
+                <ul>
+                    <li><strong>Fixed Units:</strong> Avoid fixed pixels for responsive layouts</li>
+                    <li><strong>Over-complication:</strong> Don't use Grid when Flexbox is sufficient</li>
+                    <li><strong>Ignoring Mobile:</strong> Always design mobile-first</li>
+                    <li><strong>Browser Dependencies:</strong> Don't rely on experimental features without fallbacks</li>
+                </ul>
+            </section>
+
+            <!-- Next Steps -->
+            <section class="tutorial-section">
+                <h2>Next Steps</h2>
+                <p>You've mastered CSS Grid! Here are advanced topics to explore:</p>
+                
+                <ul>
+                    <li><strong>CSS Container Queries:</strong> Component-based responsive design</li>
+                    <li><strong>CSS Subgrid:</strong> Nested grid layouts</li>
+                    <li><strong>CSS Masonry Layout:</strong> Pinterest-style layouts</li>
+                    <li><strong>Grid Animation Libraries:</strong> Animate grid layouts</li>
+                    <li><strong>Grid Frameworks:</strong> Build custom grid systems</li>
+                    <li><strong>Performance Monitoring:</strong> Measure layout performance</li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- Navigation -->
+        <div class="tutorial-navigation">
+            <a href="react-performance-optimization.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Previous Tutorial: React Performance Optimization
+            </a>
+            <a href="deploying-netlify-cicd.html" class="next-link">
+                Next Tutorial: Deploying to Netlify with CI/CD
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Klaus Mutwiri. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="../privacy.html">Privacy Policy</a>
+                <a href="../terms.html">Terms of Service</a>
+                <a href="../disclaimer.html">Disclaimer</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

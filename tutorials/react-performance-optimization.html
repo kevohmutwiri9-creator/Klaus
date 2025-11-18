@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Performance Optimization Techniques - Tutorial | Klaus Mutwiri</title>
+    <meta name="description" content="Master React performance optimization with practical techniques including memoization, code splitting, lazy loading, and bundle optimization.">
+    <meta name="keywords" content="React, performance optimization, memoization, code splitting, lazy loading, Webpack, React DevTools, tutorial, step-by-step">
+    <meta name="author" content="Klaus Mutwiri">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="React Performance Optimization Techniques - Tutorial">
+    <meta property="og:description" content="Master React performance optimization with practical techniques including memoization, code splitting, lazy loading, and bundle optimization.">
+    <meta property="og:image" content="https://klaus-portifoliowebsite.netlify.app/img/tutorial-react-performance.jpg">
+    <meta property="og:url" content="https://klaus-portifoliowebsite.netlify.app/tutorials/react-performance-optimization.html">
+    <meta property="og:type" content="article">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="React Performance Optimization Techniques - Tutorial">
+    <meta name="twitter:description" content="Master React performance optimization with practical techniques including memoization, code splitting, lazy loading, and bundle optimization.">
+    <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/tutorial-react-performance.jpg">
+    
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://klaus-portifoliowebsite.netlify.app/tutorials/react-performance-optimization.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-optimized.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/favicon-optimized.png">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../styles.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="tutorial-page">
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation">
+        <div class="nav-container">
+            <div class="nav-logo">Portfolio</div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../tutorials.html">Tutorials</a></li>
+                <li><a href="../blog.html">Blog</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="tutorial-container">
+        <div class="tutorial-header">
+            <div class="tutorial-meta">
+                <span class="tutorial-category">Frontend Development</span>
+                <span class="tutorial-difficulty">Intermediate</span>
+                <span class="tutorial-duration">60 min</span>
+            </div>
+            <h1>React Performance Optimization Techniques</h1>
+            <p class="tutorial-subtitle">Master React performance optimization with practical techniques including memoization, code splitting, lazy loading, and bundle optimization.</p>
+        </div>
+
+        <div class="tutorial-content">
+            <!-- Prerequisites -->
+            <section class="tutorial-section">
+                <h2>Prerequisites</h2>
+                <p>Before starting this tutorial, you should have:</p>
+                <ul>
+                    <li>Strong understanding of React fundamentals</li>
+                    <li>Experience with React Hooks (useState, useEffect, useContext)</li>
+                    <li>Basic knowledge of JavaScript ES6+ features</li>
+                    <li>Familiarity with npm/yarn and package management</li>
+                    <li>Understanding of Webpack or build tools</li>
+                </ul>
+            </section>
+
+            <!-- Setup -->
+            <section class="tutorial-section">
+                <h2>Step 1: Project Setup & Performance Measurement</h2>
+                <p>Let's start by creating a React app and setting up performance measurement tools:</p>
+                
+                <h3>Create React App with Performance Tools</h3>
+                <pre><code class="language-bash"># Create new React app
+npx create-react-app react-performance-tutorial
+cd react-performance-tutorial
+
+# Install performance measurement tools
+npm install --save-dev react-addons-perf
+npm install @testing-library/react @testing-library/jest-dom
+
+# Install additional optimization libraries
+npm install react-window react-virtualized
+npm install lodash lodash.memoize</code></pre>
+
+                <h3>Performance Measurement Setup</h3>
+                <pre><code class="language-javascript">// src/utils/performance.js
+export const measureRender = (componentName, fn) => {
+  return (...args) => {
+    const start = performance.now();
+    const result = fn(...args);
+    const end = performance.now();
+    console.log(`${componentName} render took ${end - start} milliseconds`);
+    return result;
+  };
+};
+
+export const measureEffect = (effectName, effectFn, deps) => {
+  const start = performance.now();
+  effectFn();
+  const end = performance.now();
+  console.log(`${effectName} effect took ${end - start} milliseconds`);
+};
+
+export const logRenderInfo = (componentName, props) => {
+  console.group(`${componentName} Render Info`);
+  console.log('Props:', props);
+  console.log('Timestamp:', new Date().toISOString());
+  console.groupEnd();
+};</code></pre>
+
+                <h3>React DevTools Profiler Setup</h3>
+                <pre><code class="javascript">// src/App.js
+import React, { Profiler } from 'react';
+import { measureRender } from './utils/performance';
+
+const onRenderCallback = (id, phase, actualDuration) => {
+  console.log('Profiler data:', {
+    id,
+    phase, // "mount" or "update"
+    actualDuration, // time spent rendering
+  });
+};
+
+function App() {
+  return (
+    <Profiler id="App" onRender={onRenderCallback}>
+      <div className="App">
+        {/* Your app content */}
+      </div>
+    </Profiler>
+  );
+}</code></pre>
+            </section>
+
+            <!-- Identifying Performance Issues -->
+            <section class="tutorial-section">
+                <h2>Step 2: Identifying Performance Bottlenecks</h2>
+                <p>Let's create a performance-heavy component and identify bottlenecks:</p>
+                
+                <h3>Problematic Component Example</h3>
+                <pre><code class="language-javascript">// src/components/ProblematicList.js
+import React, { useState, useEffect } from 'react';
+
+// Simulated expensive computation
+const expensiveComputation = (items) => {
+  console.log('Running expensive computation...');
+  return items.map(item => ({
+    ...item,
+    processed: item.value * Math.random() * 1000,
+    formatted: new Date(item.timestamp).toLocaleString(),
+  }));
+};
+
+const ProblematicList = ({ items, filter }) => {
+  const [processedItems, setProcessedItems] = useState([]);
+  
+  // This runs on every render - BAD!
+  const filtered = items.filter(item => 
+    item.name.toLowerCase().includes(filter.toLowerCase())
+  );
+  
+  // This also runs on every render - BAD!
+  const computed = expensiveComputation(filtered);
+  
+  useEffect(() => {
+    setProcessedItems(computed);
+  }, [computed]); // Dependency changes every render
+  
+  return (
+    <div className="list-container">
+      {processedItems.map(item => (
+        <div key={item.id} className="list-item">
+          <h3>{item.name}</h3>
+          <p>Value: {item.processed.toFixed(2)}</p>
+          <small>{item.formatted}</small>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default ProblematicList;</code></pre>
+
+                <h3>Performance Issues Identified</h3>
+                <ul>
+                    <li><strong>Unnecessary Re-renders:</strong> Component re-renders when props haven't changed</li>
+                    <li><strong>Expensive Computations:</strong> Heavy calculations run on every render</li>
+                    <li><strong>Filtering in Render:</strong> Array filtering happens during render phase</li>
+                    <li><strong>Object Creation:</strong> New objects created in render cause dependency changes</li>
+                </ul>
+            </section>
+
+            <!-- Memoization -->
+            <section class="tutorial-section">
+                <h2>Step 3: Memoization with React.memo and useMemo</h2>
+                <p>Let's optimize our component using React's built-in memoization hooks:</p>
+                
+                <h3>Optimized Component with React.memo</h3>
+                <pre><code class="language-javascript">// src/components/OptimizedList.js
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+
+// Memoized expensive computation
+const expensiveComputation = (items) => {
+  console.log('Running expensive computation...');
+  return items.map(item => ({
+    ...item,
+    processed: item.value * Math.random() * 1000,
+    formatted: new Date(item.timestamp).toLocaleString(),
+  }));
+};
+
+// Memoized list item component
+const ListItem = React.memo(({ item }) => {
+  console.log(`Rendering item: ${item.id}`);
+  
+  return (
+    <div className="list-item">
+      <h3>{item.name}</h3>
+      <p>Value: {item.processed.toFixed(2)}</p>
+      <small>{item.formatted}</small>
+    </div>
+  );
+});
+
+const OptimizedList = ({ items, filter }) => {
+  const [processedItems, setProcessedItems] = useState([]);
+  
+  // Memoize filtered items - only recalculates when items or filter changes
+  const filteredItems = useMemo(() => {
+    console.log('Filtering items...');
+    return items.filter(item => 
+      item.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  }, [items, filter]);
+  
+  // Memoize expensive computation - only recalculates when filteredItems changes
+  const computedItems = useMemo(() => {
+    return expensiveComputation(filteredItems);
+  }, [filteredItems]);
+  
+  // Memoize the effect callback
+  const updateProcessedItems = useCallback(() => {
+    setProcessedItems(computedItems);
+  }, [computedItems]);
+  
+  useEffect(() => {
+    updateProcessedItems();
+  }, [updateProcessedItems]);
+  
+  // Memoize the rendered list to prevent unnecessary re-renders
+  const renderedList = useMemo(() => {
+    return processedItems.map(item => (
+      <ListItem key={item.id} item={item} />
+    ));
+  }, [processedItems]);
+  
+  return (
+    <div className="list-container">
+      {renderedList}
+    </div>
+  );
+};
+
+export default OptimizedList;</code></pre>
+
+                <h3>Advanced Memoization Patterns</h3>
+                <pre><code class="language-javascript">// src/components/AdvancedMemoization.js
+import React, { useMemo, useCallback } from 'react';
+import { debounce } from 'lodash';
+
+// Custom hook for memoized data fetching
+const useMemoizedData = (url, dependencies = []) => {
+  const [data, setData] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+  
+  // Memoize the fetch function
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(url);
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      console.error('Fetch error:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [url]);
+  
+  // Only refetch when dependencies change
+  React.useEffect(() => {
+    fetchData();
+  }, [fetchData, ...dependencies]);
+  
+  return { data, loading, refetch: fetchData };
+};
+
+// Memoized event handlers
+const useEventHandlers = (onItemClick) => {
+  // Debounced click handler
+  const debouncedClick = useCallback(
+    debounce((item) => {
+      onItemClick(item);
+    }, 300),
+    [onItemClick]
+  );
+  
+  // Memoized handlers
+  const handlers = useMemo(() => ({
+    handleClick: (item) => debouncedClick(item),
+    handleKeyPress: (event, item) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        debouncedClick(item);
+      }
+    },
+  }), [debouncedClick]);
+  
+  return handlers;
+};
+
+const AdvancedMemoization = ({ items, onItemClick }) => {
+  const { data, loading } = useMemoizedData('/api/items', [items.length]);
+  const { handleClick, handleKeyPress } = useEventHandlers(onItemClick);
+  
+  const processedItems = useMemo(() => {
+    if (!data || loading) return [];
+    
+    return data.map(item => ({
+      ...item,
+      computed: item.value * Math.random(),
+      handlers: {
+        onClick: () => handleClick(item),
+        onKeyPress: (e) => handleKeyPress(e, item),
+      },
+    }));
+  }, [data, loading, handleClick, handleKeyPress]);
+  
+  return (
+    <div className="advanced-list">
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        processedItems.map(item => (
+          <div 
+            key={item.id}
+            className="list-item"
+            onClick={item.handlers.onClick}
+            onKeyPress={item.handlers.onKeyPress}
+            tabIndex={0}
+            role="button"
+          >
+            <h3>{item.name}</h3>
+            <p>Computed: {item.computed.toFixed(2)}</p>
+          </div>
+        ))
+      )}
+    </div>
+  );
+};</code></pre>
+            </section>
+
+            <!-- Code Splitting -->
+            <section class="tutorial-section">
+                <h2>Step 4: Code Splitting and Lazy Loading</h2>
+                <p>Implement code splitting to reduce initial bundle size and load components on demand:</p>
+                
+                <h3>Route-based Code Splitting</h3>
+                <pre><code class="language-javascript">// src/App.js
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import './App.css';
+
+// Lazy load components
+const Home = lazy(() => import('./components/Home'));
+const About = lazy(() => import('./components/About'));
+const Products = lazy(() => import('./components/Products'));
+const Dashboard = lazy(() => import('./components/Dashboard'));
+
+// Loading fallback component
+const LoadingFallback = () => (
+  <div className="loading-fallback">
+    <div className="spinner"></div>
+    <p>Loading...</p>
+  </div>
+);
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        <nav className="navigation">
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
+          <Link to="/products">Products</Link>
+          <Link to="/dashboard">Dashboard</Link>
+        </nav>
+        
+        <main className="main-content">
+          <Suspense fallback={<LoadingFallback />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Routes>
+          </Suspense>
+        </main>
+      </div>
+    </Router>
+  );
+}
+
+export default App;</code></pre>
+
+                <h3>Component-based Code Splitting</h3>
+                <pre><code class="language-javascript">// src/components/HeavyComponent.js
+import React, { useState } from 'react';
+
+// Lazy load heavy chart component
+const ChartComponent = React.lazy(() => import('./ChartComponent'));
+const DataTable = React.lazy(() => import('./DataTable'));
+
+const HeavyComponent = ({ data }) => {
+  const [showChart, setShowChart] = useState(false);
+  const [showTable, setShowTable] = useState(false);
+  
+  return (
+    <div className="heavy-component">
+      <h2>Data Visualization</h2>
+      
+      <div className="controls">
+        <button onClick={() => setShowChart(!showChart)}>
+          {showChart ? 'Hide' : 'Show'} Chart
+        </button>
+        <button onClick={() => setShowTable(!showTable)}>
+          {showTable ? 'Hide' : 'Show'} Table
+        </button>
+      </div>
+      
+      <React.Suspense fallback={<div>Loading chart...</div>}>
+        {showChart && <ChartComponent data={data} />}
+      </React.Suspense>
+      
+      <React.Suspense fallback={<div>Loading table...</div>}>
+        {showTable && <DataTable data={data} />}
+      </React.Suspense>
+    </div>
+  );
+};
+
+export default HeavyComponent;</code></pre>
+
+                <h3>Dynamic Imports with Error Handling</h3>
+                <pre><code class="language-javascript">// src/hooks/useLazyComponent.js
+import { useState, useEffect } from 'react';
+
+export const useLazyComponent = (importFunc) => {
+  const [component, setComponent] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  
+  useEffect(() => {
+    let isMounted = true;
+    
+    const loadComponent = async () => {
+      setLoading(true);
+      setError(null);
+      
+      try {
+        const { default: LoadedComponent } = await importFunc();
+        
+        if (isMounted) {
+          setComponent(() => LoadedComponent);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(err);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+    
+    loadComponent();
+    
+    return () => {
+      isMounted = false;
+    };
+  }, [importFunc]);
+  
+  return { component, loading, error };
+};
+
+// Usage example
+const LazyComponentWithFallback = ({ importPath, ...props }) => {
+  const { component: Component, loading, error } = useLazyComponent(
+    () => import(importPath)
+  );
+  
+  if (loading) return <div>Loading component...</div>;
+  if (error) return <div>Error loading component: {error.message}</div>;
+  if (!Component) return <div>Component not found</div>;
+  
+  return <Component {...props} />;
+};</code></pre>
+            </section>
+
+            <!-- Virtual Scrolling -->
+            <section class="tutorial-section">
+                <h2>Step 5: Virtual Scrolling for Large Lists</h2>
+                <p>Implement virtual scrolling to handle large datasets efficiently:</p>
+                
+                <h3>Using react-window for Virtual Lists</h3>
+                <pre><code class="language-javascript">// src/components/VirtualList.js
+import React, { useMemo } from 'react';
+import { FixedSizeList as List } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
+
+// Memoized row component
+const Row = React.memo(({ index, style, data }) => {
+  const item = data[index];
+  
+  return (
+    <div style={style} className="virtual-row">
+      <div className="row-content">
+        <h3>{item.name}</h3>
+        <p>{item.description}</p>
+        <small>ID: {item.id}</small>
+      </div>
+    </div>
+  );
+});
+
+const VirtualList = ({ items }) => {
+  // Memoize item data to prevent unnecessary re-renders
+  const itemData = useMemo(() => items, [items]);
+  
+  return (
+    <div className="virtual-list-container">
+      <h2>Virtual List ({items.length} items)</h2>
+      
+      <AutoSizer>
+        {({ height, width }) => (
+          <List
+            height={height}
+            width={width}
+            itemCount={items.length}
+            itemSize={80} // Height of each row
+            itemData={itemData}
+            overscanCount={5} // Render 5 extra items for smooth scrolling
+          >
+            {Row}
+          </List>
+        )}
+      </AutoSizer>
+    </div>
+  );
+};
+
+export default VirtualList;</code></pre>
+
+                <h3>Custom Virtual Scrolling Implementation</h3>
+                <pre><code class="language-javascript">// src/components/CustomVirtualList.js
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+
+const CustomVirtualList = ({ 
+  items, 
+  itemHeight = 50, 
+  containerHeight = 400,
+  overscan = 5 
+}) => {
+  const [scrollTop, setScrollTop] = useState(0);
+  const containerRef = useRef(null);
+  
+  // Calculate visible range
+  const visibleRange = useMemo(() => {
+    const startIndex = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan);
+    const endIndex = Math.min(
+      items.length - 1,
+      Math.ceil((scrollTop + containerHeight) / itemHeight) + overscan
+    );
+    
+    return { startIndex, endIndex };
+  }, [scrollTop, itemHeight, containerHeight, overscan, items.length]);
+  
+  // Handle scroll events
+  const handleScroll = useCallback((event) => {
+    setScrollTop(event.target.scrollTop);
+  }, []);
+  
+  // Memoize visible items
+  const visibleItems = useMemo(() => {
+    const { startIndex, endIndex } = visibleRange;
+    return items.slice(startIndex, endIndex + 1).map((item, index) => ({
+      ...item,
+      index: startIndex + index,
+    }));
+  }, [items, visibleRange]);
+  
+  // Total height of all items
+  const totalHeight = items.length * itemHeight;
+  
+  return (
+    <div className="custom-virtual-list">
+      <div className="virtual-scroll-container">
+        <div
+          ref={containerRef}
+          className="virtual-scroll-content"
+          style={{ height: containerHeight }}
+          onScroll={handleScroll}
+        >
+          <div
+            className="virtual-phantom"
+            style={{ height: totalHeight }}
+          >
+            <div
+              className="virtual-items"
+              style={{
+                transform: `translateY(${visibleRange.startIndex * itemHeight}px)`,
+              }}
+            >
+              {visibleItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="virtual-item"
+                  style={{ height: itemHeight }}
+                >
+                  <div className="item-content">
+                    <span className="item-index">{item.index}</span>
+                    <h3>{item.name}</h3>
+                    <p>{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div className="virtual-list-info">
+        <p>Showing {visibleRange.startIndex + 1}-{visibleRange.endIndex + 1} of {items.length} items</p>
+      </div>
+    </div>
+  );
+};</code></pre>
+            </section>
+
+            <!-- Bundle Optimization -->
+            <section class="tutorial-section">
+                <h2>Step 6: Bundle Optimization</h2>
+                <p>Optimize your bundle size with Webpack configuration and tree shaking:</p>
+                
+                <h3>Webpack Configuration for Optimization</h3>
+                <pre><code class="language-javascript">// webpack.config.js
+const path = require('path');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
+module.exports = {
+  mode: 'production',
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: '[name].[contenthash].js',
+    chunkFilename: '[name].[contenthash].chunk.js',
+    clean: true,
+  },
+  
+  optimization: {
+    // Split vendor and app code
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+        common: {
+          name: 'common',
+          minChunks: 2,
+          chunks: 'all',
+          enforce: true,
+        },
+      },
+    },
+    
+    // Enable tree shaking
+    usedExports: true,
+    sideEffects: false,
+    
+    // Minimize JavaScript
+    minimize: true,
+  },
+  
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: [
+              '@babel/plugin-transform-runtime',
+              '@babel/plugin-proposal-class-properties',
+            ],
+          },
+        },
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+  
+  plugins: [
+    // Analyze bundle size
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
+    }),
+  ],
+  
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+  },
+};</code></pre>
+
+                <h3>Tree Shaking Best Practices</h3>
+                <pre><code class="javascript">// src/utils/index.js - Good: Named exports for tree shaking
+export const formatDate = (date) => {
+  return new Intl.DateTimeFormat().format(date);
+};
+
+export const debounce = (func, wait) => {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
+
+export const throttle = (func, limit) => {
+  let inThrottle;
+  return function() {
+    const args = arguments;
+    const context = this;
+    if (!inThrottle) {
+      func.apply(context, args);
+      inThrottle = true;
+      setTimeout(() => inThrottle = false, limit);
+    }
+  };
+};
+
+// src/components/Button.js - Good: Specific imports
+import { formatDate } from '../utils'; // Tree shakes other exports
+
+// Bad: Import entire library when only using part of it
+// import * as utils from '../utils'; // Prevents tree shaking
+// import lodash from 'lodash'; // Imports entire library
+
+// Good: Import specific parts
+import debounce from 'lodash/debounce';
+import { format } from 'date-fns';</code></pre>
+
+                <h3>Dynamic Imports for Large Libraries</h3>
+                <pre><code class="javascript">// src/components/Chart.js
+import React, { useState, useEffect } from 'react';
+
+const Chart = ({ data, type }) => {
+  const [ChartLibrary, setChartLibrary] = useState(null);
+  
+  useEffect(() => {
+    // Dynamically import chart library only when needed
+    const loadChartLibrary = async () => {
+      try {
+        // Import specific chart library based on type
+        if (type === 'd3') {
+          const { default: d3 } = await import('d3');
+          setChartLibrary(() => d3);
+        } else if (type === 'chartjs') {
+          const { default: Chart } = await import('chart.js');
+          setChartLibrary(() => Chart);
+        }
+      } catch (error) {
+        console.error('Failed to load chart library:', error);
+      }
+    };
+    
+    loadChartLibrary();
+  }, [type]);
+  
+  if (!ChartLibrary) {
+    return <div>Loading chart...</div>;
+  }
+  
+  // Render chart using dynamically loaded library
+  return <div className="chart-container">{/* Chart implementation */}</div>;
+};</code></pre>
+            </section>
+
+            <!-- Performance Monitoring -->
+            <section class="tutorial-section">
+                <h2>Step 7: Performance Monitoring</h2>
+                <p>Set up comprehensive performance monitoring to track optimization effectiveness:</p>
+                
+                <h3>Custom Performance Monitoring Hook</h3>
+                <pre><code class="language-javascript">// src/hooks/usePerformanceMonitor.js
+import { useEffect, useRef, useState } from 'react';
+
+export const usePerformanceMonitor = (componentName) => {
+  const renderCount = useRef(0);
+  const [metrics, setMetrics] = useState({
+    renderCount: 0,
+    averageRenderTime: 0,
+    lastRenderTime: 0,
+    memoryUsage: 0,
+  });
+  
+  const measureRender = (fn) => {
+    const start = performance.now();
+    const result = fn();
+    const end = performance.now();
+    const renderTime = end - start;
+    
+    renderCount.current += 1;
+    
+    setMetrics(prev => ({
+      renderCount: renderCount.current,
+      averageRenderTime: (prev.averageRenderTime * (prev.renderCount - 1) + renderTime) / renderCount.current,
+      lastRenderTime: renderTime,
+      memoryUsage: performance.memory ? performance.memory.usedJSHeapSize : 0,
+    }));
+    
+    return result;
+  };
+  
+  useEffect(() => {
+    // Log performance metrics
+    if (process.env.NODE_ENV === 'development') {
+      console.group(`${componentName} Performance Metrics`);
+      console.log('Render Count:', metrics.renderCount);
+      console.log('Average Render Time:', metrics.averageRenderTime.toFixed(2), 'ms');
+      console.log('Last Render Time:', metrics.lastRenderTime.toFixed(2), 'ms');
+      console.log('Memory Usage:', (metrics.memoryUsage / 1024 / 1024).toFixed(2), 'MB');
+      console.groupEnd();
+    }
+  }, [componentName, metrics]);
+  
+  return { metrics, measureRender };
+};</code></pre>
+
+                <h3>Web Vitals Integration</h3>
+                <pre><code class="javascript">// src/utils/webVitals.js
+import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals';
+
+const sendToAnalytics = (metric) => {
+  // Send to your analytics service
+  if (process.env.NODE_ENV === 'production') {
+    // Example: Send to Google Analytics
+    gtag('event', metric.name, {
+      event_category: 'Web Vitals',
+      event_label: metric.id,
+      value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+      non_interaction: true,
+    });
+  } else {
+    console.log('Web Vital:', metric);
+  }
+};
+
+export const reportWebVitals = () => {
+  getCLS(sendToAnalytics);
+  getFID(sendToAnalytics);
+  getFCP(sendToAnalytics);
+  getLCP(sendToAnalytics);
+  getTTFB(sendToAnalytics);
+};</code></pre>
+
+                <h3>Performance Dashboard Component</h3>
+                <pre><code class="javascript">// src/components/PerformanceDashboard.js
+import React, { useState, useEffect } from 'react';
+import { usePerformanceMonitor } from '../hooks/usePerformanceMonitor';
+
+const PerformanceDashboard = () => {
+  const [components, setComponents] = useState([]);
+  const [globalMetrics, setGlobalMetrics] = useState({
+    cls: 0,
+    fid: 0,
+    fcp: 0,
+    lcp: 0,
+    ttfb: 0,
+  });
+  
+  // Monitor this component's performance
+  const { metrics } = usePerformanceMonitor('PerformanceDashboard');
+  
+  useEffect(() => {
+    // Collect global performance metrics
+    const collectMetrics = () => {
+      if (performance.memory) {
+        setGlobalMetrics(prev => ({
+          ...prev,
+          memoryUsage: performance.memory.usedJSHeapSize,
+          memoryLimit: performance.memory.jsHeapSizeLimit,
+        }));
+      }
+    };
+    
+    const interval = setInterval(collectMetrics, 5000);
+    return () => clearInterval(interval);
+  }, []);
+  
+  return (
+    <div className="performance-dashboard">
+      <h2>Performance Dashboard</h2>
+      
+      <div className="metrics-grid">
+        <div className="metric-card">
+          <h3>Component Renders</h3>
+          <p>{metrics.renderCount}</p>
+        </div>
+        
+        <div className="metric-card">
+          <h3>Avg Render Time</h3>
+          <p>{metrics.averageRenderTime.toFixed(2)}ms</p>
+        </div>
+        
+        <div className="metric-card">
+          <h3>Memory Usage</h3>
+          <p>{(metrics.memoryUsage / 1024 / 1024).toFixed(2)}MB</p>
+        </div>
+        
+        <div className="metric-card">
+          <h3>Global Memory</h3>
+          <p>{(globalMetrics.memoryUsage / 1024 / 1024).toFixed(2)}MB</p>
+        </div>
+      </div>
+      
+      <div className="performance-tips">
+        <h3>Performance Tips</h3>
+        <ul>
+          {metrics.averageRenderTime > 16 && (
+            <li className="warning">Average render time exceeds 16ms target</li>
+          )}
+          {metrics.renderCount > 100 && (
+            <li className="warning">High render count detected - consider memoization</li>
+          )}
+          {globalMetrics.memoryUsage > 100 * 1024 * 1024 && (
+            <li className="warning">Memory usage exceeds 100MB</li>
+          )}
+        </ul>
+      </div>
+    </div>
+  );
+};</code></pre>
+            </section>
+
+            <!-- Best Practices Summary -->
+            <section class="tutorial-section">
+                <h2>Step 8: Performance Best Practices Summary</h2>
+                
+                <h3>Component Optimization</h3>
+                <ul>
+                    <li><strong>React.memo:</strong> Prevent unnecessary re-renders for functional components</li>
+                    <li><strong>useMemo:</strong> Cache expensive computations</li>
+                    <li><strong>useCallback:</strong> Memoize event handlers and functions</li>
+                    <li><strong>Pure Components:</strong> Use for class components with shallow comparison</li>
+                </ul>
+
+                <h3>Bundle Optimization</h3>
+                <ul>
+                    <li><strong>Code Splitting:</strong> Split code by routes and features</li>
+                    <li><strong>Tree Shaking:</strong> Remove unused code from bundles</li>
+                    <li><strong>Dynamic Imports:</strong> Load heavy libraries on demand</li>
+                    <li><strong>Bundle Analysis:</strong> Regularly analyze bundle size</li>
+                </ul>
+
+                <h3>Rendering Optimization</h3>
+                <ul>
+                    <li><strong>Virtual Scrolling:</strong> Handle large lists efficiently</li>
+                    <li><strong>Lazy Loading:</strong> Load components and images as needed</li>
+                    <li><strong>Suspense:</strong> Handle loading states gracefully</li>
+                    <li><strong>Concurrent Mode:</strong> Use React 18 concurrent features</li>
+                </ul>
+
+                <h3>Monitoring & Measurement</h3>
+                <ul>
+                    <li><strong>React DevTools:</strong> Use profiler for component analysis</li>
+                    <li><strong>Web Vitals:</strong> Track core performance metrics</li>
+                    <li><strong>Custom Monitoring:</strong> Implement application-specific metrics</li>
+                    <li><strong>Performance Budgets:</strong> Set and enforce performance budgets</li>
+                </ul>
+            </section>
+
+            <!-- Next Steps -->
+            <section class="tutorial-section">
+                <h2>Next Steps</h2>
+                <p>You've mastered React performance optimization! Here are advanced topics to explore:</p>
+                
+                <ul>
+                    <li><strong>Server Components:</strong> Explore React Server Components for better performance</li>
+                    <li><strong>Concurrent Features:</strong> Deep dive into React 18 concurrent mode</li>
+                    <li><strong>State Management:</strong> Optimize Redux, Zustand, or Context performance</li>
+                    <li><strong>Animation Performance:</strong> Optimize animations with Framer Motion</li>
+                    <li><strong>Image Optimization:</strong> Implement advanced image loading strategies</li>
+                    <li><strong>Service Workers:</strong> Add caching and offline capabilities</li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- Navigation -->
+        <div class="tutorial-navigation">
+            <a href="restful-api-nodejs-express.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Previous Tutorial: RESTful API with Node.js
+            </a>
+            <a href="css-grid-responsive-layouts.html" class="next-link">
+                Next Tutorial: CSS Grid Responsive Layouts
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Klaus Mutwiri. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="../privacy.html">Privacy Policy</a>
+                <a href="../terms.html">Terms of Service</a>
+                <a href="../disclaimer.html">Disclaimer</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

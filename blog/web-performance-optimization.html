@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Performance Optimization Techniques | Klaus Portfolio</title>
+    <meta name="description" content="Essential strategies for improving website performance and user experience. Learn about lazy loading, code splitting, caching strategies, and performance monitoring tools.">
+    <meta name="keywords" content="web performance, optimization, speed, Core Web Vitals, lazy loading, caching, code splitting">
+    <meta name="author" content="Klaus">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Web Performance Optimization Techniques">
+    <meta property="og:description" content="Essential strategies for improving website performance and user experience. Learn about lazy loading, code splitting, caching strategies, and performance monitoring tools.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://klaus-portifoliowebsite.netlify.app/blog/web-performance-optimization.html">
+    <meta property="og:image" content="https://klaus-portifoliowebsite.netlify.app/img/blog/web-performance-hero.jpg">
+    <meta property="og:site_name" content="Klaus Portfolio">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Web Performance Optimization Techniques">
+    <meta name="twitter:description" content="Essential strategies for improving website performance and user experience. Learn about lazy loading, code splitting, caching strategies, and performance monitoring tools.">
+    <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/blog/web-performance-hero.jpg">
+    
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" type="image/png" href="../img/favicon-optimized.png">
+    <link rel="canonical" href="https://klaus-portifoliowebsite.netlify.app/blog/web-performance-optimization.html">
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Portfolio</div>
+            <nav class="nav-menu">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../blog.html" class="nav-link">Blog</a>
+                <a href="../projects.html" class="nav-link">Projects</a>
+                <a href="../index.html#contact" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="blog-post">
+        <article class="article-container">
+            <header class="article-header">
+                <div class="article-meta">
+                    <span class="article-date">October 20, 2025</span>
+                    <span class="article-category">Performance</span>
+                    <span class="article-read-time">5 min read</span>
+                </div>
+                <h1 class="article-title">Web Performance Optimization Techniques</h1>
+                <p class="article-subtitle">Master the art of building lightning-fast web applications that delight users and rank higher in search results.</p>
+            </header>
+
+            <div class="article-content">
+                <p>In today's fast-paced digital world, website performance isn't just a nice-to-have—it's essential. Slow websites lead to poor user experience, higher bounce rates, and lower search rankings. This comprehensive guide covers the most effective techniques for optimizing web performance.</p>
+
+                <h2>Why Performance Matters</h2>
+                <p>Before diving into optimization techniques, let's understand why performance is crucial:</p>
+                <ul>
+                    <li><strong>User Experience</strong>: 53% of users abandon sites that take longer than 3 seconds to load</li>
+                    <li><strong>Conversion Rates</strong>: Every 100ms improvement in load time can increase conversion rates by 1%</li>
+                    <li><strong>SEO Rankings</strong>: Google uses Core Web Vitals as a ranking factor</li>
+                    <li><strong>Mobile Users</strong>: 70% of users expect sites to load as fast on mobile as desktop</li>
+                </ul>
+
+                <h2>Core Web Vitals</h2>
+                <p>Google's Core Web Vitals are specific metrics that measure user experience:</p>
+                
+                <h3>Largest Contentful Paint (LCP)</h3>
+                <p>Measures loading performance. Should be less than 2.5 seconds.</p>
+                <pre><code class="language-javascript">// Monitor LCP in your application
+new PerformanceObserver((entryList) => {
+  const entries = entryList.getEntries();
+  const lastEntry = entries[entries.length - 1];
+  console.log('LCP:', lastEntry.startTime);
+}).observe({entryTypes: ['largest-contentful-paint']});</code></pre>
+
+                <h3>First Input Delay (FID)</h3>
+                <p>Measures interactivity. Should be less than 100 milliseconds.</p>
+                
+                <h3>Cumulative Layout Shift (CLS)</h3>
+                <p>Measures visual stability. Should be less than 0.1.</p>
+
+                <h2>1. Image Optimization</h2>
+                <p>Images often account for 50-90% of page size. Optimize them aggressively:</p>
+
+                <h3>Choose the Right Format</h3>
+                <pre><code class="language-html"><!-- Use modern formats -->
+<picture>
+  <source srcset="image.webp" type="image/webp">
+  <source srcset="image.avif" type="image/avif">
+  <img src="image.jpg" alt="Description" loading="lazy">
+</picture></code></pre>
+
+                <h3>Implement Lazy Loading</h3>
+                <pre><code class="language-html"><!-- Native lazy loading -->
+<img src="image.jpg" loading="lazy" alt="Description">
+
+<!-- Intersection Observer for custom lazy loading -->
+<script>
+const imageObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const img = entry.target;
+      img.src = img.dataset.src;
+      imageObserver.unobserve(img);
+    }
+  });
+});
+
+document.querySelectorAll('img[data-src]').forEach(img => {
+  imageObserver.observe(img);
+});
+</script></code></pre>
+
+                <h3>Responsive Images</h3>
+                <pre><code class="language-html"><!-- Serve appropriately sized images -->
+<img srcset="small.jpg 480w, medium.jpg 768w, large.jpg 1024w"
+     sizes="(max-width: 600px) 480px, (max-width: 900px) 768px, 1024px"
+     src="medium.jpg" alt="Description"></code></pre>
+
+                <h2>2. Code Optimization</h2>
+                <p>Optimize your JavaScript and CSS for faster execution:</p>
+
+                <h3>Minification and Compression</h3>
+                <pre><code class="language-javascript">// Before minification
+function calculateTotal(price, tax) {
+  return price + (price * tax);
+}
+
+// After minification
+function calculateTotal(e,t){return e+(e*t)}</code></pre>
+
+                <h3>Code Splitting</h3>
+                <pre><code class="language-javascript">// Dynamic imports for code splitting
+const loadModule = async () => {
+  const module = await import('./heavy-module.js');
+  module.doSomething();
+};
+
+// Load on demand
+document.getElementById('loadButton').addEventListener('click', loadModule);</code></pre>
+
+                <h3>Tree Shaking</h3>
+                <pre><code class="language-javascript">// Import only what you need
+// Bad
+import * as lodash from 'lodash';
+
+// Good
+import debounce from 'lodash/debounce';</code></pre>
+
+                <h2>3. Caching Strategies</h2>
+                <p>Implement effective caching to reduce server requests:</p>
+
+                <h3>Browser Caching</h3>
+                <pre><code class="language-http"># Apache configuration
+<IfModule mod_expires.c>
+  ExpiresActive on
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+</IfModule></code></pre>
+
+                <h3>Service Worker Caching</h3>
+                <pre><code class="language-javascript">// Service worker for offline caching
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open('v1').then((cache) => {
+      return cache.addAll([
+        '/',
+        '/styles.css',
+        '/script.js',
+        '/image.jpg'
+      ]);
+    })
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    })
+  );
+});</code></pre>
+
+                <h2>4. Network Optimization</h2>
+                <p>Optimize how resources are delivered over the network:</p>
+
+                <h3>HTTP/2 and HTTP/3</h3>
+                <pre><code class="language-nginx"># Nginx HTTP/2 configuration
+server {
+    listen 443 ssl http2;
+    server_name yoursite.com;
+    
+    ssl_certificate /path/to/cert.pem;
+    ssl_certificate_key /path/to/key.pem;
+}</code></pre>
+
+                <h3>Resource Hints</h3>
+                <pre><code class="language-html"><!-- Preconnect to external domains -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://api.example.com">
+
+<!-- DNS prefetch for future navigation -->
+<link rel="dns-prefetch" href="https://next-page.com">
+
+<!-- Preload critical resources -->
+<link rel="preload" href="/critical.css" as="style">
+<link rel="preload" href="/hero-image.jpg" as="image"></code></pre>
+
+                <h2>5. Critical CSS</h2>
+                <p>Inline critical CSS to render above-the-fold content quickly:</p>
+
+                <h3>Extract Critical CSS</h3>
+                <pre><code class="language-css">/* Critical CSS - inline in HTML */
+.hero { display: flex; justify-content: center; align-items: center; }
+.title { font-size: 2.5rem; font-weight: bold; }
+.button { padding: 1rem 2rem; background: #007bff; color: white; }</code></pre>
+
+                <pre><code class="language-html"><!-- Inline critical CSS -->
+<style>
+  /* Critical CSS here */
+</style>
+
+<!-- Load non-critical CSS asynchronously -->
+<link rel="preload" href="non-critical.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="non-critical.css"></noscript></code></pre>
+
+                <h2>6. Font Optimization</h3>
+                <p>Optimize web fonts to prevent layout shifts:</p>
+
+                <h3>Font Display Strategy</h3>
+                <pre><code class="language-css">@font-face {
+  font-family: 'Custom Font';
+  src: url('font.woff2') format('woff2');
+  font-display: swap; /* Prevents invisible text */
+}</code></pre>
+
+                <h3>Preload Critical Fonts</h3>
+                <pre><code class="language-html"><link rel="preload" href="/fonts/main-font.woff2" as="font" type="font/woff2" crossorigin></code></pre>
+
+                <h2>7. Performance Monitoring</h2>
+                <p>Continuously monitor and measure performance:</p>
+
+                <h3>Real User Monitoring (RUM)</h3>
+                <pre><code class="language-javascript">// Track Core Web Vitals
+import {getCLS, getFID, getFCP, getLCP, getTTFB} from 'web-vitals';
+
+getCLS(console.log);
+getFID(console.log);
+getFCP(console.log);
+getLCP(console.log);
+getTTFB(console.log);</code></pre>
+
+                <h3>Performance Budgets</h3>
+                <pre><code class="language-json">{
+  "budgets": [
+    {
+      "path": "/*.js",
+      "limit": "150kb",
+      "warning": "120kb"
+    },
+    {
+      "path": "/*.css",
+      "limit": "50kb",
+      "warning": "40kb"
+    },
+    {
+      "path": "/*.jpg",
+      "limit": "200kb",
+      "warning": "150kb"
+    }
+  ]
+}</code></pre>
+
+                <h2>8. Database Optimization</h2>
+                <p>For dynamic sites, optimize database queries:</p>
+
+                <h3>Query Optimization</h3>
+                <pre><code class="language-sql">-- Use indexes effectively
+CREATE INDEX idx_user_email ON users(email);
+
+-- Avoid N+1 queries
+SELECT u.*, p.* FROM users u 
+LEFT JOIN posts p ON u.id = p.user_id 
+WHERE u.id = 1;
+
+-- Implement pagination
+SELECT * FROM posts 
+ORDER BY created_at DESC 
+LIMIT 20 OFFSET 0;</code></pre>
+
+                <h3>Caching Database Results</h3>
+                <pre><code class="language-javascript">// Redis caching example
+const cache = require('redis').createClient();
+
+async function getUser(id) {
+  const cacheKey = `user:${id}`;
+  
+  // Try cache first
+  let user = await cache.get(cacheKey);
+  if (user) {
+    return JSON.parse(user);
+  }
+  
+  // Query database
+  user = await db.query('SELECT * FROM users WHERE id = ?', [id]);
+  
+  // Cache result for 1 hour
+  await cache.setex(cacheKey, 3600, JSON.stringify(user));
+  
+  return user;
+}</code></pre>
+
+                <h2>9. Mobile Performance</h2>
+                <p>Optimize specifically for mobile devices:</p>
+
+                <h3>Responsive Design</h3>
+                <pre><code class="language-css">/* Mobile-first approach */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 2rem;
+  }
+}</code></pre>
+
+                <h3>Touch Optimization</h3>
+                <pre><code class="language-css">/* Optimize for touch interactions */
+.button {
+  min-height: 44px; /* iOS recommendation */
+  min-width: 44px;
+  padding: 12px 24px;
+  touch-action: manipulation; /* Prevent double-tap zoom */
+}</code></pre>
+
+                <h2>10. Performance Tools</h2>
+                <p>Use these tools to measure and improve performance:</p>
+
+                <h3>Google PageSpeed Insights</h3>
+                <p>Analyze your site's performance on mobile and desktop.</p>
+
+                <h3>WebPageTest</h3>
+                <p>Comprehensive performance testing with detailed metrics.</p>
+
+                <h3>Lighthouse</h3>
+                <pre><code class="language-bash"># Run Lighthouse from command line
+npx lighthouse https://yoursite.com --output html --output-path ./report.html</code></pre>
+
+                <h3>Chrome DevTools</h3>
+                <p>Built-in tools for performance profiling and debugging.</p>
+
+                <h2>Common Performance Issues and Solutions</h2>
+
+                <h3>Issue 1: Large Bundle Size</h3>
+                <p><strong>Solution</strong>: Implement code splitting and tree shaking.</p>
+
+                <h3>Issue 2: Slow Server Response</h3>
+                <p><strong>Solution</strong>: Use CDN and implement server-side caching.</p>
+
+                <h3>Issue 3: Render-Blocking Resources</h3>
+                <p><strong>Solution</strong>: Use async/defer for scripts and preload critical CSS.</p>
+
+                <h3>Issue 4: Layout Shifts</h3>
+                <p><strong>Solution</strong>: Specify dimensions for images and use font-display: swap.</p>
+
+                <h2>Real-World Optimization Examples</h2>
+
+                <h3>E-commerce Site Optimization</h3>
+                <pre><code class="language-javascript">// Progressive image loading for product gallery
+const productImages = document.querySelectorAll('.product-image');
+
+productImages.forEach(img => {
+  const lowQualitySrc = img.dataset.lowQuality;
+  const highQualitySrc = img.dataset.highQuality;
+  
+  // Load low quality first
+  img.src = lowQualitySrc;
+  
+  // Load high quality after page load
+  window.addEventListener('load', () => {
+    const highQualityImg = new Image();
+    highQualityImg.src = highQualitySrc;
+    highQualityImg.onload = () => {
+      img.src = highQualitySrc;
+      img.classList.add('loaded');
+    };
+  });
+});</code></pre>
+
+                <h3>News Article Optimization</h3>
+                <pre><code class="language-javascript">// Lazy load images as user scrolls
+const articleImages = document.querySelectorAll('.article-content img');
+
+const imageObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const img = entry.target;
+      img.src = img.dataset.src;
+      img.classList.add('fade-in');
+      imageObserver.unobserve(img);
+    }
+  });
+}, {
+  rootMargin: '50px 0px',
+  threshold: 0.01
+});
+
+articleImages.forEach(img => imageObserver.observe(img));</code></pre>
+
+                <h2>Performance Checklist</h2>
+                <ul>
+                    <li>✅ Optimize all images (compress, right format, lazy loading)</li>
+                    <li>✅ Minify CSS, JavaScript, and HTML</li>
+                    <li>✅ Implement browser caching</li>
+                    <li>✅ Use CDN for static assets</li>
+                    <li>✅ Enable Gzip/Brotli compression</li>
+                    <li>✅ Optimize critical rendering path</li>
+                    <li>✅ Reduce server response time</li>
+                    <li>✅ Eliminate render-blocking resources</li>
+                    <li>✅ Optimize web fonts</li>
+                    <li>✅ Monitor Core Web Vitals</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Web performance optimization is an ongoing process, not a one-time fix. By implementing these techniques and continuously monitoring your site's performance, you can create fast, responsive experiences that delight users and perform well in search rankings.</p>
+                
+                <p>Remember these key principles:</p>
+                <ul>
+                    <li>Measure before and after optimization</li>
+                    <li>Focus on user-perceived performance</li>
+                    <li>Implement progressive enhancement</li>
+                    <li>Monitor real user performance</li>
+                    <li>Stay updated with best practices</li>
+                </ul>
+                
+                <p>Fast websites aren't just about speed—they're about respecting your users' time and providing the best possible experience. Start optimizing today, and your users (and your business) will thank you.</p>
+            </div>
+
+            <footer class="article-footer">
+                <div class="article-tags">
+                    <span class="tag">Web Performance</span>
+                    <span class="tag">Optimization</span>
+                    <span class="tag">Core Web Vitals</span>
+                    <span class="tag">Speed</span>
+                </div>
+                <div class="article-navigation">
+                    <a href="../blog.html" class="nav-link">← Back to Blog</a>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <script src="../script.js"></script>
+    <script>
+        // Add syntax highlighting for code blocks
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeBlocks = document.querySelectorAll('pre code');
+            codeBlocks.forEach(block => {
+                const language = block.className.includes('language-http') ? 'http' :
+                               block.className.includes('language-json') ? 'json' :
+                               block.className.includes('language-nginx') ? 'nginx' :
+                               block.className.includes('language-sql') ? 'sql' :
+                               block.className.includes('language-bash') ? 'bash' :
+                               'javascript';
+                block.classList.add(`language-${language}`);
+            });
+        });
+    </script>
+</body>
+</html>
