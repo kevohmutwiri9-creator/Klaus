@@ -1,3 +1,325 @@
+// Enhanced Theme Toggle
+function initThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const currentTheme = localStorage.getItem('theme');
+    
+    // Set initial theme
+    if (currentTheme === 'light' || (!currentTheme && prefersDarkScheme.matches)) {
+        document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    
+    // Toggle theme
+    themeToggle.addEventListener('click', function() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        
+        // Announce theme change to screen readers
+        announceToScreenReader(`Theme changed to ${isDark ? 'light' : 'dark'} mode`);
+    });
+    
+    // Listen for system theme changes
+    prefersDarkScheme.addListener(e => {
+        if (!localStorage.getItem('theme')) {
+            document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        }
+    });
+}
+
+// Accessibility Enhancements
+function initAccessibility() {
+    // Keyboard navigation for cards
+    const interactiveCards = document.querySelectorAll('.project-card, .case-study-card, .insight-card, .tutorial-card');
+    
+    interactiveCards.forEach(card => {
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'article');
+        card.setAttribute('aria-label', `Project: ${card.querySelector('h3')?.textContent || 'Untitled'}`);
+        
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const link = card.querySelector('a');
+                if (link) link.click();
+            }
+        });
+    });
+
+    // Focus trap for modals/lightbox
+    function trapFocus(element) {
+        const focusableElements = element.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstFocusable = focusableElements[0];
+        const lastFocusable = focusableElements[focusableElements.length - 1];
+
+        element.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                if (e.shiftKey) {
+                    if (document.activeElement === firstFocusable) {
+                        e.preventDefault();
+                        lastFocusable.focus();
+                    }
+                } else {
+                    if (document.activeElement === lastFocusable) {
+                        e.preventDefault();
+                        firstFocusable.focus();
+                    }
+                }
+            }
+        });
+    }
+
+    // Announce page changes to screen readers
+    function announceToScreenReader(message) {
+        const announcement = document.createElement('div');
+        announcement.setAttribute('role', 'status');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.className = 'sr-only';
+        announcement.textContent = message;
+        document.body.appendChild(announcement);
+        
+        setTimeout(() => {
+            document.body.removeChild(announcement);
+        }, 1000);
+    }
+
+    // Keyboard navigation hints
+    let keyboardTimer;
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+            clearTimeout(keyboardTimer);
+            const hint = document.querySelector('.keyboard-nav-hint');
+            if (!hint) {
+                const hintDiv = document.createElement('div');
+                hintDiv.className = 'keyboard-nav-hint';
+                hintDiv.textContent = 'Use Tab to navigate, Enter to select';
+                document.body.appendChild(hintDiv);
+                hintDiv.classList.add('visible');
+            }
+            
+            keyboardTimer = setTimeout(() => {
+                const hint = document.querySelector('.keyboard-nav-hint');
+                if (hint) {
+                    hint.classList.remove('visible');
+                    setTimeout(() => hint.remove(), 300);
+                }
+            }, 3000);
+        }
+    });
+
+    // Enhanced form validation
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        form.addEventListener('submit', (e) => {
+            const requiredFields = form.querySelectorAll('[required]');
+            let isValid = true;
+            let firstInvalidField = null;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.setAttribute('aria-invalid', 'true');
+                    field.setAttribute('aria-describedby', `${field.id}-error`);
+                    
+                    if (!firstInvalidField) firstInvalidField = field;
+                } else {
+                    field.setAttribute('aria-invalid', 'false');
+                }
+            });
+
+            if (!isValid) {
+                e.preventDefault();
+                announceToScreenReader('Please fill in all required fields');
+                firstInvalidField?.focus();
+            }
+        });
+    });
+
+    // Make search results keyboard accessible
+    const searchResults = document.getElementById('searchResults');
+    if (searchResults) {
+        searchResults.setAttribute('role', 'listbox');
+        
+        const observer = new MutationObserver(() => {
+            const items = searchResults.querySelectorAll('.search-result-item');
+            items.forEach((item, index) => {
+                item.setAttribute('role', 'option');
+                item.setAttribute('tabindex', '-1');
+                
+                item.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const nextItem = items[index + 1];
+                        if (nextItem) nextItem.focus();
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        const prevItem = items[index - 1];
+                        if (prevItem) prevItem.focus();
+                    } else if (e.key === 'Enter') {
+                        e.preventDefault();
+                        item.click();
+                    }
+                });
+            });
+        });
+        
+        observer.observe(searchResults, { childList: true });
+    }
+}
+
+// Initialize accessibility features
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAccessibility);
+} else {
+    initAccessibility();
+}
+
+// Search and Filter Functionality
+function initSearchAndFilter() {
+    const searchInput = document.getElementById('blogSearch');
+    const searchResults = document.getElementById('searchResults');
+    const blogCards = document.querySelectorAll('.blog-card');
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    
+    if (!searchInput || !blogCards.length) return;
+
+    // Blog data for search
+    const blogData = Array.from(blogCards).map(card => ({
+        title: card.querySelector('.blog-title')?.textContent || '',
+        excerpt: card.querySelector('.blog-excerpt')?.textContent || '',
+        category: card.querySelector('.blog-category')?.textContent || '',
+        date: card.querySelector('.blog-date')?.textContent || '',
+        url: card.querySelector('.blog-read-more')?.href || '',
+        element: card
+    }));
+
+    // Search functionality
+    function performSearch(query) {
+        const results = blogData.filter(post => {
+            const searchStr = `${post.title} ${post.excerpt} ${post.category}`.toLowerCase();
+            return searchStr.includes(query.toLowerCase());
+        });
+
+        displaySearchResults(results, query);
+        filterBlogCards(query, 'all');
+    }
+
+    function displaySearchResults(results, query) {
+        if (!query) {
+            searchResults.classList.remove('active');
+            return;
+        }
+
+        if (results.length === 0) {
+            searchResults.innerHTML = '<div class="no-results">No blog posts found matching your search.</div>';
+        } else {
+            searchResults.innerHTML = results.map(post => `
+                <div class="search-result-item" onclick="window.location.href='${post.url}'">
+                    <h4>${highlightMatch(post.title, query)}</h4>
+                    <p>${highlightMatch(post.excerpt.substring(0, 100) + '...', query)}</p>
+                    <small style="color: #7be8ff;">${post.category} • ${post.date}</small>
+                </div>
+            `).join('');
+        }
+        
+        searchResults.classList.add('active');
+    }
+
+    function highlightMatch(text, query) {
+        if (!query) return text;
+        const regex = new RegExp(`(${query})`, 'gi');
+        return text.replace(regex, '<mark style="background: rgba(123, 232, 255, 0.3); color: #7be8ff;">$1</mark>');
+    }
+
+    function filterBlogCards(searchQuery = '', category = 'all') {
+        let visibleCount = 0;
+        
+        blogCards.forEach(card => {
+            const title = card.querySelector('.blog-title')?.textContent || '';
+            const excerpt = card.querySelector('.blog-excerpt')?.textContent || '';
+            const cardCategory = card.querySelector('.blog-category')?.textContent || '';
+            
+            const matchesSearch = !searchQuery || 
+                title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+            
+            const matchesCategory = category === 'all' || 
+                cardCategory.toLowerCase().includes(category.toLowerCase());
+            
+            if (matchesSearch && matchesCategory) {
+                card.classList.remove('hidden');
+                visibleCount++;
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+
+        // Show no results message if needed
+        const existingNoResults = document.querySelector('.no-results');
+        if (existingNoResults) existingNoResults.remove();
+        
+        if (visibleCount === 0) {
+            const blogGrid = document.querySelector('.blog-grid');
+            const noResultsDiv = document.createElement('div');
+            noResultsDiv.className = 'no-results';
+            noResultsDiv.textContent = 'No blog posts found matching your criteria.';
+            blogGrid.appendChild(noResultsDiv);
+        }
+    }
+
+    // Event listeners
+    searchInput.addEventListener('input', (e) => {
+        performSearch(e.target.value);
+    });
+
+    // Category filtering
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterBlogCards(searchInput.value, btn.dataset.category);
+        });
+    });
+
+    // Close search results when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-container')) {
+            searchResults.classList.remove('active');
+        }
+    });
+}
+
+// Initialize search functionality on blog page
+if (document.querySelector('.blog-grid')) {
+    initSearchAndFilter();
+}
+
+// Scroll Progress Indicator
+function initScrollProgress() {
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    document.body.appendChild(progressBar);
+
+    function updateProgress() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercentage = (scrollTop / scrollHeight) * 100;
+        progressBar.style.width = Math.min(scrollPercentage, 100) + '%';
+    }
+
+    window.addEventListener('scroll', updateProgress);
+    updateProgress();
+}
+
+// Initialize scroll progress on all pages
+if (document.body.classList.contains('blog-post') || document.querySelector('.blog-content')) {
+    initScrollProgress();
+}
+
 // Analytics helper (hoisted before any usage)
 function safeTrack(eventName, params = {}) {
     if (typeof gtag === 'function') {
@@ -722,4 +1044,205 @@ document.querySelectorAll('input, textarea').forEach(element => {
             e.preventDefault();
         }
     });
+});
+
+// Enhanced Form Validation
+function initFormValidation() {
+    const forms = document.querySelectorAll('form');
+    
+    forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            if (!form.checkValidity()) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Add was-validated class to show validation messages
+                form.classList.add('was-validated');
+                
+                // Focus first invalid field
+                const firstInvalid = form.querySelector(':invalid');
+                if (firstInvalid) {
+                    firstInvalid.focus();
+                    announceToScreenReader(`Please correct the ${firstInvalid.type || 'field'}: ${firstInvalid.validationMessage}`);
+                }
+            }
+        }, false);
+        
+        // Add real-time validation
+        const inputs = form.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.checkValidity()) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                } else {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                }
+            });
+            
+            input.addEventListener('blur', function() {
+                if (this.value && !this.checkValidity()) {
+                    this.classList.add('is-invalid');
+                }
+            });
+        });
+    });
+}
+
+// Cookie Consent Functionality
+function initCookieConsent() {
+    const cookieConsent = document.getElementById('cookie-consent');
+    const acceptCookies = document.getElementById('accept-cookies');
+    const declineCookies = document.getElementById('decline-cookies');
+    
+    // Check if user has already made a choice
+    if (!localStorage.getItem('cookieConsent')) {
+        // Show the banner with a slight delay
+        setTimeout(() => {
+            cookieConsent.classList.add('visible');
+            announceToScreenReader('Cookie consent banner appeared');
+        }, 2000);
+    }
+    
+    // Handle accept
+    acceptCookies.addEventListener('click', () => {
+        localStorage.setItem('cookieConsent', 'accepted');
+        cookieConsent.classList.remove('visible');
+        announceToScreenReader('Cookies accepted');
+        
+        // Initialize analytics or other tracking here if needed
+        if (typeof gtag !== 'undefined') {
+            gtag('consent', 'update', {
+                'ad_storage': 'granted',
+                'analytics_storage': 'granted'
+            });
+        }
+    });
+    
+    // Handle decline
+    declineCookies.addEventListener('click', () => {
+        localStorage.setItem('cookieConsent', 'declined');
+        cookieConsent.classList.remove('visible');
+        announceToScreenReader('Cookies declined');
+        
+        // Update consent settings
+        if (typeof gtag !== 'undefined') {
+            gtag('consent', 'update', {
+                'ad_storage': 'denied',
+                'analytics_storage': 'denied'
+            });
+        }
+    });
+}
+
+// Image Lightbox Functionality
+function initLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const closeBtn = document.querySelector('.close-lightbox');
+    
+    // Add click event to all images with data-lightbox attribute
+    document.querySelectorAll('img[data-lightbox]').forEach(img => {
+        img.addEventListener('click', function() {
+            lightbox.style.display = 'block';
+            lightboxImg.src = this.src;
+            lightboxCaption.textContent = this.getAttribute('data-caption') || '';
+            lightboxImg.alt = this.alt || 'Enlarged image';
+            
+            // Prevent body scroll when lightbox is open
+            document.body.style.overflow = 'hidden';
+            
+            // Focus management for accessibility
+            closeBtn.focus();
+            announceToScreenReader('Image opened in lightbox');
+        });
+    });
+    
+    // Close lightbox when clicking the close button
+    closeBtn.addEventListener('click', closeLightbox);
+    
+    // Close lightbox when clicking outside the image
+    lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+    
+    // Close with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && lightbox.style.display === 'block') {
+            closeLightbox();
+        }
+    });
+    
+    function closeLightbox() {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = '';
+        announceToScreenReader('Lightbox closed');
+    }
+}
+
+// Copy to Clipboard Functionality
+function initCopyToClipboard() {
+    // Add copy buttons to all code blocks
+    document.querySelectorAll('pre code').forEach(block => {
+        const pre = block.parentElement;
+        const button = document.createElement('button');
+        button.className = 'copy-button';
+        button.title = 'Copy to clipboard';
+        button.innerHTML = '<i class="far fa-copy"></i>';
+        button.setAttribute('aria-label', 'Copy code to clipboard');
+        
+        button.addEventListener('click', () => {
+            const code = block.innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                button.innerHTML = '<i class="fas fa-check"></i>';
+                button.setAttribute('aria-label', 'Code copied to clipboard');
+                announceToScreenReader('Code copied to clipboard');
+                
+                setTimeout(() => {
+                    button.innerHTML = '<i class="far fa-copy"></i>';
+                    button.setAttribute('aria-label', 'Copy code to clipboard');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                announceToScreenReader('Failed to copy code to clipboard');
+            });
+        });
+        
+        // Add the button to the pre element
+        if (pre) {
+            pre.style.position = 'relative';
+            pre.insertBefore(button, block);
+        }
+    });
+}
+
+// Initialize all features when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initThemeToggle();
+    initAccessibility();
+    initFormValidation();
+    initCopyToClipboard();
+    initLightbox();
+    initCookieConsent();
+    
+    // Add loading animation removal
+    setTimeout(() => {
+        document.body.classList.add('loaded');
+    }, 500);
+});
+
+// Initialize on page load
+window.addEventListener('load', function() {
+    // Remove loading screen if exists
+    const loadingScreen = document.querySelector('.loading-screen');
+    if (loadingScreen) {
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+        }, 300);
+    }
 });

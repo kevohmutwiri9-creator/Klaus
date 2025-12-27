@@ -1,51 +1,159 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://klaus-portifoliowebsite.netlify.app/</loc>
-    <lastmod>2025-11-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://klaus-portifoliowebsite.netlify.app/projects.html</loc>
-    <lastmod>2025-11-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://klaus-portifoliowebsite.netlify.app/case-studies.html</loc>
-    <lastmod>2025-11-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://klaus-portifoliowebsite.netlify.app/insights.html</loc>
-    <lastmod>2025-11-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://klaus-portifoliowebsite.netlify.app/blog.html</loc>
-    <lastmod>2025-11-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://klaus-portifoliowebsite.netlify.app/privacy.html</loc>
-    <lastmod>2025-11-17</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://klaus-portifoliowebsite.netlify.app/terms.html</loc>
-    <lastmod>2025-11-17</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://klaus-portifoliowebsite.netlify.app/disclaimer.html</loc>
-    <lastmod>2025-11-17</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    
+    <!-- Main Pages -->
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/</loc>
+        <lastmod>2025-12-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/projects.html</loc>
+        <lastmod>2025-12-27</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/case-studies.html</loc>
+        <lastmod>2025-12-27</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/blog.html</loc>
+        <lastmod>2025-12-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/tutorials.html</loc>
+        <lastmod>2025-12-27</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/insights.html</loc>
+        <lastmod>2025-12-27</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Blog Posts -->
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/blog/css-grid-modern-layouts.html</loc>
+        <lastmod>2025-11-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/blog/async-javascript-promises.html</loc>
+        <lastmod>2025-11-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/blog/web-performance-optimization.html</loc>
+        <lastmod>2025-11-05</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/blog/web-security-vulnerabilities.html</loc>
+        <lastmod>2025-10-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/blog/restful-api-best-practices.html</loc>
+        <lastmod>2025-10-20</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/blog/idea-to-mvp-guide.html</loc>
+        <lastmod>2025-10-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- Case Studies -->
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/case-studies/swiftship-logistics-platform.html</loc>
+        <lastmod>2025-11-20</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/case-studies/finedge-customer-retention.html</loc>
+        <lastmod>2025-11-18</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- Tutorials -->
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/tutorials/css-grid-responsive-layouts.html</loc>
+        <lastmod>2025-11-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/tutorials/react-performance-optimization.html</loc>
+        <lastmod>2025-11-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/tutorials/restful-api-nodejs-express.html</loc>
+        <lastmod>2025-11-03</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/tutorials/deploying-netlify-cicd.html</loc>
+        <lastmod>2025-10-25</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- Legal Pages -->
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/privacy.html</loc>
+        <lastmod>2025-12-27</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/terms.html</loc>
+        <lastmod>2025-12-27</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
+    <url>
+        <loc>https://klaus-portifoliowebsite.netlify.app/disclaimer.html</loc>
+        <lastmod>2025-12-27</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
 </urlset>

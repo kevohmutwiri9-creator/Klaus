@@ -22,6 +22,33 @@
         <a href="index.html" class="back-link">← Back to home</a>
         <h1>Blog</h1>
         <p>Technical articles, tutorials, and insights from my journey as a developer.</p>
+        
+        <!-- Search functionality -->
+        <div class="search-container">
+            <div class="search-box">
+                <input 
+                    type="search" 
+                    id="blogSearch" 
+                    placeholder="Search blog posts..." 
+                    aria-label="Search blog posts"
+                    autocomplete="off"
+                >
+                <button class="search-btn" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div id="searchResults" class="search-results" aria-live="polite"></div>
+        </div>
+        
+        <!-- Category filter -->
+        <div class="category-filter">
+            <button class="category-btn active" data-category="all">All</button>
+            <button class="category-btn" data-category="web-development">Web Development</button>
+            <button class="category-btn" data-category="javascript">JavaScript</button>
+            <button class="category-btn" data-category="performance">Performance</button>
+            <button class="category-btn" data-category="security">Security</button>
+            <button class="category-btn" data-category="api">API</button>
+        </div>
     </header>
 
     <main class="section-container">
