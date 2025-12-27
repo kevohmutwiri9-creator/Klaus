@@ -29,6 +29,20 @@ function initThemeToggle() {
     });
 }
 
+// Global screen reader announcement function
+function announceToScreenReader(message) {
+    const announcement = document.createElement('div');
+    announcement.setAttribute('role', 'status');
+    announcement.setAttribute('aria-live', 'polite');
+    announcement.className = 'sr-only';
+    announcement.textContent = message;
+    document.body.appendChild(announcement);
+    
+    setTimeout(() => {
+        document.body.removeChild(announcement);
+    }, 1000);
+}
+
 // Accessibility Enhancements
 function initAccessibility() {
     // Keyboard navigation for cards
@@ -71,20 +85,6 @@ function initAccessibility() {
                 }
             }
         });
-    }
-
-    // Announce page changes to screen readers
-    function announceToScreenReader(message) {
-        const announcement = document.createElement('div');
-        announcement.setAttribute('role', 'status');
-        announcement.setAttribute('aria-live', 'polite');
-        announcement.className = 'sr-only';
-        announcement.textContent = message;
-        document.body.appendChild(announcement);
-        
-        setTimeout(() => {
-            document.body.removeChild(announcement);
-        }, 1000);
     }
 
     // Keyboard navigation hints
@@ -1100,40 +1100,56 @@ function initCookieConsent() {
     if (!localStorage.getItem('cookieConsent')) {
         // Show the banner with a slight delay
         setTimeout(() => {
-            cookieConsent.classList.add('visible');
-            announceToScreenReader('Cookie consent banner appeared');
+            if (cookieConsent) {
+                cookieConsent.classList.add('visible');
+                if (typeof announceToScreenReader === 'function') {
+                    announceToScreenReader('Cookie consent banner appeared');
+                }
+            }
         }, 2000);
     }
     
     // Handle accept
-    acceptCookies.addEventListener('click', () => {
-        localStorage.setItem('cookieConsent', 'accepted');
-        cookieConsent.classList.remove('visible');
-        announceToScreenReader('Cookies accepted');
-        
-        // Initialize analytics or other tracking here if needed
-        if (typeof gtag !== 'undefined') {
-            gtag('consent', 'update', {
-                'ad_storage': 'granted',
-                'analytics_storage': 'granted'
-            });
-        }
-    });
+    if (acceptCookies) {
+        acceptCookies.addEventListener('click', () => {
+            localStorage.setItem('cookieConsent', 'accepted');
+            if (cookieConsent) {
+                cookieConsent.classList.remove('visible');
+            }
+            if (typeof announceToScreenReader === 'function') {
+                announceToScreenReader('Cookies accepted');
+            }
+            
+            // Initialize analytics or other tracking here if needed
+            if (typeof gtag !== 'undefined') {
+                gtag('consent', 'update', {
+                    'ad_storage': 'granted',
+                    'analytics_storage': 'granted'
+                });
+            }
+        });
+    }
     
     // Handle decline
-    declineCookies.addEventListener('click', () => {
-        localStorage.setItem('cookieConsent', 'declined');
-        cookieConsent.classList.remove('visible');
-        announceToScreenReader('Cookies declined');
-        
-        // Update consent settings
-        if (typeof gtag !== 'undefined') {
-            gtag('consent', 'update', {
-                'ad_storage': 'denied',
-                'analytics_storage': 'denied'
-            });
-        }
-    });
+    if (declineCookies) {
+        declineCookies.addEventListener('click', () => {
+            localStorage.setItem('cookieConsent', 'declined');
+            if (cookieConsent) {
+                cookieConsent.classList.remove('visible');
+            }
+            if (typeof announceToScreenReader === 'function') {
+                announceToScreenReader('Cookies declined');
+            }
+            
+            // Update consent settings
+            if (typeof gtag !== 'undefined') {
+                gtag('consent', 'update', {
+                    'ad_storage': 'denied',
+                    'analytics_storage': 'denied'
+                });
+            }
+        });
+    }
 }
 
 // Image Lightbox Functionality
