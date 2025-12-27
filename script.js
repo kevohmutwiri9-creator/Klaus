@@ -1090,65 +1090,42 @@ function initFormValidation() {
     });
 }
 
-// Cookie Consent Functionality
+// Simple Cookie Consent
 function initCookieConsent() {
     const cookieConsent = document.getElementById('cookie-consent');
-    const acceptCookies = document.getElementById('accept-cookies');
-    const declineCookies = document.getElementById('decline-cookies');
+    const acceptBtn = document.getElementById('accept-cookies');
+    const declineBtn = document.getElementById('decline-cookies');
     
-    // Check if user has already made a choice
-    if (!localStorage.getItem('cookieConsent')) {
-        // Show the banner with a slight delay
-        setTimeout(() => {
-            if (cookieConsent) {
-                cookieConsent.classList.add('visible');
-                if (typeof announceToScreenReader === 'function') {
-                    announceToScreenReader('Cookie consent banner appeared');
-                }
-            }
-        }, 2000);
+    // Check if user already made choice
+    if (localStorage.getItem('cookieConsent')) {
+        return; // Don't show banner if choice already made
     }
     
+    // Show banner after 1 second
+    setTimeout(() => {
+        if (cookieConsent) {
+            cookieConsent.style.display = 'block';
+        }
+    }, 1000);
+    
     // Handle accept
-    if (acceptCookies) {
-        acceptCookies.addEventListener('click', () => {
+    if (acceptBtn) {
+        acceptBtn.onclick = function() {
             localStorage.setItem('cookieConsent', 'accepted');
             if (cookieConsent) {
-                cookieConsent.classList.remove('visible');
+                cookieConsent.style.display = 'none';
             }
-            if (typeof announceToScreenReader === 'function') {
-                announceToScreenReader('Cookies accepted');
-            }
-            
-            // Initialize analytics or other tracking here if needed
-            if (typeof gtag !== 'undefined') {
-                gtag('consent', 'update', {
-                    'ad_storage': 'granted',
-                    'analytics_storage': 'granted'
-                });
-            }
-        });
+        };
     }
     
     // Handle decline
-    if (declineCookies) {
-        declineCookies.addEventListener('click', () => {
+    if (declineBtn) {
+        declineBtn.onclick = function() {
             localStorage.setItem('cookieConsent', 'declined');
             if (cookieConsent) {
-                cookieConsent.classList.remove('visible');
+                cookieConsent.style.display = 'none';
             }
-            if (typeof announceToScreenReader === 'function') {
-                announceToScreenReader('Cookies declined');
-            }
-            
-            // Update consent settings
-            if (typeof gtag !== 'undefined') {
-                gtag('consent', 'update', {
-                    'ad_storage': 'denied',
-                    'analytics_storage': 'denied'
-                });
-            }
-        });
+        };
     }
 }
 
