@@ -54,7 +54,7 @@ class AdManager {
                 gdprCompliant: true
             },
             performance: {
-                lazyLoading: true,
+                lazyLoading: false,
                 preloadCritical: true,
                 maxRetries: 3,
                 priorityLoading: true,
@@ -421,33 +421,10 @@ class AdManager {
     loadAllAds() {
         if (!this.consentGiven) return;
 
-        // Priority loading order for best performance
-        const priorityOrder = ['campaign', 'smartlink', 'socialBar', 'popunder'];
-        const standardPlacements = ['header', 'sidebar', 'footer', 'inContent'];
-
-        // Load priority placements first
-        priorityOrder.forEach(placement => {
-            if (this.config.adsterra.placements[placement]) {
-                if (!this.config.performance.lazyLoading || this.config.performance.preloadCritical) {
-                    this.loadAd(placement);
-                }
-            }
+        // Load all ads immediately since lazy loading is disabled
+        Object.keys(this.config.adsterra.placements).forEach(placement => {
+            this.loadAd(placement);
         });
-
-        // Load standard placements with lazy loading
-        if (this.config.performance.lazyLoading) {
-            standardPlacements.forEach(placement => {
-                if (this.config.adsterra.placements[placement]) {
-                    // Will load when in viewport
-                }
-            });
-        } else {
-            standardPlacements.forEach(placement => {
-                if (this.config.adsterra.placements[placement]) {
-                    this.loadAd(placement);
-                }
-            });
-        }
     }
 
     loadAd(placement) {
