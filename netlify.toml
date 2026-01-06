@@ -6,3 +6,7 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Disable Lighthouse plugin to avoid network issues
+[build.environment]
+  NETLIFY_PLUGIN_LIGHOUSE = "false"
