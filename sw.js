@@ -51,6 +51,11 @@ const IMAGE_RESOURCES = [
 const cacheStrategies = {
   // Cache first for static assets
   cacheFirst: (request) => {
+    // Skip caching for chrome-extension and other non-http schemes
+    if (!request.url.startsWith('http')) {
+      return fetch(request);
+    }
+    
     return caches.match(request).then(response => {
       if (response) {
         return response;
@@ -70,6 +75,11 @@ const cacheStrategies = {
 
   // Network first for dynamic content
   networkFirst: (request) => {
+    // Skip caching for chrome-extension and other non-http schemes
+    if (!request.url.startsWith('http')) {
+      return fetch(request);
+    }
+    
     return fetch(request).then(response => {
       if (!response || response.status !== 200) {
         throw new Error('Network response was not ok');
@@ -140,6 +150,11 @@ self.addEventListener('fetch', event => {
 
   // Skip non-GET requests
   if (request.method !== 'GET') {
+    return;
+  }
+
+  // Skip chrome-extension and other non-http schemes
+  if (!request.url.startsWith('http')) {
     return;
   }
 
