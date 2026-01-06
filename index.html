@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="img/favicon-optimized.png">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="ad-styles.css">
     <link rel="canonical" href="https://klaus-portifolio-website.netlify.app/">
     <!-- SEO Enhancements -->
     <meta property="og:title" content="Klaus - Full-Stack Developer & ML Enthusiast">
@@ -123,6 +124,9 @@
             </div>
     </nav>
 
+    <!-- Adsterra Header Ad -->
+    <div class="ad-container ad-header" id="ad-header"></div>
+
     <main id="main-content">
     <section id="hero" class="hero">
         <span class="parallax-layer parallax-orb" data-speed="0.08" style="top: 12%; right: 18%;"></span>
@@ -152,28 +156,27 @@
             <h2 class="section-title">About Me</h2>
             <div class="about-content">
                 <div class="about-text">
-                    <p>I’m a Computer Science graduate who loves turning messy, ambiguous ideas into production-ready experiences. My toolkit spans full-stack development, rapid experimentation, and translating user feedback into clear engineering tasks.</p>
-                    <p>Across internships, freelance engagements, and open-source collaborations, I’ve helped founders and product teams cut scope wisely, spin up scalable architecture, and launch confidently. Away from shipping features, I facilitate community workshops, mentor junior developers, and document the lessons that keep teams learning.</p>
-                    <ul class="about-values">
-                        <li><strong>User-centered delivery:</strong> Pair discovery interviews with analytics to validate every hypothesis.</li>
-                        <li><strong>Technical stewardship:</strong> Prefer readable, well-tested systems over clever hacks that don’t scale.</li>
-                        <li><strong>Continuous learning:</strong> Dedicate weekly time to ML research, design critiques, and mentoring sessions.</li>
-                    </ul>
-                    <div class="about-stats">
-                        <div class="stat">
-                            <h3>4+</h3>
-                            <p>Years Experience</p>
-                        </div>
-                        <div class="stat">
-                            <h3>15+</h3>
-                            <p>Projects Delivered</p>
-                        </div>
-                        <div class="stat">
-                            <h3>8+</h3>
-                            <p>Technologies</p>
-                        </div>
+                    <h2>Hi, I'm <span class="highlight">Klaus</span></h2>
+                    <p>Full-Stack Developer · Machine Learning Enthusiast · Community Mentor</p>
+                    <p>I help teams transform fuzzy product ideas into reliable, scalable software. My sweet spot sits between thoughtful UX, robust backend systems, and data-informed iterations that keep users engaged.</p>
+                    <p>Currently shipping: analytics tooling that lifts retention for a SaaS startup by surfacing actionable onboarding insights.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat">
+                        <h3>3+</h3>
+                        <p>Years Experience</p>
+                    </div>
+                    <div class="stat">
+                        <h3>15+</h3>
+                        <p>Projects Delivered</p>
+                    </div>
+                    <div class="stat">
+                        <h3>8+</h3>
+                        <p>Technologies</p>
                     </div>
                 </div>
+                <!-- Adsterra Sidebar Ad -->
+                <div class="ad-container ad-sidebar" id="ad-sidebar"></div>
                 <div class="about-image">
                     <picture>
                         <source srcset="img/hero-bg.webp" type="image/webp">
@@ -864,6 +867,9 @@
         </div>
     </footer>
 
+    <!-- Adsterra Footer Ad -->
+    <div class="ad-container ad-footer" id="ad-footer"></div>
+
     <!-- Back to Top Button -->
     <button id="backToTop" class="back-to-top" aria-label="Back to top" title="Back to top">
         <i class="fas fa-arrow-up"></i>
@@ -889,6 +895,7 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
+    <script src="ad-manager.js"></script>
     <script>
         // Initialize AOS
         AOS.init({

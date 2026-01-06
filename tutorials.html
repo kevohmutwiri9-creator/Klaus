@@ -3,51 +3,723 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutorials - Step-by-Step Guides | Klaus Mutwiri</title>
+    <title>Tutorials - Step-by-Step Guides | Klaus</title>
     <meta name="description" content="Practical, step-by-step tutorials covering web development, React, Node.js, CSS, performance optimization, and modern development practices.">
     <meta name="keywords" content="tutorials, web development, React, Node.js, CSS, JavaScript, performance optimization, step-by-step guides">
-    <meta name="author" content="Klaus Mutwiri">
+    <meta name="author" content="Klaus">
     
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Tutorials - Step-by-Step Guides | Klaus Mutwiri">
-    <meta property="og:description" content="Practical, step-by-step tutorials covering web development, React, Node.js, CSS, performance optimization, and modern development practices.">
-    <meta property="og:image" content="https://klaus-portifoliowebsite.netlify.app/img/tutorials-og.jpg">
-    <meta property="og:url" content="https://klaus-portifoliowebsite.netlify.app/tutorials.html">
-    <meta property="og:type" content="website">
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Tutorials - Step-by-Step Guides | Klaus Mutwiri">
-    <meta name="twitter:description" content="Practical, step-by-step tutorials covering web development, React, Node.js, CSS, performance optimization, and modern development practices.">
-    <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/tutorials-og.jpg">
-    
-    <!-- Canonical Link -->
-    <link rel="canonical" href="https://klaus-portifoliowebsite.netlify.app/tutorials.html">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-optimized.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon-optimized.png">
-    
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="styles.css">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- Critical CSS -->
+    <style>
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #7be8ff;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --accent-color: #00d4ff;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --gradient-primary: linear-gradient(135deg, #00d4ff, #7be8ff);
+            --success-color: #4ade80;
+            --warning-color: #fbbf24;
+            --danger-color: #f87171;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .section-hero {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--primary-color);
+        }
+
+        .section-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .tutorials-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .filter-container {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .filter-tag {
+            padding: 0.5rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .filter-tag:hover,
+        .filter-tag.active {
+            background: var(--gradient-primary);
+            color: var(--bg-primary);
+            border-color: var(--primary-color);
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .tutorials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .tutorial-card {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tutorial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .tutorial-header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tutorial-level {
+            display: inline-block;
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+
+        .level-beginner {
+            background: rgba(74, 222, 128, 0.1);
+            color: var(--success-color);
+        }
+
+        .level-intermediate {
+            background: rgba(251, 191, 36, 0.1);
+            color: var(--warning-color);
+        }
+
+        .level-advanced {
+            background: rgba(248, 113, 113, 0.1);
+            color: var(--danger-color);
+        }
+
+        .tutorial-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .tutorial-content {
+            padding: 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tutorial-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            flex: 1;
+        }
+
+        .tutorial-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .tutorial-duration {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tutorial-topics {
+            margin-bottom: 1.5rem;
+        }
+
+        .tutorial-topics h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .topic-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .topic-tag {
+            padding: 0.25rem 0.75rem;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary-color);
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .tutorial-footer {
+            padding: 1.5rem 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+        }
+
+        .tutorial-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .tutorial-link:hover {
+            color: var(--secondary-color);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 768px) {
+            .section-hero {
+                padding: 6rem 1rem 2rem;
+            }
+
+            .tutorials-stats {
+                gap: 2rem;
+            }
+
+            .filter-container {
+                padding: 0 1rem;
+            }
+
+            .section-container {
+                padding: 0 1rem 3rem;
+            }
+
+            .tutorials-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .tutorial-header,
+            .tutorial-content,
+            .tutorial-footer {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+
+    <!-- Non-critical CSS -->
+    <link rel="stylesheet" href="non-critical.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="non-critical.css"></noscript>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="tutorials-page">
+<body>
     <!-- Navigation -->
-    <nav class="navbar" role="navigation">
+    <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">Portfolio</div>
-            <ul class="nav-menu">
-                <li><a href="#hero" data-nav-section="hero">Home</a></li>
-                <li><a href="#about" data-nav-section="about">About</a></li>
-                <li><a href="#skills" data-nav-section="skills">Skills</a></li>
+            <a href="index.html" class="nav-logo">Klaus</a>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="blog-index.html" class="nav-link">Blog</a>
+                <a href="tutorials.html" class="nav-link active">Tutorials</a>
+                <a href="case-studies.html" class="nav-link">Case Studies</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="section-hero">
+        <a href="index.html" class="back-link">← Back to home</a>
+        <h1>Tutorials</h1>
+        <p>Step-by-step guides to master modern web development, from fundamentals to advanced techniques.</p>
+        
+        <!-- Stats -->
+        <div class="tutorials-stats">
+            <div class="stat-item">
+                <span class="stat-number">4</span>
+                <span class="stat-label">In-depth Tutorials</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">15+</span>
+                <span class="stat-label">Hours of Content</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Hands-on</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Filters and Search -->
+    <div class="filter-container">
+        <div class="filter-tags">
+            <button class="filter-tag active" data-filter="all">All Levels</button>
+            <button class="filter-tag" data-filter="beginner">Beginner</button>
+            <button class="filter-tag" data-filter="intermediate">Intermediate</button>
+            <button class="filter-tag" data-filter="advanced">Advanced</button>
+        </div>
+        
+        <div class="filter-tags">
+            <button class="filter-tag active" data-topic="all">All Topics</button>
+            <button class="filter-tag" data-topic="react">React</button>
+            <button class="filter-tag" data-topic="css">CSS</button>
+            <button class="filter-tag" data-topic="nodejs">Node.js</button>
+            <button class="filter-tag" data-topic="performance">Performance</button>
+            <button class="filter-tag" data-topic="deployment">Deployment</button>
+        </div>
+        
+        <div class="search-container" style="position: relative;">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search tutorials...">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="section-container">
+        <div class="tutorials-grid" id="tutorialsGrid">
+            <article class="tutorial-card" data-level="intermediate" data-topics="css performance">
+                <header class="tutorial-header">
+                    <span class="tutorial-level level-intermediate">Intermediate</span>
+                    <h3>CSS Grid: Responsive Layouts</h3>
+                </header>
+                <div class="tutorial-content">
+                    <p class="tutorial-description">Master CSS Grid to create complex, responsive layouts with ease. Learn grid properties, layout patterns, and real-world implementation techniques.</p>
+                    
+                    <div class="tutorial-meta">
+                        <div class="tutorial-duration">
+                            <i class="far fa-clock"></i>
+                            <span>45 min</span>
+                        </div>
+                        <div>
+                            <i class="far fa-calendar"></i>
+                            <span>Updated 2 weeks ago</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tutorial-topics">
+                        <h4>What you'll learn:</h4>
+                        <div class="topic-list">
+                            <span class="topic-tag">Grid Container</span>
+                            <span class="topic-tag">Grid Items</span>
+                            <span class="topic-tag">Responsive Design</span>
+                            <span class="topic-tag">Layout Patterns</span>
+                        </div>
+                    </div>
+                </div>
+                <footer class="tutorial-footer">
+                    <a href="tutorials/css-grid-responsive-layouts.html" class="tutorial-link">
+                        Start Tutorial <i class="fas fa-arrow-right"></i>
+                    </a>
+                </footer>
+            </article>
+            
+            <article class="tutorial-card" data-level="advanced" data-topics="react performance">
+                <header class="tutorial-header">
+                    <span class="tutorial-level level-advanced">Advanced</span>
+                    <h3>React Performance Optimization</h3>
+                </header>
+                <div class="tutorial-content">
+                    <p class="tutorial-description">Optimize React applications for maximum performance. Learn about memoization, code splitting, lazy loading, and advanced optimization techniques.</p>
+                    
+                    <div class="tutorial-meta">
+                        <div class="tutorial-duration">
+                            <i class="far fa-clock"></i>
+                            <span>60 min</span>
+                        </div>
+                        <div>
+                            <i class="far fa-calendar"></i>
+                            <span>Updated 1 week ago</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tutorial-topics">
+                        <h4>What you'll learn:</h4>
+                        <div class="topic-list">
+                            <span class="topic-tag">React.memo</span>
+                            <span class="topic-tag">useMemo</span>
+                            <span class="topic-tag">useCallback</span>
+                            <span class="topic-tag">Code Splitting</span>
+                            <span class="topic-tag">Lazy Loading</span>
+                        </div>
+                    </div>
+                </div>
+                <footer class="tutorial-footer">
+                    <a href="tutorials/react-performance-optimization.html" class="tutorial-link">
+                        Start Tutorial <i class="fas fa-arrow-right"></i>
+                    </a>
+                </footer>
+            </article>
+            
+            <article class="tutorial-card" data-level="intermediate" data-topics="nodejs api">
+                <header class="tutorial-header">
+                    <span class="tutorial-level level-intermediate">Intermediate</span>
+                    <h3>RESTful API with Node.js & Express</h3>
+                </header>
+                <div class="tutorial-content">
+                    <p class="tutorial-description">Build robust RESTful APIs using Node.js and Express. Learn best practices for API design, error handling, authentication, and testing.</p>
+                    
+                    <div class="tutorial-meta">
+                        <div class="tutorial-duration">
+                            <i class="far fa-clock"></i>
+                            <span>50 min</span>
+                        </div>
+                        <div>
+                            <i class="far fa-calendar"></i>
+                            <span>Updated 3 days ago</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tutorial-topics">
+                        <h4>What you'll learn:</h4>
+                        <div class="topic-list">
+                            <span class="topic-tag">Express.js</span>
+                            <span class="topic-tag">REST Principles</span>
+                            <span class="topic-tag">Middleware</span>
+                            <span class="topic-tag">Error Handling</span>
+                            <span class="topic-tag">JWT Auth</span>
+                        </div>
+                    </div>
+                </div>
+                <footer class="tutorial-footer">
+                    <a href="tutorials/restful-api-nodejs-express.html" class="tutorial-link">
+                        Start Tutorial <i class="fas fa-arrow-right"></i>
+                    </a>
+                </footer>
+            </article>
+            
+            <article class="tutorial-card" data-level="intermediate" data-topics="deployment cicd">
+                <header class="tutorial-header">
+                    <span class="tutorial-level level-intermediate">Intermediate</span>
+                    <h3>Deploying to Netlify with CI/CD</h3>
+                </header>
+                <div class="tutorial-content">
+                    <p class="tutorial-description">Learn how to set up continuous integration and deployment for your web applications using Netlify, GitHub Actions, and modern deployment workflows.</p>
+                    
+                    <div class="tutorial-meta">
+                        <div class="tutorial-duration">
+                            <i class="far fa-clock"></i>
+                            <span>40 min</span>
+                        </div>
+                        <div>
+                            <i class="far fa-calendar"></i>
+                            <span>Updated 1 month ago</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tutorial-topics">
+                        <h4>What you'll learn:</h4>
+                        <div class="topic-list">
+                            <span class="topic-tag">Netlify</span>
+                            <span class="topic-tag">GitHub Actions</span>
+                            <span class="topic-tag">CI/CD</span>
+                            <span class="topic-tag">Environment Variables</span>
+                            <span class="topic-tag">Deploy Hooks</span>
+                        </div>
+                    </div>
+                </div>
+                <footer class="tutorial-footer">
+                    <a href="tutorials/deploying-netlify-cicd.html" class="tutorial-link">
+                        Start Tutorial <i class="fas fa-arrow-right"></i>
+                    </a>
+                </footer>
+            </article>
+        </div>
+        
+        <div class="no-results" id="noResults" style="display: none;">
+            <h3>No tutorials found</h3>
+            <p>Try adjusting your search or filters to find what you're looking for.</p>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="core.js"></script>
+    <script>
+        // Tutorials filtering and search functionality
+        class TutorialsFilter {
+            constructor() {
+                this.tutorials = document.querySelectorAll('.tutorial-card');
+                this.levelFilters = document.querySelectorAll('[data-filter]');
+                this.topicFilters = document.querySelectorAll('[data-topic]');
+                this.searchInput = document.getElementById('searchInput');
+                this.activeLevelFilter = 'all';
+                this.activeTopicFilter = 'all';
+                
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                // Level filters
+                this.levelFilters.forEach(filter => {
+                    filter.addEventListener('click', () => {
+                        this.handleLevelFilter(filter.dataset.filter);
+                        this.updateActiveFilter(filter, this.levelFilters);
+                    });
+                });
+
+                // Topic filters
+                this.topicFilters.forEach(filter => {
+                    filter.addEventListener('click', () => {
+                        this.handleTopicFilter(filter.dataset.topic);
+                        this.updateActiveFilter(filter, this.topicFilters);
+                    });
+                });
+
+                // Search
+                this.searchInput.addEventListener('input', this.debounce(() => {
+                    this.handleSearch(this.searchInput.value);
+                }, 300));
+            }
+
+            handleLevelFilter(level) {
+                this.activeLevelFilter = level;
+                this.applyFilters();
+            }
+
+            handleTopicFilter(topic) {
+                this.activeTopicFilter = topic;
+                this.applyFilters();
+            }
+
+            handleSearch(query) {
+                this.searchQuery = query.toLowerCase().trim();
+                this.applyFilters();
+            }
+
+            applyFilters() {
+                let visibleCount = 0;
+
+                this.tutorials.forEach(tutorial => {
+                    const level = tutorial.dataset.level;
+                    const topics = tutorial.dataset.topics.split(' ');
+                    const title = tutorial.querySelector('h3').textContent.toLowerCase();
+                    const description = tutorial.querySelector('.tutorial-description').textContent.toLowerCase();
+
+                    const levelMatch = this.activeLevelFilter === 'all' || level === this.activeLevelFilter;
+                    const topicMatch = this.activeTopicFilter === 'all' || topics.includes(this.activeTopicFilter);
+                    const searchMatch = !this.searchQuery || 
+                        title.includes(this.searchQuery) || 
+                        description.includes(this.searchQuery);
+
+                    if (levelMatch && topicMatch && searchMatch) {
+                        tutorial.style.display = 'block';
+                        setTimeout(() => {
+                            tutorial.style.opacity = '1';
+                            tutorial.style.transform = 'translateY(0)';
+                        }, 10);
+                        visibleCount++;
+                    } else {
+                        tutorial.style.opacity = '0';
+                        tutorial.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            tutorial.style.display = 'none';
+                        }, 300);
+                    }
+                });
+
+                // Show/hide no results message
+                const noResults = document.getElementById('noResults');
+                if (visibleCount === 0) {
+                    noResults.style.display = 'block';
+                } else {
+                    noResults.style.display = 'none';
+                }
+            }
+
+            updateActiveFilter(activeFilter, allFilters) {
+                allFilters.forEach(filter => {
+                    filter.classList.remove('active');
+                });
+                activeFilter.classList.add('active');
+            }
+
+            debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+        }
+
+        // Initialize tutorials filter
+        document.addEventListener('DOMContentLoaded', () => {
+            new TutorialsFilter();
+        });
+    </script>
+</body>
+</html>
                 <li><a href="#experience" data-nav-section="experience">Experience</a></li>
                 <li><a href="projects.html">Projects</a></li>
                 <li><a href="case-studies.html">Case Studies</a></li>
