@@ -904,6 +904,23 @@
             offset: 100,
             disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches
         });
+
+        // Force service worker update and cache clear
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js?v=1.0.0').then(registration => {
+                console.log('Service Worker registered with cache busting');
+                
+                // Force update
+                registration.update();
+                
+                // Clear cache and force refresh
+                if (registration.waiting) {
+                    registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                }
+            }).catch(error => {
+                console.error('Service Worker registration failed:', error);
+            });
+        }
     </script>
 </body>
 </html>

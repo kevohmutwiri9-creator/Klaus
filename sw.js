@@ -1,7 +1,7 @@
-const CACHE_NAME = 'klaus-portfolio-v2';
-const STATIC_CACHE = 'klaus-static-v2';
-const DYNAMIC_CACHE = 'klaus-dynamic-v2';
-const IMAGE_CACHE = 'klaus-images-v2';
+const CACHE_NAME = 'klaus-portfolio-v3';
+const STATIC_CACHE = 'klaus-static-v3';
+const DYNAMIC_CACHE = 'klaus-dynamic-v3';
+const IMAGE_CACHE = 'klaus-images-v3';
 
 // Critical resources to cache immediately
 const CRITICAL_RESOURCES = [
@@ -9,7 +9,9 @@ const CRITICAL_RESOURCES = [
   '/index.html',
   '/critical.css',
   '/core.js',
-  '/manifest.json'
+  '/manifest.json',
+  '/ad-manager.js',
+  '/ad-styles.css'
 ];
 
 // Static resources to cache
@@ -141,6 +143,14 @@ self.addEventListener('fetch', event => {
     return;
   }
 
+  // Force cache bypass for development and updates
+  const cacheBust = url.searchParams.get('v');
+  if (cacheBust) {
+    // Always fetch fresh when cache busting parameter exists
+    event.respondWith(fetch(request));
+    return;
+  }
+
   // Handle different resource types
   if (url.pathname.startsWith('/img/')) {
     // Images: Cache first with fallback
@@ -232,9 +242,17 @@ self.addEventListener('activate', event => {
       );
     }).then(() => {
       console.log('Cache cleanup completed');
+      // Force update of all clients
       return self.clients.claim();
     })
   );
+});
+
+// Message listener for cache clearing
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 // Periodic cache cleanup (every 24 hours)
