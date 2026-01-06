@@ -1136,6 +1136,12 @@ function initLightbox() {
     const lightboxCaption = document.getElementById('lightbox-caption');
     const closeBtn = document.querySelector('.close-lightbox');
     
+    // Check if lightbox elements exist before adding event listeners
+    if (!lightbox || !lightboxImg || !lightboxCaption || !closeBtn) {
+        console.log('Lightbox elements not found, skipping initialization');
+        return;
+    }
+    
     // Add click event to all images with data-lightbox attribute
     document.querySelectorAll('img[data-lightbox]').forEach(img => {
         img.addEventListener('click', function() {
