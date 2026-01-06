@@ -270,6 +270,24 @@ self.addEventListener('message', event => {
   }
 });
 
+// Handle page visibility changes for better performance
+self.addEventListener('visibilitychange', () => {
+  // Clean up resources when page becomes hidden
+  if (document.visibilityState === 'hidden') {
+    // Perform cleanup tasks
+    console.log('Page hidden, performing cleanup');
+  }
+});
+
+// Modern pagehide event replacement for unload
+self.addEventListener('pagehide', (event) => {
+  if (event.persisted) {
+    console.log('Page is being persisted in bfcache');
+  } else {
+    console.log('Page is being unloaded');
+  }
+});
+
 // Periodic cache cleanup (every 24 hours)
 setInterval(() => {
   caches.open(DYNAMIC_CACHE).then(cache => {
