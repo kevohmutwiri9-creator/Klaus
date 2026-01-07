@@ -916,8 +916,8 @@
 
         // Force service worker update and cache clear
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js?v=1.0.0').then(registration => {
-                console.log('Service Worker registered with cache busting');
+            navigator.serviceWorker.register('/sw.js').then(registration => {
+                console.log('Service Worker registered');
                 
                 // Force update
                 registration.update();

@@ -158,14 +158,6 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Force cache bypass for development and updates
-  const cacheBust = url.searchParams.get('v');
-  if (cacheBust) {
-    // Always fetch fresh when cache busting parameter exists
-    event.respondWith(fetch(request));
-    return;
-  }
-
   // Handle different resource types
   if (url.pathname.startsWith('/img/')) {
     // Images: Cache first with fallback
