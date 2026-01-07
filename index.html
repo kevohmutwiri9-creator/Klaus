@@ -914,22 +914,22 @@
             disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches
         });
 
-        // Force service worker update and cache clear
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js').then(registration => {
-                console.log('Service Worker registered');
-                
-                // Force update
-                registration.update();
-                
-                // Clear cache and force refresh
-                if (registration.waiting) {
-                    registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-                }
-            }).catch(error => {
-                console.error('Service Worker registration failed:', error);
-            });
-        }
+        // Service worker temporarily disabled to resolve CSP issues
+        // if ('serviceWorker' in navigator) {
+        //     navigator.serviceWorker.register('/sw.js').then(registration => {
+        //         console.log('Service Worker registered');
+        //         
+        //         // Force update
+        //         registration.update();
+        //         
+        //         // Clear cache and force refresh
+        //         if (registration.waiting) {
+        //             registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        //         }
+        //     }).catch(error => {
+        //         console.error('Service Worker registration failed:', error);
+        //     });
+        // }
     </script>
 </body>
 </html>
