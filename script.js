@@ -5,7 +5,7 @@ function initThemeToggle() {
     const currentTheme = localStorage.getItem('theme');
     
     // Set initial theme
-    if (currentTheme === 'light' || (!currentTheme && prefersDarkScheme.matches)) {
+    if (currentTheme === 'light' || (!currentTheme && !prefersDarkScheme.matches)) {
         document.documentElement.setAttribute('data-theme', 'light');
     } else {
         document.documentElement.setAttribute('data-theme', 'dark');
@@ -1245,3 +1245,15 @@ window.addEventListener('load', function() {
         }, 300);
     }
 });
+
+// Fallback: Force remove loading screen after 3 seconds
+setTimeout(() => {
+    const loadingScreen = document.querySelector('.loading-screen');
+    if (loadingScreen && loadingScreen.style.display !== 'none') {
+        console.log('Force removing loading screen');
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+        }, 100);
+    }
+}, 3000);
