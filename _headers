@@ -68,7 +68,7 @@
 
 # CORS Headers (if needed)
 /api/*
-  Access-Control-Allow-Origin: https://klaus-portifolio-website.netlify.app
+  Access-Control-Allow-Origin: https://klaus-portifoliowebsite.netlify.app
   Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
   Access-Control-Allow-Headers: Content-Type, Authorization, X-CSRF-Token
   Access-Control-Allow-Credentials: true

@@ -4,7 +4,7 @@ class StructuredDataManager {
         this.siteData = {
             name: 'Klaus Portfolio',
             description: 'Computer Science graduate specializing in scalable web applications, AI integration, and user-centered product development',
-            url: 'https://klaus-portifolio-website.netlify.app/',
+            url: 'https://klaus-portifoliowebsite.netlify.app/',
             author: {
                 name: 'Klaus',
                 email: 'kevohmutwiri35@gmail.com',
