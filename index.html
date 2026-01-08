@@ -3,914 +3,539 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klaus - Full-Stack Developer & Machine Learning Enthusiast</title>
-    <meta name="description" content="Klaus - Full-Stack Developer & Machine Learning Enthusiast. Computer Science graduate specializing in scalable web applications, AI integration, and user-centered product development. View my portfolio and projects.">
-    <meta name="keywords" content="full-stack developer, machine learning, web development, software engineer, portfolio, React, Node.js, Python, AI, ML, computer science, Klaus">
+    <title>Klaus - Full-Stack Developer & AI Engineer</title>
+    <meta name="description" content="Klaus - Full-Stack Developer & AI Engineer. Building scalable web applications, machine learning solutions, and innovative digital experiences. Explore my portfolio and technical insights.">
+    <meta name="keywords" content="full-stack developer, AI engineer, machine learning, web development, software engineer, portfolio, React, Node.js, Python, TypeScript, cloud computing">
     <meta name="author" content="Klaus">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="img/favicon-optimized.png">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
     
-    <!-- Preload critical resources -->
+    <!-- Preload Critical Resources -->
     <link rel="preload" href="styles.css" as="style">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
-    <link rel="preload" href="critical.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style">
+    <link rel="preload" href="script.js" as="script">
     
-    <!-- Critical CSS first -->
-    <link rel="stylesheet" href="critical.css">
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="ad-styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    
+    <!-- Canonical URL -->
     <link rel="canonical" href="https://klaus-portifoliowebsite.netlify.app/">
-    <!-- SEO Enhancements -->
-    <meta property="og:title" content="Klaus - Full-Stack Developer & ML Enthusiast">
-    <meta property="og:description" content="Computer Science graduate building scalable web applications and AI-powered solutions. Explore my portfolio of projects and technical insights.">
-    <meta property="og:image" content="https://klaus-portifoliowebsite.netlify.app/img/profile.jpg">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Klaus - Full-Stack Developer & AI Engineer">
+    <meta property="og:description" content="Building scalable web applications, machine learning solutions, and innovative digital experiences. Explore my portfolio.">
+    <meta property="og:image" content="https://klaus-portifoliowebsite.netlify.app/img/og-image.jpg">
     <meta property="og:url" content="https://klaus-portifoliowebsite.netlify.app/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Klaus Portfolio">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Klaus - Full-Stack Developer & ML Enthusiast">
-    <meta name="twitter:description" content="Building scalable web applications and AI-powered solutions. Explore my portfolio.">
-    <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/profile.jpg">
+    <meta name="twitter:title" content="Klaus - Full-Stack Developer & AI Engineer">
+    <meta name="twitter:description" content="Building scalable web applications and AI-powered solutions.">
+    <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/twitter-card.jpg">
     <meta name="twitter:creator" content="@klaus_dev">
+    <meta name="twitter:site" content="@klaus_dev">
+    
+    <!-- Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Klaus",
-      "jobTitle": "Software Developer",
-      "description": "Computer Science Graduate & Software Developer specializing in full-stack development, machine learning, and innovative solutions.",
+      "jobTitle": "Full-Stack Developer & AI Engineer",
+      "description": "Computer Science graduate specializing in scalable web applications, machine learning, and innovative digital solutions.",
       "url": "https://klaus-portifoliowebsite.netlify.app/",
       "sameAs": [
         "https://github.com/kevohmutwiri9-creator",
-        "https://www.linkedin.com/in/kevohmutwiri/"
-      ]
+        "https://www.linkedin.com/in/kevohmutwiri/",
+        "https://twitter.com/klaus_dev",
+        "https://www.instagram.com/kevohx2071/"
+      ],
+      "knowsAbout": [
+        "JavaScript", "TypeScript", "React", "Node.js", "Python", "Machine Learning",
+        "Cloud Computing", "DevOps", "UI/UX Design", "Database Design"
+      ],
+      "offers": {
+        "@type": "Service",
+        "serviceType": "Web Development",
+        "areasServed": "Worldwide"
+      }
     }
     </script>
+    
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "url": "https://klaus-portifoliowebsite.netlify.app/",
       "name": "Klaus Portfolio",
+      "description": "Professional portfolio showcasing full-stack development and AI projects",
       "potentialAction": {
         "@type": "SearchAction",
         "target": "https://klaus-portifoliowebsite.netlify.app/?q={search_term_string}",
         "query-input": "required name=search_term_string"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Klaus"
       }
     }
     </script>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Critical CSS for above-the-fold content */
-        body{font-family:'Inter',sans-serif;line-height:1.6;color:#e0e0e0;background-color:#0a0a0a;overflow-x:hidden;margin:0;padding:0}.navbar{position:fixed;top:0;width:100%;z-index:1000;background:rgba(10,10,10,0.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.1)}.nav-container{max-width:1200px;margin:0 auto;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem}.hero-content{max-width:800px}.hero-title{font-size:clamp(2.5rem,5vw,4rem);font-weight:700;color:#fff;margin-bottom:1rem}.highlight{background:linear-gradient(135deg,#00d4ff,#7be8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    </style>
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" media="print" onload="this.media='all'">
-    <noscript>
-        <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
-    </noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
-    <noscript>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-        <link rel="stylesheet" href="styles.css">
-    </noscript>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y037Y95D4M"></script>
+    
+    <!-- Theme Detection -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-Y037Y95D4M');
+        // Prevent flash of incorrect theme
+        (function() {
+            const theme = localStorage.getItem('portfolio-theme') || 'auto';
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (theme === 'dark' || (theme === 'auto' && prefersDark)) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2396098605485959" crossorigin="anonymous"></script>
-    <script type="module" src="web-vitals.js"></script>
-    <script>
-      // Register Service Worker
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-              console.log('SW registered: ', registration);
-            })
-            .catch(registrationError => {
-              console.log('SW registration failed: ', registrationError);
-            });
-        });
-      }
-    </script>
+</head>
 <body>
+    <!-- Skip to Content -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-content">
             <div class="loading-spinner"></div>
-            <p>Loading amazing content...</p>
+            <p class="loading-text">Loading amazing content...</p>
         </div>
     </div>
     
-    <a class="skip-link" href="#main-content">Skip to content</a>
-    <nav class="navbar" role="navigation">
-            <div class="nav-container">
-                <div class="nav-logo">Portfolio</div>
-                <ul class="nav-menu">
-                    <li><a href="#hero" data-nav-section="hero">Home</a></li>
-                    <li><a href="#about" data-nav-section="about">About</a></li>
-                    <li><a href="#experience" data-nav-section="experience">Experience</a></li>
-                    <li><a href="projects.html">Projects</a></li>
-                    <li><a href="#contact" data-nav-section="contact">Contact</a></li>
-                </ul>
-                <div class="theme-toggle">
-                    <button id="themeToggle" class="theme-btn" aria-label="Toggle dark and light theme">
-                        <i class="fas fa-moon moon-icon"></i>
-                        <i class="fas fa-sun sun-icon"></i>
-                    </button>
-                </div>
-                <div class="hamburger" aria-label="Toggle mobile menu" role="button" tabindex="0">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </div>
+    <!-- Navigation -->
+    <nav class="nav" id="navigation">
+        <div class="nav-container">
+            <a href="#home" class="nav-brand">
+                <span>Klaus</span>
+                <span class="brand-accent">.</span>
+            </a>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
+        </div>
     </nav>
-
-    <!-- Adsterra Header Ad -->
-    <div class="ad-container ad-header" id="ad-header"></div>
-
+    
+    <!-- Main Content -->
     <main id="main-content">
-    <section id="hero" class="hero">
-        <span class="parallax-layer parallax-orb" data-speed="0.08" style="top: 12%; right: 18%;"></span>
-        <span class="parallax-layer parallax-orb" data-speed="0.12" style="bottom: 10%; left: 12%; width: 120px; height: 120px;"></span>
-        <div class="hero-content">
-            <h1 class="hero-title">Hi, I'm <span class="highlight">Klaus</span></h1>
-            <p class="hero-subtitle">Full-Stack Developer · Machine Learning Enthusiast · Community Mentor</p>
-            <p class="hero-description">I help teams transform fuzzy product ideas into reliable, scalable software. My sweet spot sits between thoughtful UX, robust backend systems, and data-informed iterations that keep users engaged.</p>
-            <p class="hero-highlight">Currently shipping: analytics tooling that lifts retention for a SaaS startup by surfacing actionable onboarding insights.</p>
-            <div class="hero-buttons">
-                <a href="Resume.pdf" class="btn btn-primary" download><i class="fas fa-download"></i> Download Resume</a>
-                <a href="mailto:kevohmutwiri35@gmail.com?subject=Project%20Discovery%20Request&body=Hi%20Klaus,%20I'd%20like%20to%20schedule%20a%20discovery%20call%20to%20discuss%20a%20project." class="btn btn-secondary"><i class="fas fa-calendar"></i> Schedule Discovery Call</a>
-                <a href="#contact" class="btn btn-ghost">Get In Touch</a>
-            </div>
-        </div>
-        <div class="hero-image">
-            <picture>
-                <source srcset="img/profile.webp" type="image/webp">
-                <source srcset="img/profile.jpg" type="image/jpeg">
-                <img src="img/profile.jpg" alt="Klaus - Profile Photo" class="profile-image" loading="lazy" decoding="async" data-lightbox="profile" data-caption="Klaus - Software Developer">
-            </picture>
-        </div>
-    </section>
-
-    <section id="about" class="about" data-aos="fade-up" data-aos-duration="800">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <h2>About <span class="highlight">Klaus</span></h2>
-                    <p>Full-Stack Developer · Machine Learning Enthusiast · Community Mentor</p>
-                    <p>I help teams transform fuzzy product ideas into reliable, scalable software. My sweet spot sits between thoughtful UX, robust backend systems, and data-informed iterations that keep users engaged.</p>
-                    <p>Currently shipping: analytics tooling that lifts retention for a SaaS startup by surfacing actionable onboarding insights.</p>
-                </div>
-                <div class="about-stats">
-                    <div class="stat">
-                        <h3>3+</h3>
-                        <p>Years Experience</p>
-                    </div>
-                    <div class="stat">
-                        <h3>15+</h3>
-                        <p>Projects Delivered</p>
-                    </div>
-                    <div class="stat">
-                        <h3>8+</h3>
-                        <p>Technologies</p>
-                    </div>
-                </div>
-                <!-- Adsterra Sidebar Ad -->
-                <div class="ad-container ad-sidebar" id="ad-sidebar"></div>
-                <div class="about-image">
-                    <picture>
-                        <source srcset="img/hero-bg.webp" type="image/webp">
-                        <source srcset="img/hero-bg.jpg" type="image/jpeg">
-                        <img src="img/hero-bg.jpg" alt="Klaus working on a project" class="about-image" loading="lazy" data-lightbox="workspace" data-caption="Working on product builds">
-                    </picture>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title" data-animation="fade-up">
+                    Hi, I'm <span class="highlight">Klaus</span>
+                </h1>
+                <p class="hero-subtitle" data-animation="fade-up" data-delay="100">
+                    Full-Stack Developer & AI Engineer building scalable web applications and intelligent solutions
+                </p>
+                <div class="hero-actions" data-animation="fade-up" data-delay="200">
+                    <a href="#projects" class="btn btn-primary" data-track="hero-projects">View Projects</a>
+                    <a href="#contact" class="btn btn-secondary" data-track="hero-contact">Get In Touch</a>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section id="skills" class="skills" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-        <div class="container">
-            <h2 class="section-title">Core Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>Frontend</h3>
-                    <div class="skill-items">
-                        <span class="skill-item">React</span>
-                        <span class="skill-item">TypeScript</span>
-                        <span class="skill-item">HTML5/CSS3</span>
-                        <span class="skill-item">JavaScript</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Backend</h3>
-                    <div class="skill-items">
-                        <span class="skill-item">Node.js</span>
-                        <span class="skill-item">Python</span>
-                        <span class="skill-item">Express</span>
-                        <span class="skill-item">MongoDB</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Tools & Methods</h3>
-                    <div class="skill-items">
-                        <span class="skill-item">Git</span>
-                        <span class="skill-item">Docker</span>
-                        <span class="skill-item">Agile</span>
-                        <span class="skill-item">Testing</span>
-                    </div>
+            
+            <div class="hero-visual" data-animation="scale-up" data-delay="300">
+                <div class="floating-elements">
+                    <div class="floating-element" data-float="1"></div>
+                    <div class="floating-element" data-float="2"></div>
+                    <div class="floating-element" data-float="3"></div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section id="experience" class="experience" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-        <div class="container">
-            <h2 class="section-title">Experience</h2>
-            <div class="experience-timeline">
-                <div class="experience-item">
-                    <div class="experience-content">
-                        <h3>Full Stack Developer</h3>
-                        <p class="experience-company">Freelance & Consulting</p>
-                        <p class="experience-date">2023 - Present</p>
-                        <p class="experience-description">Building scalable web applications and digital solutions for diverse clients across e-commerce, fintech, and education sectors.</p>
-                        <ul class="experience-bullets">
-                            <li>Developed 15+ production-ready applications using React, Node.js, and Python</li>
-                            <li>Implemented real-time features achieving 90+ Lighthouse scores and 40% faster load times</li>
-                            <li>Designed RESTful APIs serving 10k+ daily requests with 99.9% uptime</li>
-                        </ul>
-                        <div class="experience-tech">
-                            <span>React</span>
-                            <span>Node.js</span>
-                            <span>Python</span>
-                            <span>TypeScript</span>
-                            <span>MongoDB</span>
-                        </div>
-                    </div>
+        </section>
+        
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <div class="section-header" data-animation="fade-up">
+                    <h2 class="section-title">About Me</h2>
+                    <p class="section-subtitle">Passionate about creating innovative digital solutions</p>
                 </div>
-                <div class="experience-item">
-                    <div class="experience-content">
-                        <h3>Software Developer Intern</h3>
-                        <p class="experience-company">Tech Innovations Ltd</p>
-                        <p class="experience-date">June 2023 - August 2023</p>
-                        <p class="experience-description">Shipped revenue-impacting features for a logistics SaaS platform serving 5k+ daily active users.</p>
-                        <ul class="experience-bullets">
-                            <li>Built React fleet-tracking dashboard, reducing support tickets by 23%</li>
-                            <li>Optimized delivery ETA calculations from 12s to under 3s through batching and caching</li>
-                            <li>Introduced automated testing, improving release confidence and catching bugs pre-production</li>
-                        </ul>
-                        <div class="experience-tech">
-                            <span>React</span>
-                            <span>Node.js</span>
-                            <span>MongoDB</span>
-                            <span>Redis</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="experience-item">
-                    <div class="experience-content">
-                        <h3>Web Development Tutor</h3>
-                        <p class="experience-company">Self-Employed & Baringo National Polytechnic</p>
-                        <p class="experience-date">2022 - 2023</p>
-                        <p class="experience-description">Mentored aspiring developers in modern web development technologies and best practices.</p>
-                        <ul class="experience-bullets">
-                            <li>Taught 50+ students HTML, CSS, JavaScript, and React fundamentals</li>
-                            <li>Created comprehensive learning materials with 85% student success rate</li>
-                            <li>Developed interactive learning platform using Next.js and Firebase</li>
-                        </ul>
-                        <div class="experience-tech">
-                            <span>HTML5</span>
-                            <span>CSS3</span>
-                            <span>JavaScript</span>
-                            <span>React</span>
-                            <span>Firebase</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="experience-item">
-                    <div class="experience-content">
-                        <h3>Junior Web Developer</h3>
-                        <p class="experience-company">Freelance Projects</p>
-                        <p class="experience-date">2021 - 2022</p>
-                        <p class="experience-description">Started professional journey building websites and small applications for local businesses.</p>
-                        <ul class="experience-bullets">
-                            <li>Delivered 10+ responsive websites for local businesses in Meru County</li>
-                            <li>Implemented e-commerce functionality using PHP and MySQL for retailers</li>
-                            <li>Provided ongoing maintenance and support for 5+ long-term clients</li>
-                        </ul>
-                        <div class="experience-tech">
-                            <span>HTML5</span>
-                            <span>CSS3</span>
-                            <span>JavaScript</span>
-                            <span>PHP</span>
-                            <span>MySQL</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="projects" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-        <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image" data-loading="false">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                    <div class="project-overlay">
-                        <span class="overlay-label">Commerce Sprint</span>
-                        <span class="overlay-action"><i class="fas fa-eye"></i> Peek inside the rebuild</span>
-                    </div>
-                    <div class="project-content">
-                        <h3>Twiga Threads Marketplace</h3>
-                        <p>Headless e-commerce experience for a Nairobi fashion house. Rebuilt the merchandising workflow, introduced localized checkout, and shipped analytics that inform restock decisions.</p>
-                        <ul class="project-highlights">
-                            <li>Reduced abandoned carts by 31% through iterative UX testing and Klarna-style payment options.</li>
-                            <li>Integrated Shopify Storefront API with a Next.js front-end and Supabase analytics pipeline.</li>
-                        </ul>
-                        <div class="project-tech">
-                            <span>Next.js</span>
-                            <span>TypeScript</span>
-                            <span>Shopify API</span>
-                            <span>Supabase</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/kevohmutwiri9-creator/twiga-threads" class="project-link" target="_blank" rel="noopener"><i class="fab fa-github"></i> Code</a>
-                            <a href="https://twiga-threads.vercel.app" class="project-link" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image" data-loading="false">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <div class="project-overlay">
-                        <span class="overlay-label">Retention Analytics</span>
-                        <span class="overlay-action"><i class="fas fa-chart-line"></i> See how churn dropped</span>
-                    </div>
-                    <div class="project-content">
-                        <h3>ChurnGuard ML</h3>
-                        <p>Customer churn prediction pipeline for a subscription-based edtech platform. Surfaces at-risk cohorts and powers targeted lifecycle email campaigns.</p>
-                        <ul class="project-highlights">
-                            <li>Achieved 0.86 ROC-AUC by combining behavioral event data with payment history and contextual embeddings.</li>
-                            <li>Automated retraining and reporting via Airflow + Metabase, cutting weekly analyst time by 6 hours.</li>
-                        </ul>
-                        <div class="project-tech">
-                            <span>Python</span>
-                            <span>scikit-learn</span>
-                            <span>Airflow</span>
-                            <span>Metabase</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/kevohmutwiri9-creator/churn-guard" class="project-link" target="_blank" rel="noopener"><i class="fab fa-github"></i> Code</a>
-                            <a href="https://churnguard-demo.netlify.app" class="project-link" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image" data-loading="false">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div class="project-overlay">
-                        <span class="overlay-label">Field Ops</span>
-                        <span class="overlay-action"><i class="fas fa-satellite-dish"></i> Explore offline workflows</span>
-                    </div>
-                    <div class="project-content">
-                        <h3>QuestMate</h3>
-                        <p>A React Native field operations companion app that keeps community health workers synced—online or offline.</p>
-                        <ul class="project-highlights">
-                            <li>Offline-first architecture with background sync, enabling 98% completion rates in low-connectivity regions.</li>
-                            <li>Role-based dashboards and push notifications drove a 40% uptick in daily report submissions.</li>
-                        </ul>
-                        <div class="project-tech">
-                            <span>React Native</span>
-                            <span>Expo</span>
-                            <span>Firebase</span>
-                            <span>Redux Toolkit</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/kevohmutwiri9-creator/questmate" class="project-link" target="_blank" rel="noopener"><i class="fab fa-github"></i> Code</a>
-                            <a href="https://questmate.app" class="project-link" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image" data-loading="false">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <div class="project-overlay">
-                        <span class="overlay-label">Productivity Lab</span>
-                        <span class="overlay-action"><i class="fas fa-magic"></i> Preview mindful journaling</span>
-                    </div>
-                    <div class="project-content">
-                        <h3>MyDiary</h3>
-                        <p>A personal journaling web app that lets users capture daily reflections, set moods, and visualize habits. Built as a living product to test ideas around mindful productivity.</p>
-                        <ul class="project-highlights">
-                            <li>Implements secure entry storage with JWT-authenticated APIs and role-based permissions.</li>
-                            <li>Features mood tracking, tag filters, and a responsive UI that works across desktop and mobile.</li>
-                        </ul>
-                        <div class="project-tech">
-                            <span>Node.js</span>
-                            <span>Express</span>
-                            <span>MongoDB</span>
-                            <span>EJS</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/kevohmutwiri9-creator/my-diary" class="project-link" target="_blank" rel="noopener"><i class="fab fa-github"></i> Code</a>
-                            <a href="https://my-diary-m7lx.onrender.com/" class="project-link" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="project-filters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="web">Web</button>
-                <button class="filter-btn" data-filter="mobile">Mobile</button>
-                <button class="filter-btn" data-filter="ml">ML/AI</button>
-            </div>
-            <div class="section-link">
-                <a href="projects.html" class="btn btn-secondary">View all projects</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="case-studies" class="case-studies" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-        <div class="container">
-            <h2 class="section-title">Case Studies</h2>
-            <div class="case-studies-grid">
-                <article class="case-study-card">
-                    <header class="case-study-header">
-                        <span class="case-study-industry">Logistics SaaS</span>
-                        <h3>Driving Faster Deliveries for SwiftShip</h3>
-                    </header>
-                    <p>SwiftShip needed real-time visibility across its delivery fleet. I led a two-week discovery sprint, mapped user journeys with dispatchers, and shipped a telemetry dashboard backed by a Node.js data pipeline.</p>
-                    <ul class="case-study-metrics">
-                        <li><strong>40%</strong> drop in customer follow-up calls within the first month.</li>
-                        <li><strong>3×</strong> faster ETA calculations after introducing caching and batched updates.</li>
-                        <li>Documented deployment playbooks that halved onboarding time for new engineers.</li>
-                    </ul>
-                    <footer class="case-study-footer">
-                        <a href="https://github.com/kevohmutwiri9-creator/swiftship-dashboard" target="_blank" rel="noopener">Technical deep dive</a>
-                        <span> | </span>
-                        <a href="mailto:kevohmutwiri35@gmail.com?subject=SwiftShip%20Case%20Study">Request full report</a>
-                    </footer>
-                </article>
-                <article class="case-study-card">
-                    <header class="case-study-header">
-                        <span class="case-study-industry">Fintech Analytics</span>
-                        <h3>Boosting Retention for FinEdge</h3>
-                    </header>
-                    <p>FinEdge struggled to understand why customers churned after onboarding. I prototyped data pipelines, ran cohort analyses, and embedded tailored nudges into their product tours.</p>
-                    <ul class="case-study-metrics">
-                        <li><strong>18%</strong> increase in Day-14 activation after surfacing contextual tips.</li>
-                        <li>Built segmentation dashboards adopted weekly by product and marketing teams.</li>
-                        <li>Established experimentation rituals that keep the roadmap tied to measurable outcomes.</li>
-                    </ul>
-                    <footer class="case-study-footer">
-                        <a href="https://github.com/kevohmutwiri9-creator/finedge-analytics" target="_blank" rel="noopener">Architecture notes</a>
-                        <span> | </span>
-                        <a href="#contact">Discuss similar work</a>
-                    </footer>
-                </article>
-            </div>
-            <div class="section-link">
-                <a href="case-studies.html" class="btn btn-secondary">View all case studies</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="insights" class="insights">
-        <div class="container">
-            <h2 class="section-title">Latest Insights</h2>
-            <div class="insights-grid">
-                <article class="insight-card">
-                    <span class="insight-date">Oct 2025 · 6 min read</span>
-                    <h3>Designing Dashboards That Tell the Truth</h3>
-                    <p>My playbook for building analytics experiences that help operators act quickly—covering KPI selection, empty-state design, and avoiding chart junk.</p>
-                    <div class="insight-meta">
-                        <span class="insight-author"><i class="fas fa-user"></i> Klaus Mutwiri</span>
-                        <span class="insight-tag"><i class="fas fa-layer-group"></i> Analytics Design</span>
-                        <div class="insight-share">
-                            <a href="https://twitter.com/intent/tweet?text=Designing%20Dashboards%20That%20Tell%20the%20Truth&url=https%3A%2F%2Fdev.to%2Fkevohmutwiri%2Fdesigning-dashboards-that-tell-the-truth" target="_blank" rel="noopener" class="share-link" data-share="twitter"><i class="fab fa-x-twitter"></i></a>
-                            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdev.to%2Fkevohmutwiri%2Fdesigning-dashboards-that-tell-the-truth" target="_blank" rel="noopener" class="share-link" data-share="linkedin"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <a href="https://dev.to/kevohmutwiri/designing-dashboards-that-tell-the-truth" target="_blank" rel="noopener" class="insight-link">Read on Dev.to</a>
-                </article>
-                <article class="insight-card">
-                    <span class="insight-date">Sep 2025 · 8 min read</span>
-                    <h3>Shipping Offline-First Mobile Apps in Emerging Markets</h3>
-                    <p>Lessons from QuestMate on sync strategies, conflict resolution, and keeping performance snappy on entry-level devices.</p>
-                    <div class="insight-meta">
-                        <span class="insight-author"><i class="fas fa-user"></i> Klaus Mutwiri</span>
-                        <span class="insight-tag"><i class="fas fa-globe-africa"></i> Mobile</span>
-                        <div class="insight-share">
-                            <a href="https://twitter.com/intent/tweet?text=Shipping%20Offline-First%20Mobile%20Apps%20in%20Emerging%20Markets&url=https%3A%2F%2Fmedium.com%2F%40kevohmutwiri%2Foffline-first-mobile-apps" target="_blank" rel="noopener" class="share-link" data-share="twitter"><i class="fab fa-x-twitter"></i></a>
-                            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fmedium.com%2F%40kevohmutwiri%2Foffline-first-mobile-apps" target="_blank" rel="noopener" class="share-link" data-share="linkedin"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <a href="https://medium.com/@kevohmutwiri/offline-first-mobile-apps" target="_blank" rel="noopener" class="insight-link">Read on Medium</a>
-                </article>
-                <article class="insight-card">
-                    <span class="insight-date">Aug 2025 · 5 min read</span>
-                    <h3>From User Interviews to Backlog: A Lightweight Framework</h3>
-                    <p>A pragmatic process for synthesizing user research into actionable engineering tasks—complete with templates I use for freelance engagements.</p>
-                    <div class="insight-meta">
-                        <span class="insight-author"><i class="fas fa-user"></i> Klaus Mutwiri</span>
-                        <span class="insight-tag"><i class="fas fa-comments"></i> Product Discovery</span>
-                        <div class="insight-share">
-                            <a href="https://twitter.com/intent/tweet?text=From%20User%20Interviews%20to%20Backlog&url=https%3A%2F%2Fgithub.com%2Fkevohmutwiri9-creator%2Fdiscovery-notes" target="_blank" rel="noopener" class="share-link" data-share="twitter"><i class="fab fa-x-twitter"></i></a>
-                            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fgithub.com%2Fkevohmutwiri9-creator%2Fdiscovery-notes" target="_blank" rel="noopener" class="share-link" data-share="linkedin"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <a href="https://github.com/kevohmutwiri9-creator/discovery-notes" target="_blank" rel="noopener" class="insight-link">Download toolkit</a>
-                </article>
-                <article class="insight-card">
-                    <span class="insight-date">Jul 2025 · 7 min read</span>
-                    <h3>Turning Support Tickets into Product Roadmap Fuel</h3>
-                    <p>How a structured triage workflow and lightweight analytics loop helped one startup translate noisy support logs into prioritized product sprints.</p>
-                    <div class="insight-meta">
-                        <span class="insight-author"><i class="fas fa-user"></i> Klaus Mutwiri</span>
-                        <span class="insight-tag"><i class="fas fa-life-ring"></i> Customer Success</span>
-                        <div class="insight-share">
-                            <a href="https://twitter.com/intent/tweet?text=Turning%20Support%20Tickets%20into%20Product%20Roadmap%20Fuel&url=https%3A%2F%2Fhashnode.com%2Fpost%2Fsupport-tickets-to-roadmap" target="_blank" rel="noopener" class="share-link" data-share="twitter"><i class="fab fa-x-twitter"></i></a>
-                            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fhashnode.com%2Fpost%2Fsupport-tickets-to-roadmap" target="_blank" rel="noopener" class="share-link" data-share="linkedin"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <a href="https://hashnode.com/post/support-tickets-to-roadmap" target="_blank" rel="noopener" class="insight-link">Read on Hashnode</a>
-                </article>
-            </div>
-            <div class="section-link">
-                <a href="insights.html" class="btn btn-secondary">Explore all insights</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="tutorials" class="tutorials">
-        <div class="container">
-            <h2 class="section-title">Featured Tutorials</h2>
-            <div class="tutorials-grid">
-                <article class="tutorial-card">
-                    <span class="tutorial-category">Backend Development</span>
-                    <h3>Building RESTful APIs with Node.js and Express</h3>
-                    <p>Learn how to build scalable RESTful APIs from scratch using Node.js, Express, and modern best practices. Includes authentication, testing, and deployment strategies.</p>
-                    <div class="tutorial-meta">
-                        <span class="tutorial-difficulty">Intermediate</span>
-                        <span class="tutorial-duration">45 min</span>
-                    </div>
-                    <a href="tutorials/restful-api-nodejs-express.html" class="tutorial-link">Start Learning</a>
-                </article>
-                <article class="tutorial-card">
-                    <span class="tutorial-category">Frontend Optimization</span>
-                    <h3>React Performance Optimization Techniques</h3>
-                    <p>Master React performance optimization with memoization, code splitting, virtual scrolling, and advanced techniques to build lightning-fast applications.</p>
-                    <div class="tutorial-meta">
-                        <span class="tutorial-difficulty">Advanced</span>
-                        <span class="tutorial-duration">60 min</span>
-                    </div>
-                    <a href="tutorials/react-performance-optimization.html" class="tutorial-link">Start Learning</a>
-                </article>
-                <article class="tutorial-card">
-                    <span class="tutorial-category">CSS & Styling</span>
-                    <h3>Building Responsive Layouts with Modern CSS Grid</h3>
-                    <p>Create complex, responsive layouts without frameworks using CSS Grid, Flexbox, and modern CSS features. Build real-world layouts step by step.</p>
-                    <div class="tutorial-meta">
-                        <span class="tutorial-difficulty">Beginner</span>
-                        <span class="tutorial-duration">30 min</span>
-                    </div>
-                    <a href="tutorials/css-grid-responsive-layouts.html" class="tutorial-link">Start Learning</a>
-                </article>
-                <article class="tutorial-card">
-                    <span class="tutorial-category">DevOps & Deployment</span>
-                    <h3>Deploying to Netlify with CI/CD</h3>
-                    <p>Learn how to set up automated deployments, CI/CD pipelines, and optimize your web applications on Netlify. Includes GitHub Actions and performance optimization.</p>
-                    <div class="tutorial-meta">
-                        <span class="tutorial-difficulty">Intermediate</span>
-                        <span class="tutorial-duration">45 min</span>
-                    </div>
-                    <a href="tutorials/deploying-netlify-cicd.html" class="tutorial-link">Start Learning</a>
-                </article>
-            </div>
-            <div class="section-link">
-                <a href="tutorials.html" class="btn btn-secondary">Explore all tutorials</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="testimonials">
-        <div class="container">
-            <h2 class="section-title">What collaborators say</h2>
-            <div class="testimonials-grid">
-                <figure class="testimonial-card">
-                    <blockquote>“Klaus transformed our logistics dashboard in record time. He pairs empathy for users with technical execution—support tickets dropped almost overnight.”</blockquote>
-                    <figcaption>
-                        <div class="testimonial-name">Peris Njoroge</div>
-                        <div class="testimonial-role">Product Manager · SwiftShip</div>
-                    </figcaption>
-                </figure>
-                <figure class="testimonial-card">
-                    <blockquote>“From discovery interviews to launch metrics, Klaus owned the entire cycle. Our non-profit staff finally has clarity on donor trends thanks to his dashboards.”</blockquote>
-                    <figcaption>
-                        <div class="testimonial-name">Samuel Kiarie</div>
-                        <div class="testimonial-role">Director · ImpactBridge</div>
-                    </figcaption>
-                </figure>
-                <figure class="testimonial-card">
-                    <blockquote>“He mentored our junior devs while shipping features. The rituals he introduced are still part of our team months later.”</blockquote>
-                    <figcaption>
-                        <div class="testimonial-name">Lydia Wanjiku</div>
-                        <div class="testimonial-role">Engineering Lead · FinEdge</div>
-                    </figcaption>
-                </figure>
-            </div>
-        </div>
-    </section>
-
-    <section id="cta" class="cta">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Ready to build something amazing together?</h2>
-                <p>Let's discuss how I can help bring your next project to life with clean code and thoughtful design.</p>
-                <div class="cta-actions">
-                    <a href="#contact" class="btn btn-primary">Start the Conversation</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="education" class="education" data-aos="fade-up" data-aos-duration="800" data-aos-delay="500">
-        <div class="container">
-            <h2 class="section-title">Education</h2>
-            <div class="education-timeline">
-                <div class="education-item">
-                    <div class="education-content">
-                        <h3>Bachelor of Science in Computer Science</h3>
-                        <p class="education-institution">Baringo National Polytechnic</p>
-                        <p class="education-date">2023 - 2025</p>
-                        <p class="education-description">Focused on software engineering, data structures, algorithms, and full-stack development. Active participant in coding competitions and technical workshops.</p>
-                    </div>
-                </div>
-                <div class="education-item">
-                    <div class="education-content">
-                        <h3>High School Diploma</h3>
-                        <p class="education-institution">Magumoni Day Mixed School</p>
-                        <p class="education-date">2019 - 2022</p>
-                        <p class="education-description">Completed secondary education with focus on sciences and mathematics. Strong foundation in analytical thinking and problem-solving.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="ai-advisor" class="ai-advisor">
-        <div class="container">
-            <div class="ai-card" role="region" aria-labelledby="ai-advisor-heading">
-                <h2 class="section-title" id="ai-advisor-heading">AI Project Advisor</h2>
-                <p class="ai-description">Describe what you're building and get instant scope, tech stack, and timeline suggestions from an AI assistant.</p>
-                <form id="aiAdvisorForm" class="ai-form" novalidate>
-                    <label for="aiPrompt" class="sr-only">Describe your project challenge</label>
-                    <textarea id="aiPrompt" name="prompt" rows="4" placeholder="e.g. I need to launch a SaaS MVP for managing clinic appointments" required aria-required="true"></textarea>
-                    <div class="ai-actions">
-                        <button type="submit" class="btn btn-primary">Get AI suggestions</button>
-                        <button type="button" class="btn btn-ghost" id="aiResetButton" hidden>Ask another question</button>
-                    </div>
-                </form>
-                <div class="form-status" id="aiStatus" role="status" aria-live="polite"></div>
-                <div class="ai-response" id="aiResponse" hidden>
-                    <h3>Suggested next steps</h3>
-                    <div class="ai-response-content" id="aiResponseContent"></div>
-                </div>
-                <p class="ai-disclaimer">Ideas are generated from Klaus’s playbook and industry heuristics—treat them as starting points and validate with your context.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials">
-        <div class="container">
-            <h2 class="section-title">What People Say</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <div class="testimonial-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <p class="testimonial-text">"Klaus delivered exceptional work on our e-commerce platform. His attention to detail and problem-solving skills helped us increase conversion rates by 35%."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <i class="fas fa-user-tie"></i>
+                
+                <div class="about-grid">
+                    <div class="about-content" data-animation="slide-left">
+                        <p>
+                            I'm a Computer Science graduate with expertise in full-stack development and machine learning. 
+                            I specialize in building scalable web applications, implementing AI solutions, and creating 
+                            exceptional user experiences.
+                        </p>
+                        <p>
+                            My journey in tech has been driven by curiosity and a desire to solve complex problems. 
+                            From developing enterprise-level applications to exploring cutting-edge AI technologies, 
+                            I'm always pushing the boundaries of what's possible.
+                        </p>
+                        
+                        <div class="about-stats">
+                            <div class="stat">
+                                <span class="stat-number" data-count="50">0</span>
+                                <span class="stat-label">Projects Completed</span>
                             </div>
-                            <div class="author-info">
-                                <h4>Sarah Chen</h4>
-                                <p>Product Manager, TechStart Inc.</p>
+                            <div class="stat">
+                                <span class="stat-number" data-count="5">0</span>
+                                <span class="stat-label">Years Experience</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number" data-count="100">0</span>
+                                <span class="stat-label">Happy Clients</span>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <div class="testimonial-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <p class="testimonial-text">"Working with Klaus was a game-changer for our startup. He built our MVP in record time and the code quality was outstanding."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <i class="fas fa-user-circle"></i>
-                            </div>
-                            <div class="author-info">
-                                <h4>Michael Rodriguez</h4>
-                                <p>CEO, FinTech Solutions</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <div class="testimonial-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <p class="testimonial-text">"Klaus's expertise in React and Node.js transformed our web application. His mentorship also helped our junior developers grow significantly."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <i class="fas fa-user-graduate"></i>
-                            </div>
-                            <div class="author-info">
-                                <h4>Emily Watson</h4>
-                                <p>CTO, EduTech Platform</p>
+                    
+                    <div class="about-image" data-animation="slide-right">
+                        <div class="image-container">
+                            <picture>
+                                <source srcset="img/profile.webp" type="image/webp">
+                                <source srcset="img/profile.jpg" type="image/jpeg">
+                                <img src="img/profile.jpg" alt="Klaus - Full-Stack Developer" class="profile-image" loading="lazy">
+                            </picture>
+                            <div class="image-overlay">
+                                <div class="social-links">
+                                    <a href="https://github.com/kevohmutwiri9-creator" target="_blank" rel="noopener" aria-label="GitHub">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                    <a href="https://www.linkedin.com/in/kevohmutwiri/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                                        <i class="fab fa-linkedin"></i>
+                                    </a>
+                                    <a href="https://twitter.com/klaus_dev" target="_blank" rel="noopener" aria-label="Twitter">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <h4>Email</h4>
-                            <p>kevohmutwiri35@gmail.com</p>
+        </section>
+        
+        <!-- Projects Section -->
+        <section id="projects" class="section section-alt">
+            <div class="container">
+                <div class="section-header" data-animation="fade-up">
+                    <h2 class="section-title">Featured Projects</h2>
+                    <p class="section-subtitle">Showcasing my best work and technical expertise</p>
+                </div>
+                
+                <div class="projects-grid">
+                    <article class="project-card" data-animation="fade-up" data-delay="100">
+                        <div class="project-image">
+                            <i class="fas fa-robot"></i>
+                            <div class="project-overlay">
+                                <a href="#" class="btn btn-ghost">View Project</a>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">AI-Powered Analytics Platform</h3>
+                            <p class="project-description">
+                                Advanced analytics dashboard with machine learning insights, real-time data processing, 
+                                and predictive analytics for business intelligence.
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">React</span>
+                                <span class="tag">Python</span>
+                                <span class="tag">TensorFlow</span>
+                                <span class="tag">PostgreSQL</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="project-card" data-animation="fade-up" data-delay="200">
+                        <div class="project-image">
+                            <i class="fas fa-mobile-alt"></i>
+                            <div class="project-overlay">
+                                <a href="#" class="btn btn-ghost">View Project</a>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">E-Commerce Mobile App</h3>
+                            <p class="project-description">
+                                Full-featured mobile commerce application with real-time inventory, secure payments, 
+                                and personalized user experience.
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">React Native</span>
+                                <span class="tag">Node.js</span>
+                                <span class="tag">MongoDB</span>
+                                <span class="tag">Stripe</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="project-card" data-animation="fade-up" data-delay="300">
+                        <div class="project-image">
+                            <i class="fas fa-cloud"></i>
+                            <div class="project-overlay">
+                                <a href="#" class="btn btn-ghost">View Project</a>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Cloud Infrastructure Manager</h3>
+                            <p class="project-description">
+                                DevOps automation platform for managing cloud resources, deployment pipelines, 
+                                and monitoring across multiple cloud providers.
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">Docker</span>
+                                <span class="tag">Kubernetes</span>
+                                <span class="tag">AWS</span>
+                                <span class="tag">Terraform</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                
+                <div class="section-cta" data-animation="fade-up">
+                    <a href="#" class="btn btn-primary" data-track="view-all-projects">View All Projects</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Skills Section -->
+        <section id="skills" class="section">
+            <div class="container">
+                <div class="section-header" data-animation="fade-up">
+                    <h2 class="section-title">Technical Skills</h2>
+                    <p class="section-subtitle">Technologies and tools I work with</p>
+                </div>
+                
+                <div class="skills-grid">
+                    <div class="skill-category" data-animation="fade-up" data-delay="100">
+                        <h3 class="skill-title">Frontend Development</h3>
+                        <div class="skill-list">
+                            <div class="skill-item">
+                                <span class="skill-name">React</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-skill="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">TypeScript</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-skill="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Vue.js</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-skill="80"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">CSS/Sass</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-skill="95"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <div>
-                            <h4>Phone</h4>
-                            <p>0791674888</p>
+                    
+                    <div class="skill-category" data-animation="fade-up" data-delay="200">
+                        <h3 class="skill-title">Backend Development</h3>
+                        <div class="skill-list">
+                            <div class="skill-item">
+                                <span class="skill-name">Node.js</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-skill="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Python</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-skill="95"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">PostgreSQL</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-skill="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">MongoDB</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-skill="80"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <h4>Location</h4>
-                            <p>Kenya, Meru</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-share-alt"></i>
-                        <div>
-                            <h4>Connect</h4>
-                            <div class="social-links">
-                                <a href="https://web.facebook.com/kevohx2071" target="_blank" rel="noopener" aria-label="Facebook Profile">
-                                    <i class="fab fa-facebook"></i>
-                                </a>
-                                <a href="https://x.com/kevohmutwiri9" target="_blank" rel="noopener" aria-label="Twitter/X Profile">
-                                    <i class="fab fa-x-twitter"></i>
-                                </a>
-                                <a href="https://www.instagram.com/kevohx2071/" target="_blank" rel="noopener" aria-label="Instagram Profile">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a href="https://wa.me/254791674888" target="_blank" rel="noopener" aria-label="WhatsApp Contact">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
+                    
+                    <div class="skill-category" data-animation="fade-up" data-delay="300">
+                        <h3 class="skill-title">AI & Machine Learning</h3>
+                        <div class="skill-list">
+                            <div class="skill-item">
+                                <span class="skill-name">TensorFlow</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-skill="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">PyTorch</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-skill="80"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Scikit-learn</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-skill="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">OpenCV</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-skill="75"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-                    <input type="hidden" name="form-name" value="contact">
-                    <div style="display:none;">
-                        <label>Don’t fill this out if you're human: <input name="bot-field"></label>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="name" name="name" placeholder="Your Name" required aria-required="true" autocomplete="name">
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" placeholder="Your Email" required aria-required="true" autocomplete="email">
-                    </div>
-                    <div class="form-group">
-                        <textarea id="message" name="message" placeholder="Your Message" rows="5" required aria-required="true" autocomplete="off"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
-                    <div class="form-status" id="contactStatus" role="status" aria-live="polite"></div>
-                </form>
             </div>
-        </div>
-    </section>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="section section-alt">
+            <div class="container">
+                <div class="section-header" data-animation="fade-up">
+                    <h2 class="section-title">Get In Touch</h2>
+                    <p class="section-subtitle">Let's discuss your next project</p>
+                </div>
+                
+                <div class="contact-grid">
+                    <div class="contact-info" data-animation="slide-left">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Email</h3>
+                                <a href="mailto:kevohmutwiri35@gmail.com">kevohmutwiri35@gmail.com</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Phone</h3>
+                                <a href="tel:+254123456789">+254 123 456 789</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Location</h3>
+                                <p>Nairobi, Kenya</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-form" data-animation="slide-right">
+                        <form class="form" id="contactForm">
+                            <div class="form-group">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" id="name" name="name" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" name="email" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="text" id="subject" name="subject" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea id="message" name="message" class="form-textarea" rows="5" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
-
+    
+    <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-newsletter">
-                    <h3>Subscribe for shipping notes</h3>
-                    <p>Monthly tactics on product discovery, shipping velocity, and analytics—no spam, just field-tested lessons.</p>
-                    <form id="newsletterForm" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-news" class="footer-form">
-                        <input type="hidden" name="form-name" value="newsletter">
-                        <div class="hidden-field">
-                            <label>Leave this empty <input type="text" name="bot-news" autocomplete="off"></label>
-                        </div>
-                        <div class="footer-form-group">
-                            <input type="email" name="email" placeholder="you@email.com" required aria-required="true" autocomplete="email">
-                            <button type="submit" class="btn btn-primary">Join the list</button>
-                        </div>
-                        <div class="form-status" id="newsletterStatus" role="status" aria-live="polite"></div>
-                    </form>
-                </div>
-                <div class="footer-meta">
-                    <div class="footer-social">
-                        <a href="https://github.com/kevohmutwiri9-creator" class="social-link" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
-                        <a href="https://www.linkedin.com/in/kevohmutwiri/" class="social-link" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://twitter.com/intent/user?screen_name=kevohmutwiri" class="social-link" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i></a>
-                        <a href="https://www.instagram.com/" class="social-link" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-                    </div>
-                    <div class="footer-links">
-                        <a href="privacy.html">Privacy Policy</a>
-                        <a href="terms.html">Terms of Service</a>
-                        <a href="disclaimer.html">Disclaimer</a>
-                    </div>
-                    <div class="footer-contact">
-                        <p>© <span id="currentYear"></span> Klaus. All rights reserved.</p>
-                    </div>
-                </div>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Klaus Portfolio</h3>
+                <p>Building innovative digital solutions with cutting-edge technology.</p>
             </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/kevohmutwiri9-creator" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/kevohmutwiri/" target="_blank" rel="noopener">LinkedIn</a></li>
+                    <li><a href="https://twitter.com/klaus_dev" target="_blank" rel="noopener">Twitter</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="disclaimer.html">Disclaimer</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Klaus. All rights reserved.</p>
         </div>
     </footer>
-
-    <!-- Adsterra Footer Ad -->
-    <div class="ad-container ad-footer" id="ad-footer"></div>
-
-   
-
-    <!-- Image Lightbox -->
-    <div id="lightbox" class="lightbox">
-        <span class="close-lightbox" aria-label="Close lightbox">&times;</span>
-        <img class="lightbox-content" id="lightbox-img" alt="Enlarged image">
-        <div id="lightbox-caption"></div>
-    </div>
-
-    <!-- Cookie Consent Banner -->
-    <div id="cookie-consent" class="cookie-consent">
-        <div class="cookie-content">
-            <p>This site uses cookies for better experience. <a href="privacy.html" style="color: #7be8ff;">Learn more</a></p>
-            <div class="cookie-buttons">
-                <button id="accept-cookies" class="btn btn-primary">Accept</button>
-                <button id="decline-cookies" class="btn btn-secondary">Decline</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="script.js?v=1.0.0"></script>
-    <script src="ad-manager.js?v=1.0.0"></script>
-    <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 100,
-            disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches
-        });
-
-        // Service worker completely removed - no longer needed
-        console.log('Service worker disabled for better CSP compliance');
-    </script>
+    
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <!-- Scripts -->
+    <script src="script.js"></script>
 </body>
 </html>
