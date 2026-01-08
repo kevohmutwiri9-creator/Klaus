@@ -20,6 +20,7 @@
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="ad-styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
     
     <!-- Canonical URL -->
@@ -41,6 +42,10 @@
     <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/twitter-card.jpg">
     <meta name="twitter:creator" content="@klaus_dev">
     <meta name="twitter:site" content="@klaus_dev">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2396098605485959"
+            crossorigin="anonymous"></script>
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -161,6 +166,13 @@
                 </div>
             </div>
             
+            <!-- Adsterra Header Ad -->
+            <div class="ad-container ad-header">
+                <div id="ad-header" class="ad-slot">
+                    <!-- Adsterra header ad will load here -->
+                </div>
+            </div>
+            
             <div class="hero-visual" data-animation="scale-up" data-delay="300">
                 <div class="floating-elements">
                     <div class="floating-element" data-float="1"></div>
@@ -190,6 +202,13 @@
                             From developing enterprise-level applications to exploring cutting-edge AI technologies, 
                             I'm always pushing the boundaries of what's possible.
                         </p>
+                        
+                        <!-- Adsterra Sidebar Ad -->
+                        <div class="ad-container ad-sidebar">
+                            <div id="ad-sidebar" class="ad-slot">
+                                <!-- Adsterra sidebar ad will load here -->
+                            </div>
+                        </div>
                         
                         <div class="about-stats">
                             <div class="stat">
@@ -263,6 +282,20 @@
                             </div>
                         </div>
                     </article>
+                    
+                    <!-- AdSense In-Content Ad -->
+                    <div class="ad-container ad-in-content">
+                        <ins class="adsbygoogle"
+                             style="display:block; text-align:center;"
+                             data-ad-layout="in-article"
+                             data-ad-format="fluid"
+                             data-ad-client="ca-pub-2396098605485959"
+                             data-ad-slot="1234567890">
+                        </ins>
+                        <script>
+                             (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
                     
                     <article class="project-card" data-animation="fade-up" data-delay="200">
                         <div class="project-image">
@@ -530,6 +563,13 @@
         </div>
     </footer>
     
+    <!-- Adsterra Footer Ad -->
+    <div class="ad-container ad-footer">
+        <div id="ad-footer" class="ad-slot">
+            <!-- Adsterra footer ad will load here -->
+        </div>
+    </div>
+    
     <!-- Back to Top Button -->
     <button class="back-to-top" id="backToTop" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
@@ -537,5 +577,21 @@
     
     <!-- Scripts -->
     <script src="script.js"></script>
+    <script src="ad-manager.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100,
+            disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        });
+
+        // Initialize Adsterra ads
+        if (typeof AdManager !== 'undefined') {
+            const adManager = new AdManager();
+            adManager.loadAllAds();
+        }
+    </script>
 </body>
 </html>

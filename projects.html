@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects · Klaus</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="ad-styles.css">
 </head>
 <body class="section-page">
     <header class="section-hero">
@@ -14,6 +15,20 @@
     </header>
 
     <main class="section-container">
+        <!-- AdSense Header Ad -->
+        <div class="ad-container ad-header">
+            <ins class="adsbygoogle"
+                 style="display:block; text-align:center;"
+                 data-ad-layout="header"
+                 data-ad-format="auto"
+                 data-ad-client="ca-pub-2396098605485959"
+                 data-ad-slot="9876543210">
+            </ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+        
         <div class="projects-grid">
             <div class="project-card">
                 <div class="project-image" data-loading="true">
@@ -60,6 +75,20 @@
                         <a href="https://churnguard-demo.netlify.app" class="project-link" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Live Demo</a>
                     </div>
                 </div>
+            </div>
+            
+            <!-- AdSense In-Content Ad -->
+            <div class="ad-container ad-in-content">
+                <ins class="adsbygoogle"
+                     style="display:block; text-align:center;"
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-2396098605485959"
+                     data-ad-slot="9876543211">
+                </ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
             <div class="project-card">
                 <div class="project-image" data-loading="true">
@@ -113,5 +142,19 @@
     <footer class="section-footer">
         <p>Looking for a specific project? <a href="mailto:kevohmutwiri35@gmail.com?subject=Project%20Inquiry">Let’s talk.</a></p>
     </footer>
+    
+    <!-- AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2396098605485959"
+            crossorigin="anonymous"></script>
+    
+    <!-- Adsterra -->
+    <script src="ad-manager.js"></script>
+    <script>
+        // Initialize Adsterra ads
+        if (typeof AdManager !== 'undefined') {
+            const adManager = new AdManager();
+            adManager.loadAllAds();
+        }
+    </script>
 </body>
 </html>
