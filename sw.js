@@ -47,8 +47,8 @@ self.addEventListener('activate', (event) => {
 
 // Fetch event - serve from cache when offline
 self.addEventListener('fetch', (event) => {
-  // Skip non-HTTP requests
-  if (!event.request.url.startsWith('http')) {
+  // Skip all non-HTTP requests and chrome-extension
+  if (!event.request.url.startsWith('http') || event.request.url.startsWith('chrome-extension://')) {
     return;
   }
   
@@ -58,8 +58,8 @@ self.addEventListener('fetch', (event) => {
         // Return cached version or fetch from network
         return response || fetch(event.request)
           .then((fetchResponse) => {
-            // Cache successful responses, but skip chrome-extension URLs
-            if (fetchResponse.status === 200 && !event.request.url.startsWith('chrome-extension://')) {
+            // Cache successful responses
+            if (fetchResponse.status === 200) {
               const responseClone = fetchResponse.clone();
               caches.open(CACHE_NAME)
                 .then((cache) => {
@@ -75,8 +75,10 @@ self.addEventListener('fetch', (event) => {
             if (event.request.destination === 'document') {
               return caches.match('/index.html');
             }
-          });
-      })
+            // Return a basic response for other requests
+            return new Response('Offline', { status: 503 });
+          })
+      });
   );
 });
 
