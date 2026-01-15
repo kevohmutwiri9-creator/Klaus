@@ -63,7 +63,9 @@ self.addEventListener('fetch', (event) => {
               const responseClone = fetchResponse.clone();
               caches.open(CACHE_NAME)
                 .then((cache) => {
-                  cache.put(event.request, responseClone);
+                  cache.put(event.request, responseClone).catch(() => {
+                    // Ignore cache put errors
+                  });
                 });
             }
             return fetchResponse;
