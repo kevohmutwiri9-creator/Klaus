@@ -857,7 +857,8 @@ a:focus {
   right: 0;
   bottom: 0;
   background: radial-gradient(circle at 20% 80%, var(--primary) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, var(--accent) 0%, transparent 50%);
+              radial-gradient(circle at 80% 20%, var(--accent) 0%, transparent 50%),
+              url('../img/hero-bg.jpg') center/cover;
   opacity: 0.1;
   animation: heroGradient 10s ease-in-out infinite;
 }
