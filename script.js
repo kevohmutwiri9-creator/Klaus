@@ -80,7 +80,7 @@ class ModernPortfolioCore {
 
         // Close menu on outside click
         document.addEventListener('click', (e) => {
-            if (!nav.contains(e.target) && navMenu.classList.contains('nav-open')) {
+            if (!navMenu.contains(e.target) && !menuToggle.contains(e.target) && navMenu.classList.contains('nav-open')) {
                 navMenu.classList.remove('nav-open');
                 menuToggle.setAttribute('aria-expanded', 'false');
             }

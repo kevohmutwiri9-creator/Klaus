@@ -53,8 +53,8 @@ self.addEventListener('fetch', (event) => {
         // Return cached version or fetch from network
         return response || fetch(event.request)
           .then((fetchResponse) => {
-            // Cache successful responses
-            if (fetchResponse.status === 200) {
+            // Cache successful responses, but skip chrome-extension URLs
+            if (fetchResponse.status === 200 && !event.request.url.startsWith('chrome-extension://')) {
               const responseClone = fetchResponse.clone();
               caches.open(CACHE_NAME)
                 .then((cache) => {
