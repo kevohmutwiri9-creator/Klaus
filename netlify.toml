@@ -19,7 +19,7 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com https://a.magsrv.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.google-analytics.com https://pagead2.googlesyndication.com https://*.magsrv.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com https://*.magsrv.com; frame-src 'self' https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com;"
+    Content-Security-Policy = "default-src 'self' 'unsafe-inline' 'unsafe-eval' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://a.magsrv.com https://cdnjs.cloudflare.com https://*.magsrv.com https://ep1.adtrafficquality.google; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.google-analytics.com https://pagead2.googlesyndication.com https://*.magsrv.com https://googleads.g.doubleclick.net; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com https://*.magsrv.com https://ep1.adtrafficquality.google https://googleads.g.doubleclick.net; frame-src 'self' https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com https://*.magsrv.com;"
 
 [[headers]]
   for = "*.js"
