@@ -579,15 +579,18 @@
         </div>
     </div>
     
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="backToTop" aria-label="Back to top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-    
     <!-- Scripts -->
     <script src="script.js"></script>
     <script src="ad-manager.js"></script>
-    <script>
+    <!-- Theme Toggle Button -->
+<button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light mode">
+    <span class="theme-icon">🌙</span>
+</button>
+
+<!-- Scroll to Top Button -->
+<button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top">↑</button>
+
+<script>
         // Initialize AOS
         AOS.init({
             duration: 800,
@@ -600,6 +603,75 @@
         if (typeof AdManager !== 'undefined') {
             const adManager = new AdManager();
             adManager.loadAllAds();
+        }
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.querySelector('.theme-icon');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme') || 
+            (prefersDarkScheme.matches ? 'dark' : 'light');
+
+        // Apply current theme
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // Scroll to Top
+        const scrollToTopBtn = document.getElementById('scroll-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
         }
     </script>
 </body>

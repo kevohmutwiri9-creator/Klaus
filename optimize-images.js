@@ -1,0 +1,164 @@
+const imagemin = require('imagemin');
+const imageminMozjpeg = require('imagemin-mozjpeg');
+const imageminPngquant = require('imagemin-pngquant');
+const imageminWebp = require('imagemin-webp');
+const imageminSvgo = require('imagemin-svgo');
+const { promisify } = require('util');
+const glob = promisify(require('glob'));
+const fs = require('fs');
+const path = require('path');
+
+const INPUT_DIR = 'img/originals';
+const OUTPUT_DIR = 'img/optimized';
+const PUBLIC_DIR = 'img';
+
+async function optimizeImages() {
+  console.log('🚀 Starting image optimization...');
+  
+  // Create output directories if they don't exist
+  [OUTPUT_DIR, PUBLIC_DIR].forEach(dir => {
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+  });
+
+  // Get all image files
+  const extensions = ['jpg', 'jpeg', 'png', 'svg', 'webp'];
+  const files = [];
+  
+  for (const ext of extensions) {
+    const pattern = `${INPUT_DIR}/**/*.${ext}`;
+    const found = await glob(pattern);
+    files.push(...found);
+  }
+
+  if (files.length === 0) {
+    console.log('⚠️  No images found in img/originals directory');
+    console.log('💡 Please place your original images in the img/originals directory');
+    return;
+  }
+
+  console.log(`📁 Found ${files.length} images to optimize`);
+
+  for (const file of files) {
+    const relativePath = path.relative(INPUT_DIR, file);
+    const outputPath = path.join(OUTPUT_DIR, relativePath);
+    const publicPath = path.join(PUBLIC_DIR, relativePath);
+    const outputDir = path.dirname(outputPath);
+    const publicDir = path.dirname(publicPath);
+
+    // Create output directories if they don't exist
+    [outputDir, publicDir].forEach(dir => {
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+    });
+
+    console.log(`🔧 Optimizing ${path.basename(file)}...`);
+
+    try {
+      // Determine file type and optimize accordingly
+      const ext = path.extname(file).toLowerCase();
+      
+      if (ext === '.svg') {
+        // Optimize SVG
+        await imagemin([file], {
+          destination: outputDir,
+          plugins: [
+            imageminSvgo({
+              plugins: [
+                {
+                  name: 'removeViewBox',
+                  active: false
+                },
+                {
+                  name: 'removeEmptyAttrs',
+                  active: true
+                }
+              ]
+            })
+          ],
+        });
+        
+        // Copy to public directory
+        await imagemin([file], {
+          destination: publicDir,
+          plugins: [imageminSvgo()],
+        });
+      } else {
+        // Optimize raster images (JPG, PNG, WebP)
+        await imagemin([file], {
+          destination: outputDir,
+          plugins: [
+            imageminMozjpeg({ quality: 80, progressive: true }),
+            imageminPngquant({ 
+              quality: [0.6, 0.8],
+              speed: 4,
+              strip: true
+            }),
+          ],
+        });
+
+        // Copy optimized to public directory
+        await imagemin([file], {
+          destination: publicDir,
+          plugins: [
+            imageminMozjpeg({ quality: 80, progressive: true }),
+            imageminPngquant({ quality: [0.6, 0.8] }),
+          ],
+        });
+
+        // Create WebP version
+        const webpPath = outputPath.replace(/\.(jpg|jpeg|png)$/, '.webp');
+        const webpPublicPath = publicPath.replace(/\.(jpg|jpeg|png)$/, '.webp');
+        const webpDir = path.dirname(webpPath);
+        const webpPublicDir = path.dirname(webpPublicPath);
+
+        if (!fs.existsSync(webpDir)) {
+          fs.mkdirSync(webpDir, { recursive: true });
+        }
+        if (!fs.existsSync(webpPublicDir)) {
+          fs.mkdirSync(webpPublicDir, { recursive: true });
+        }
+
+        await imagemin([file], {
+          destination: webpDir,
+          plugins: [
+            imageminWebp({ 
+              quality: 80,
+              method: 6,
+              preset: 'default',
+              alphaQuality: 80
+            }),
+          ],
+        });
+
+        await imagemin([file], {
+          destination: webpPublicDir,
+          plugins: [
+            imageminWebp({ quality: 80 }),
+          ],
+        });
+      }
+
+      console.log(`✅ Optimized ${path.basename(file)}`);
+    } catch (error) {
+      console.error(`❌ Failed to optimize ${path.basename(file)}:`, error.message);
+    }
+  }
+
+  console.log('\n🎉 Image optimization complete!');
+  console.log(`📂 Optimized images saved to: ${OUTPUT_DIR}`);
+  console.log(`🌐 Public images saved to: ${PUBLIC_DIR}`);
+  console.log('\n💡 Tips:');
+  console.log('   - Use .webp images for modern browsers');
+  console.log('   - Update your HTML to use picture elements for WebP support');
+  console.log('   - Consider adding responsive image attributes');
+}
+
+// Run optimization if called directly
+if (require.main === module) {
+  optimizeImages().catch(console.error);
+}
+
+module.exports = optimizeImages;
