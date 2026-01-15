@@ -841,12 +841,43 @@ a:focus {
 /* Hero Section */
 .hero {
   min-height: 100vh;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   justify-content: center;
   padding: var(--space-2xl);
   position: relative;
   overflow: hidden;
+  gap: var(--space-xl);
+}
+
+.hero-text {
+  text-align: center;
+  z-index: 2;
+}
+
+.hero-visual {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  
+  .hero-text {
+    order: 2;
+  }
+  
+  .hero-visual {
+    order: 1;
+    margin-top: var(--space-lg);
+  }
 }
 
 .hero::before {
