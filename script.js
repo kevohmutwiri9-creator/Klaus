@@ -563,18 +563,58 @@ class ModernPortfolioCore {
         const contactForm = document.getElementById('contactForm');
         if (!contactForm) return;
 
-        contactForm.addEventListener('submit', (e) => {
+        contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const formData = new FormData(contactForm);
             const data = Object.fromEntries(formData);
             
-            // Simple form submission (you can enhance this)
-            console.log('Form submitted:', data);
+            // Show loading state
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
             
-            // Show success message
-            this.showNotification('Message sent successfully!', 'success');
-            contactForm.reset();
+            try {
+                // Send with EmailJS
+                await emailjs.send(
+                    'service_klaus_portfolio', // Your EmailJS service ID
+                    'template_contact_form', // Your EmailJS template ID
+                    {
+                        from_name: data.name,
+                        from_email: data.email,
+                        message: data.message,
+                        reply_to: data.email
+                    }
+                );
+                
+                // Show success message
+                this.showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
+                contactForm.reset();
+                
+                // Track successful submission
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'form_submission', {
+                        event_category: 'engagement',
+                        event_label: 'contact_form_success'
+                    });
+                }
+            } catch (error) {
+                console.error('Contact form error:', error);
+                this.showNotification('Failed to send message. Please try again.', 'error');
+                
+                // Track failed submission
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'form_submission', {
+                        event_category: 'engagement',
+                        event_label: 'contact_form_error'
+                    });
+                }
+            } finally {
+                // Reset button state
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
         });
     }
 
