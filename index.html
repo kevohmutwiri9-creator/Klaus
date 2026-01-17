@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     
     <!-- FontAwesome -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <!-- Preload Critical Resources -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -636,8 +636,7 @@
             const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
             
             // Get current theme from localStorage or system preference
-            const currentTheme = localStorage.getItem('theme') || 
-                (prefersDarkScheme.matches ? 'dark' : 'light');
+            const currentTheme = localStorage.getItem('theme') || (prefersDarkScheme.matches ? 'dark' : 'light');
 
             // Apply current theme
             document.documentElement.setAttribute('data-theme', currentTheme);
