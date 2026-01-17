@@ -23,8 +23,8 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="img/favicon-optimized.png">
     <link rel="apple-touch-icon" href="img/apple-touch-icon.png" sizes="180x180">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-optimized.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-optimized.png">
     
     <!-- AOS Animation Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
@@ -57,7 +57,7 @@
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Klaus - Full-Stack Developer & AI Engineer">
     <meta property="og:description" content="Building scalable web applications, machine learning solutions, and innovative digital experiences. Explore my portfolio.">
-    <meta property="og:image" content="https://klaus-portfolio-website.netlify.app/img/og-image.jpg">
+    <meta property="og:image" content="https://klaus-portfolio-website.netlify.app/img/hero-bg-optimized.jpg">
     <meta property="og:url" content="https://klaus-portfolio-website.netlify.app/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Klaus Portfolio">
@@ -67,7 +67,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Klaus - Full-Stack Developer & AI Engineer">
     <meta name="twitter:description" content="Building scalable web applications and AI-powered solutions.">
-    <meta name="twitter:image" content="https://klaus-portfolio-website.netlify.app/img/twitter-card.jpg">
+    <meta name="twitter:image" content="https://klaus-portfolio-website.netlify.app/img/coding-image.jpg">
     <meta name="twitter:creator" content="@klaus_dev">
     <meta name="twitter:site" content="@klaus_dev">
     
@@ -269,11 +269,7 @@
                     
                     <div class="about-image" data-animation="slide-right">
                         <div class="image-container">
-                            <picture>
-                                <source srcset="img/profile.webp" type="image/webp">
-                                <source srcset="img/profile.jpg" type="image/jpeg">
-                                <img src="img/profile.jpg" alt="Klaus - Full-Stack Developer" class="profile-image" loading="lazy">
-                            </picture>
+                            <img src="img/profile.jpg" alt="Klaus - Full-Stack Developer" class="profile-image lazyload" loading="lazy" onerror="this.src='img/favicon-optimized.png'; this.alt='Profile image not available'">
                             <div class="image-overlay">
                                 <div class="social-links">
                                     <a href="https://github.com/kevohmutwiri9-creator" target="_blank" rel="noopener" aria-label="GitHub">

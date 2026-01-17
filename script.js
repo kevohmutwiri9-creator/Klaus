@@ -40,6 +40,7 @@ class ModernPortfolioCore {
         this.initializePerformanceMonitoring();
         this.initializeAccessibility();
         this.initializeErrorHandling();
+        this.initializeImageOptimization();
         
         console.log('✅ All features initialized successfully!');
     }
@@ -780,6 +781,51 @@ class ModernPortfolioCore {
         
         scrollElements.forEach(element => {
             elementObserver.observe(element);
+        });
+    }
+
+    // NEW: Image optimization and lazy loading
+    initializeImageOptimization() {
+        // Lazy loading for images
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        
+                        // Add loaded class when image loads
+                        img.addEventListener('load', () => {
+                            img.classList.add('loaded');
+                        });
+                        
+                        // Handle image errors
+                        img.addEventListener('error', () => {
+                            img.classList.add('error');
+                            console.warn(`Failed to load image: ${img.src}`);
+                        });
+                        
+                        observer.unobserve(img);
+                    }
+                });
+            }, {
+                rootMargin: '50px 0px',
+                threshold: 0.01
+            });
+            
+            // Observe all lazyload images
+            document.querySelectorAll('.lazyload').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+        
+        // Add image error handling for all images
+        document.querySelectorAll('img').forEach(img => {
+            if (!img.hasAttribute('onerror')) {
+                img.addEventListener('error', () => {
+                    img.classList.add('error');
+                    console.warn(`Image failed to load: ${img.src}`);
+                });
+            }
         });
     }
 }
