@@ -69,6 +69,18 @@
                 <h2>OWASP Top 10 Overview</h2>
                 <p>The OWASP (Open Web Application Security Project) Top 10 is a standard awareness document representing a broad consensus about the most critical security risks to web applications. Let's explore the most common vulnerabilities.</p>
 
+                <!-- AdSense In-Content Ad -->
+                <div class="ad-container ad-in-content" aria-label="Advertisement">
+                    <ins class="adsbygoogle"
+                         style="display:block; text-align:center;"
+                         data-ad-layout="in-article"
+                         data-ad-format="fluid"
+                         data-ad-client="ca-pub-2396098605485959"
+                         data-ad-slot="9876543211"
+                         data-adtest="off">
+                    </ins>
+                </div>
+
                 <h2>1. Injection Flaws</h2>
                 <p>Injection flaws occur when untrusted data is sent to an interpreter as part of a command or query.</p>
 
@@ -108,6 +120,18 @@ if (typeof username !== 'string' || username.length > 50) {
   return res.status(400).json({ error: 'Invalid username' });
 }
 db.collection('users').findOne({ username: username });</code></pre>
+
+                <!-- AdSense In-Content Ad -->
+                <div class="ad-container ad-in-content" aria-label="Advertisement">
+                    <ins class="adsbygoogle"
+                         style="display:block; text-align:center;"
+                         data-ad-layout="in-article"
+                         data-ad-format="fluid"
+                         data-ad-client="ca-pub-2396098605485959"
+                         data-ad-slot="9876543212"
+                         data-adtest="off">
+                    </ins>
+                </div>
 
                 <h2>2. Cross-Site Scripting (XSS)</h2>
                 <p>XSS allows attackers to inject malicious scripts into web pages viewed by other users.</p>
@@ -153,6 +177,18 @@ app.use((req, res, next) => {
   next();
 });</code></pre>
 
+                <!-- AdSense In-Content Ad -->
+                <div class="ad-container ad-in-content" aria-label="Advertisement">
+                    <ins class="adsbygoogle"
+                         style="display:block; text-align:center;"
+                         data-ad-layout="in-article"
+                         data-ad-format="fluid"
+                         data-ad-client="ca-pub-2396098605485959"
+                         data-ad-slot="9876543211"
+                         data-adtest="off">
+                    </ins>
+                </div>
+
                 <h2>3. Cross-Site Request Forgery (CSRF)</h2>
                 <p>CSRF tricks a user into performing actions they didn't intend to perform.</p>
 
@@ -194,7 +230,19 @@ app.post('/transfer', validateCSRF, (req, res) => {
   &lt;button type="submit"&gt;Transfer&lt;/button&gt;
 &lt;/form&gt;</code></pre>
 
-                <h2>4. Authentication and Session Management</h2>
+                <!-- AdSense In-Content Ad -->
+                <div class="ad-container ad-in-content" aria-label="Advertisement">
+                    <ins class="adsbygoogle"
+                         style="display:block; text-align:center;"
+                         data-ad-layout="in-article"
+                         data-ad-format="fluid"
+                         data-ad-client="ca-pub-2396098605485959"
+                         data-ad-slot="9876543213"
+                         data-adtest="off">
+                    </ins>
+                </div>
+
+                <h2>4. Broken Authentication</h2> and Session Management</h2>
                 <p>Weak authentication mechanisms can lead to unauthorized access.</p>
 
                 <h3>Common Issues</h3>
