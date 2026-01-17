@@ -12,12 +12,14 @@
     <!-- Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self' https:;
-      script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://kit.fontawesome.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://kit.fontawesome.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://ep2.adtrafficquality.google;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
-      font-src 'self' data: https://fonts.gstatic.com https://kit.fontawesome.com;
+      font-src 'self' data: https://fonts.gstatic.com https://kit.fontawesome.com https://ka-f.fontawesome.com;
       img-src 'self' data: https:;
       frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com;
       child-src https://googleads.g.doubleclick.net;
+      worker-src 'self' blob:;
+      connect-src 'self' https:;
     ">
     <title>Klaus - Full-Stack Developer & AI Engineer</title>
     <meta name="description" content="Klaus - Full-Stack Developer & AI Engineer. Building scalable web applications, machine learning solutions, and innovative digital experiences. Explore my portfolio and technical insights.">
