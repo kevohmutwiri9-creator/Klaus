@@ -80,11 +80,12 @@ self.addEventListener('fetch', (event) => {
     return;
   }
   
-  // Skip AdSense requests - let them always fetch from network
-  if (event.request.url.includes('googlesyndication.com') || event.request.url.includes('google-analytics.com')) {
-    return fetch(event.request);
+  // Skip external resources - let browser handle them
+  const url = new URL(event.request.url);
+  if (url.origin !== self.location.origin) {
+    return;
   }
-  
+
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
