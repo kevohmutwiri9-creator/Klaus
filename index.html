@@ -7,28 +7,11 @@
     <!-- Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self' https:;
-      script-src 'self' 'unsafe-inline' 'unsafe-eval' 
-        https://cdnjs.cloudflare.com 
-        https://pagead2.googlesyndication.com 
-        https://www.googletagmanager.com 
-        https://www.google-analytics.com 
-        https://kit.fontawesome.com 
-        https://a.magsrv.com 
-        https://ep1.adtrafficquality.google 
-        https://ep2.adtrafficquality.google;
-      style-src 'self' 'unsafe-inline' 
-        https://fonts.googleapis.com 
-        https://cdnjs.cloudflare.com;
-      font-src 'self' data: 
-        https://fonts.gstatic.com 
-        https://fonts.googleapis.com 
-        https://kit.fontawesome.com;
+      script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://kit.fontawesome.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+      font-src 'self' data: https://fonts.gstatic.com https://kit.fontawesome.com;
       img-src 'self' data: https:;
-      connect-src 'self' 
-        https://ep1.adtrafficquality.google 
-        https://ep2.adtrafficquality.google;
-      frame-src 'self' 
-        https://googleads.g.doubleclick.net;
+      frame-src https://googleads.g.doubleclick.net;
     ">
     <title>Klaus - Full-Stack Developer & AI Engineer</title>
     <meta name="description" content="Klaus - Full-Stack Developer & AI Engineer. Building scalable web applications, machine learning solutions, and innovative digital experiences. Explore my portfolio and technical insights.">
@@ -91,6 +74,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2396098605485959"
             crossorigin="anonymous"></script>
     
+        
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
@@ -364,16 +348,6 @@
                         </div>
                     </article>
                     
-                    <!-- AdSense In-Content Ad -->
-                    <div class="ad-container ad-in-content">
-                        <ins class="adsbygoogle"
-                             style="display:block; text-align:center;"
-                             data-ad-layout="in-article"
-                             data-ad-format="fluid"
-                             data-ad-client="ca-pub-2396098605485959"
-                             data-ad-slot="8765432109">
-                        </ins>
-                    </div>
                     <div class="project-actions">
                         <a href="projects.html" class="btn btn-primary" data-track="view-all-projects">View All Projects</a>
                     </div>
@@ -612,17 +586,9 @@
         </div>
     </footer>
     
-    <!-- Adsterra Footer Ad -->
-    <div class="ad-container ad-footer">
-        <div id="ad-footer" class="ad-slot">
-            <!-- Adsterra footer ad will load here -->
-        </div>
-    </div>
-    
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="script.js"></script>
-    <script src="ad-manager.js"></script>
     
     <!-- Theme Toggle Button (Fixed) -->
     <button id="theme-toggle-fixed" class="theme-toggle theme-toggle-fixed" aria-label="Toggle dark/light mode">
