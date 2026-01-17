@@ -27,13 +27,17 @@ class LazyLoadingManager {
         const options = {
             root: null,
             rootMargin: '50px 0px',
-            threshold: 0.01
+            threshold: 0.01,
+            delay: 100 // Throttle observations
         };
 
         this.observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    this.loadImage(entry.target);
+                    // Use requestAnimationFrame for smoother loading
+                    requestAnimationFrame(() => {
+                        this.loadImage(entry.target);
+                    });
                     this.observer.unobserve(entry.target);
                 }
             });

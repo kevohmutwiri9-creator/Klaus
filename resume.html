@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume · Klaus</title>
+    <title>Resume · Klaus - Full-Stack Developer & AI Engineer</title>
+    <meta name="description" content="Professional resume of Klaus - Full-Stack Developer & AI Engineer with expertise in web development, machine learning, and cloud technologies.">
+    <meta name="keywords" content="resume, CV, full-stack developer, AI engineer, web development, machine learning, software engineer">
+    <link rel="canonical" href="https://klaus-portfolio-website.netlify.app/resume.html">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="ad-styles.css" as="style">
+    
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+    
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="ad-styles.css">
 </head>
@@ -20,17 +31,15 @@
 
     <main class="section-container">
         <!-- AdSense Header Ad -->
-        <div class="ad-container ad-header">
+        <div class="ad-container ad-header" aria-label="Advertisement">
             <ins class="adsbygoogle"
                  style="display:block; text-align:center;"
                  data-ad-layout="header"
                  data-ad-format="auto"
                  data-ad-client="ca-pub-2396098605485959"
-                 data-ad-slot="9876543210">
+                 data-ad-slot="9876543210"
+                 data-adtest="off">
             </ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
         </div>
 
         <section class="resume-section">
@@ -114,17 +123,15 @@
         </section>
 
         <!-- AdSense Footer Ad -->
-        <div class="ad-container ad-footer">
+        <div class="ad-container ad-footer" aria-label="Advertisement">
             <ins class="adsbygoogle"
                  style="display:block; text-align:center;"
                  data-ad-layout="footer"
                  data-ad-format="auto"
                  data-ad-client="ca-pub-2396098605485959"
-                 data-ad-slot="9876543210">
+                 data-ad-slot="9876543210"
+                 data-adtest="off">
             </ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
         </div>
     </main>
 
@@ -138,5 +145,27 @@
             </div>
         </div>
     </footer>
+    <!-- Deferred Scripts -->
+    <script>
+        // Load ads after page load
+        window.addEventListener('load', function() {
+            // AdSense
+            const adSenseScript = document.createElement('script');
+            adSenseScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2396098605485959';
+            adSenseScript.async = true;
+            adSenseScript.crossOrigin = 'anonymous';
+            document.head.appendChild(adSenseScript);
+            
+            // Initialize AdSense ads
+            adSenseScript.onload = function() {
+                const ads = document.querySelectorAll('.adsbygoogle');
+                ads.forEach(ad => {
+                    if (ad.getAttribute('data-adtest') === 'off') {
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    }
+                });
+            };
+        });
+    </script>
 </body>
 </html>

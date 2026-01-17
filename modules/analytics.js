@@ -71,10 +71,18 @@ class AnalyticsManager {
 
     async loadGoogleAnalytics() {
         return new Promise((resolve, reject) => {
+            // Check if gtag is already loaded
+            if (window.gtag) {
+                resolve();
+                return;
+            }
+            
             // Create script element
             const script = document.createElement('script');
             script.async = true;
             script.src = `https://www.googletagmanager.com/gtag/js?id=${this.config.trackingId}`;
+            script.crossOrigin = 'anonymous';
+            script.referrerPolicy = 'no-referrer-when-downgrade';
             
             script.onload = () => {
                 // Initialize gtag
@@ -88,13 +96,25 @@ class AnalyticsManager {
                     anonymize_ip: true,
                     send_page_view: false, // We'll handle this manually
                     sample_rate: this.config.sampleRate,
-                    cookie_flags: 'SameSite=Lax;Secure'
+                    cookie_flags: 'SameSite=Lax;Secure',
+                    transport_type: 'beacon'
                 });
                 
                 resolve();
             };
             
-            script.onerror = reject;
+            script.onerror = (error) => {
+                console.warn('Google Analytics failed to load:', error);
+                reject(error);
+            };
+            
+            // Add timeout for loading
+            setTimeout(() => {
+                if (!window.gtag) {
+                    reject(new Error('Google Analytics loading timeout'));
+                }
+            }, 5000);
+            
             document.head.appendChild(script);
         });
     }

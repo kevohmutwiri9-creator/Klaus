@@ -27,6 +27,9 @@ class ModernPortfolioCore {
         this.initializeToastNotifications();
         this.initializeParallaxEffects();
         this.initializeMagneticButtons();
+        this.initializeLazyLoading();
+        this.initializeScrollReveal();
+        this.initializeSmoothScroll();
         
         console.log('✅ Portfolio initialized successfully');
     }
@@ -109,9 +112,10 @@ class ModernPortfolioCore {
 
     initializeScrollEffects() {
         let lastScroll = 0;
+        let ticking = false;
         const nav = document.querySelector('.nav');
         
-        window.addEventListener('scroll', () => {
+        const updateScrollEffects = () => {
             const currentScroll = window.pageYOffset;
             
             // Hide/show navigation on scroll
@@ -124,6 +128,14 @@ class ModernPortfolioCore {
             }
             
             lastScroll = currentScroll;
+            ticking = false;
+        };
+        
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateScrollEffects);
+                ticking = true;
+            }
         }, { passive: true });
     }
 
@@ -259,27 +271,48 @@ class ModernPortfolioCore {
         
         if (parallaxElements.length === 0) return;
         
-        window.addEventListener('scroll', () => {
+        let ticking = false;
+        
+        const updateParallax = () => {
             const scrolled = window.pageYOffset;
             
             parallaxElements.forEach(element => {
-                const speed = element.dataset.speed || 0.5;
+                const speed = parseFloat(element.dataset.speed) || 0.5;
                 const yPos = -(scrolled * speed);
                 element.style.transform = `translateY(${yPos}px)`;
             });
-        });
+            
+            ticking = false;
+        };
+        
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        }, { passive: true });
     }
     
     initializeMagneticButtons() {
         const magneticButtons = document.querySelectorAll('.magnetic-btn');
         
         magneticButtons.forEach(button => {
-            button.addEventListener('mousemove', (e) => {
+            let ticking = false;
+            
+            const updateMagneticEffect = (e) => {
                 const rect = button.getBoundingClientRect();
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
                 
                 button.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                ticking = false;
+            };
+            
+            button.addEventListener('mousemove', (e) => {
+                if (!ticking) {
+                    requestAnimationFrame(() => updateMagneticEffect(e));
+                    ticking = true;
+                }
             });
             
             button.addEventListener('mouseleave', () => {
@@ -308,21 +341,42 @@ class ModernPortfolioCore {
     initializeLazyLoading() {
         const images = document.querySelectorAll('img[loading="lazy"]');
         
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.classList.add('loaded');
-                    imageObserver.unobserve(img);
-                }
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        
+                        // Load the image if it has data-src
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                        }
+                        
+                        img.classList.add('loaded');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            }, {
+                rootMargin: '50px 0px',
+                threshold: 0.01
             });
-        });
-        
-        images.forEach(img => imageObserver.observe(img));
+            
+            images.forEach(img => imageObserver.observe(img));
+        } else {
+            // Fallback for older browsers
+            images.forEach(img => {
+                if (img.dataset.src) {
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                }
+                img.classList.add('loaded');
+            });
+        }
     }
     
-    // Enhanced scroll effects
-    initializeScrollEffects() {
+    // Enhanced scroll effects (renamed to avoid conflict)
+    initializeScrollReveal() {
         const scrollElements = document.querySelectorAll('.scroll-reveal');
         
         const elementObserver = new IntersectionObserver((entries) => {

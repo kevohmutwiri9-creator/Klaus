@@ -168,7 +168,7 @@ The `netlify.toml` file includes:
 
 1. Push to GitHub repository
 2. Netlify automatically builds and deploys
-3. Site is live at `https://klaus-portifoliowebsite.netlify.app`
+3. Site is live at `https://klaus-portfolio-website.netlify.app`
 
 ### Manual Deployment
 
@@ -213,7 +213,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-- **Portfolio**: [https://klaus-portifoliowebsite.netlify.app](https://klaus-portifoliowebsite.netlify.app)
+- **Portfolio**: [https://klaus-portfolio-website.netlify.app](https://klaus-portfolio-website.netlify.app)
 - **Email**: kevohmutwiri35@gmail.com
 - **GitHub**: [@kevohmutwiri9-creator](https://github.com/kevohmutwiri9-creator)
 

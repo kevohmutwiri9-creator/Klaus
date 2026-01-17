@@ -1,16 +1,23 @@
 // Service Worker for Klaus Portfolio
-const CACHE_NAME = 'klaus-portfolio-v1';
-const ASSETS = [
+const CACHE_NAME = 'klaus-portfolio-v2';
+const RUNTIME_CACHE = 'klaus-runtime-v2';
+
+// Critical assets to cache immediately
+const CRITICAL_ASSETS = [
   '/',
   '/index.html',
   '/styles.css',
   '/script.js',
   '/ad-styles.css',
-  '/ads.txt',
   '/img/favicon-optimized.png',
   '/img/apple-touch-icon.png',
   '/img/icon-192x192.png',
-  '/img/icon-512x512.png',
+  '/img/icon-512x512.png'
+];
+
+// Additional assets to cache on demand
+const CACHEABLE_ASSETS = [
+  '/ads.txt',
   '/img/screenshot-desktop.png',
   '/img/screenshot-mobile.png',
   '/Resume.pdf',
@@ -22,20 +29,25 @@ const ASSETS = [
   '/privacy.html',
   '/terms.html',
   '/disclaimer.html',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap',
-  'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2396098605485959'
+  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap'
 ];
 
-// Install event - cache assets
+// Install event - cache critical assets
 self.addEventListener('install', (event) => {
   console.log('Service Worker: Installing...');
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('Service Worker: Caching assets');
-        return cache.addAll(ASSETS);
+        console.log('Service Worker: Caching critical assets');
+        return cache.addAll(CRITICAL_ASSETS);
       })
-      .then(() => self.skipWaiting())
+      .then(() => {
+        console.log('Service Worker: Critical assets cached');
+        return self.skipWaiting();
+      })
+      .catch((error) => {
+        console.error('Service Worker: Failed to cache critical assets:', error);
+      })
   );
 });
 
@@ -47,14 +59,17 @@ self.addEventListener('activate', (event) => {
       .then((cacheNames) => {
         return Promise.all(
           cacheNames.map((cache) => {
-            if (cache !== CACHE_NAME) {
-              console.log('Service Worker: Clearing old cache');
+            if (cache !== CACHE_NAME && cache !== RUNTIME_CACHE) {
+              console.log('Service Worker: Deleting old cache:', cache);
               return caches.delete(cache);
             }
           })
         );
       })
-      .then(() => self.clients.claim())
+      .then(() => {
+        console.log('Service Worker: Activated and claimed clients');
+        return self.clients.claim();
+      })
   );
 });
 
@@ -65,33 +80,56 @@ self.addEventListener('fetch', (event) => {
     return;
   }
   
+  // Skip AdSense requests - let them always fetch from network
+  if (event.request.url.includes('googlesyndication.com') || event.request.url.includes('google-analytics.com')) {
+    return fetch(event.request);
+  }
+  
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
         // Return cached version or fetch from network
-        return response || fetch(event.request)
+        if (response) {
+          console.log('Service Worker: Serving from cache:', event.request.url);
+          return response;
+        }
+        
+        return fetch(event.request)
           .then((fetchResponse) => {
-            // Cache successful responses
-            if (fetchResponse.status === 200) {
-              const responseClone = fetchResponse.clone();
-              caches.open(CACHE_NAME)
-                .then((cache) => {
-                  cache.put(event.request, responseClone).catch(() => {
-                    // Ignore cache put errors
+            // Cache successful responses for GET requests
+            if (fetchResponse.status === 200 && event.request.method === 'GET') {
+              // Check if response should be cached
+              const shouldCache = CACHEABLE_ASSETS.some(asset => 
+                event.request.url.includes(asset) || 
+                event.request.url.endsWith('.css') ||
+                event.request.url.endsWith('.js') ||
+                event.request.url.endsWith('.png') ||
+                event.request.url.endsWith('.jpg') ||
+                event.request.url.endsWith('.webp')
+              );
+              
+              if (shouldCache) {
+                const responseClone = fetchResponse.clone();
+                caches.open(RUNTIME_CACHE)
+                  .then((cache) => {
+                    cache.put(event.request, responseClone).catch(() => {
+                      // Ignore cache put errors
+                    });
                   });
-                });
+              }
             }
             return fetchResponse;
           })
-          .catch(() => {
+          .catch((error) => {
+            console.log('Service Worker: Network failed, trying cache:', error);
             // Return a custom offline page for HTML requests
             if (event.request.destination === 'document') {
               return caches.match('/index.html');
             }
             // Return a basic response for other requests
-            return new Response('Offline', { status: 503 });
-          })
-      });
+            return new Response('Offline', { status: 503, statusText: 'Service Unavailable' });
+          });
+      })
   );
 });
 

@@ -12,19 +12,58 @@
     <meta property="og:title" content="Web Performance Optimization Techniques">
     <meta property="og:description" content="Essential strategies for improving website performance and user experience. Learn about lazy loading, code splitting, caching strategies, and performance monitoring tools.">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://klaus-portifoliowebsite.netlify.app/blog/web-performance-optimization.html">
-    <meta property="og:image" content="https://klaus-portifoliowebsite.netlify.app/img/blog/web-performance-hero.jpg">
+    <meta property="og:url" content="https://klaus-portfolio-website.netlify.app/blog/web-performance-optimization.html">
+    <meta property="og:image" content="https://klaus-portfolio-website.netlify.app/img/blog/web-performance-hero.jpg">
     <meta property="og:site_name" content="Klaus Portfolio">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@klaus_dev">
     <meta name="twitter:title" content="Web Performance Optimization Techniques">
     <meta name="twitter:description" content="Essential strategies for improving website performance and user experience. Learn about lazy loading, code splitting, caching strategies, and performance monitoring tools.">
-    <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/blog/web-performance-hero.jpg">
+    <meta name="twitter:image" content="https://klaus-portfolio-website.netlify.app/img/blog/web-performance-hero.jpg">
+    
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Web Performance Optimization Techniques",
+      "description": "Essential strategies for improving website performance and user experience. Learn about lazy loading, code splitting, caching strategies, and performance monitoring tools.",
+      "image": "https://klaus-portfolio-website.netlify.app/img/blog/web-performance-hero.jpg",
+      "author": {
+        "@type": "Person",
+        "name": "Klaus"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Klaus Portfolio",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://klaus-portfolio-website.netlify.app/img/favicon-optimized.png"
+        }
+      },
+      "datePublished": "2025-10-20",
+      "dateModified": "2025-10-20",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://klaus-portfolio-website.netlify.app/blog/web-performance-optimization.html"
+      }
+    }
+    </script>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="../styles.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" as="style">
+    
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     
     <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"></noscript>
     <link rel="icon" type="image/png" href="../img/favicon-optimized.png">
-    <link rel="canonical" href="https://klaus-portifoliowebsite.netlify.app/blog/web-performance-optimization.html">
+    <link rel="canonical" href="https://klaus-portfolio-website.netlify.app/blog/web-performance-optimization.html">
 </head>
 <body>
     <header class="navbar">

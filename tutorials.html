@@ -3,10 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutorials - Step-by-Step Guides | Klaus</title>
-    <meta name="description" content="Practical, step-by-step tutorials covering web development, React, Node.js, CSS, performance optimization, and modern development practices.">
-    <meta name="keywords" content="tutorials, web development, React, Node.js, CSS, JavaScript, performance optimization, step-by-step guides">
+    <title>Tutorials - Step-by-Step Guides | Klaus - Full-Stack Developer</title>
+    <meta name="description" content="Practical, step-by-step tutorials covering web development, React, Node.js, CSS, performance optimization, and modern development practices by Klaus.">
+    <meta name="keywords" content="tutorials, web development, React, Node.js, CSS, JavaScript, performance optimization, step-by-step guides, coding tutorials">
     <meta name="author" content="Klaus">
+    <link rel="canonical" href="https://klaus-portfolio-website.netlify.app/tutorials.html">
+    
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="Tutorials - Step-by-Step Guides | Klaus">
+    <meta property="og:description" content="Practical, step-by-step tutorials covering web development, React, Node.js, CSS, and modern development practices.">
+    <meta property="og:url" content="https://klaus-portfolio-website.netlify.app/tutorials.html">
+    <meta property="og:type" content="website">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+    
+    <!-- DNS prefetch and preconnect -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     
     <!-- Critical CSS -->
     <style>
@@ -368,8 +383,8 @@
     </style>
 
     <!-- Non-critical CSS -->
-    <link rel="stylesheet" href="non-critical.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="non-critical.css"></noscript>
+    <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="styles.css"></noscript>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -595,8 +610,17 @@
         </div>
     </main>
 
-    <!-- Scripts -->
-    <script src="core.js"></script>
+    <!-- Deferred Scripts -->
+    <script>
+        window.addEventListener('load', function() {
+            // Load Font Awesome
+            const faScript = document.createElement('script');
+            faScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js';
+            faScript.crossOrigin = 'anonymous';
+            faScript.referrerPolicy = 'no-referrer';
+            document.head.appendChild(faScript);
+        });
+    </script>
     <script>
         // Tutorials filtering and search functionality
         class TutorialsFilter {

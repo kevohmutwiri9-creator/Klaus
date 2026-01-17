@@ -11,18 +11,64 @@
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="React Performance Optimization Techniques - Tutorial">
     <meta property="og:description" content="Master React performance optimization with practical techniques including memoization, code splitting, lazy loading, and bundle optimization.">
-    <meta property="og:image" content="https://klaus-portifoliowebsite.netlify.app/img/tutorial-react-performance.jpg">
-    <meta property="og:url" content="https://klaus-portifoliowebsite.netlify.app/tutorials/react-performance-optimization.html">
+    <meta property="og:image" content="https://klaus-portfolio-website.netlify.app/img/tutorial-react-performance.jpg">
+    <meta property="og:url" content="https://klaus-portfolio-website.netlify.app/tutorials/react-performance-optimization.html">
     <meta property="og:type" content="article">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@klaus_dev">
+    <meta name="twitter:creator" content="@klaus_dev">
     <meta name="twitter:title" content="React Performance Optimization Techniques - Tutorial">
     <meta name="twitter:description" content="Master React performance optimization with practical techniques including memoization, code splitting, lazy loading, and bundle optimization.">
-    <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/tutorial-react-performance.jpg">
+    <meta name="twitter:image" content="https://klaus-portfolio-website.netlify.app/img/tutorial-react-performance.jpg">
+    
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "React Performance Optimization Techniques - Tutorial",
+      "description": "Master React performance optimization with practical techniques including memoization, code splitting, lazy loading, and bundle optimization.",
+      "image": "https://klaus-portfolio-website.netlify.app/img/tutorial-react-performance.jpg",
+      "author": {
+        "@type": "Person",
+        "name": "Klaus Mutwiri"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Klaus Portfolio",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://klaus-portfolio-website.netlify.app/img/favicon-optimized.png"
+        }
+      },
+      "datePublished": "2025-11-15",
+      "dateModified": "2025-11-15",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://klaus-portfolio-website.netlify.app/tutorials/react-performance-optimization.html"
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "React"
+      },
+      "educationalLevel": "Intermediate",
+      "learningResourceType": "Tutorial"
+    }
+    </script>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="../styles.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" as="style">
+    
+    <!-- DNS prefetch and preconnect -->
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <!-- Canonical Link -->
-    <link rel="canonical" href="https://klaus-portifoliowebsite.netlify.app/tutorials/react-performance-optimization.html">
+    <link rel="canonical" href="https://klaus-portfolio-website.netlify.app/tutorials/react-performance-optimization.html">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-optimized.png">
@@ -32,12 +78,8 @@
     <link rel="stylesheet" href="../styles.css">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 </head>
 <body class="tutorial-page">
     <!-- Navigation -->
@@ -444,10 +486,10 @@ const HeavyComponent = ({ data }) => {
       <h2>Data Visualization</h2>
       
       <div className="controls">
-        <button onClick={() => setShowChart(!showChart)}>
+        <button onClick="() => setShowChart(!showChart)">
           {showChart ? 'Hide' : 'Show'} Chart
         </button>
-        <button onClick={() => setShowTable(!showTable)}>
+        <button onClick="() => setShowTable(!showTable)">
           {showTable ? 'Hide' : 'Show'} Table
         </button>
       </div>
@@ -538,13 +580,13 @@ const Row = React.memo(({ index, style, data }) => {
   const item = data[index];
   
   return (
-    <div style={style} className="virtual-row">
-      <div className="row-content">
-        <h3>{item.name}</h3>
-        <p>{item.description}</p>
-        <small>ID: {item.id}</small>
-      </div>
-    </div>
+    &lt;div style={style} className="virtual-row"&gt;
+      &lt;div className="row-content"&gt;
+        &lt;h3&gt;{item.name}&lt;/h3&gt;
+        &lt;p&gt;{item.description}&lt;/p&gt;
+        &lt;small&gt;ID: {item.id}&lt;/small&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
   );
 });
 
@@ -584,7 +626,7 @@ const CustomVirtualList = ({
   items, 
   itemHeight = 50, 
   containerHeight = 400,
-  overscan = 5 
+  overscan = 5
 }) => {
   const [scrollTop, setScrollTop] = useState(0);
   const containerRef = useRef(null);
@@ -605,12 +647,11 @@ const CustomVirtualList = ({
     setScrollTop(event.target.scrollTop);
   }, []);
   
-  // Memoize visible items
+  // Render visible items
   const visibleItems = useMemo(() => {
-    const { startIndex, endIndex } = visibleRange;
-    return items.slice(startIndex, endIndex + 1).map((item, index) => ({
+    return items.slice(visibleRange.startIndex, visibleRange.endIndex + 1).map((item, index) => ({
       ...item,
-      index: startIndex + index,
+      index: visibleRange.startIndex + index
     }));
   }, [items, visibleRange]);
   

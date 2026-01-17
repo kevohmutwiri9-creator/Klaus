@@ -1,7 +1,7 @@
 {
-  "name": "Klaus Portfolio",
+  "name": "Klaus Portfolio - Full-Stack Developer & AI Engineer",
   "short_name": "Klaus",
-  "description": "Portfolio of Klaus - Full-Stack Developer & AI Engineer",
+  "description": "Professional portfolio showcasing full-stack development, AI engineering projects, and technical expertise by Klaus Mutwiri.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0a",
@@ -9,7 +9,8 @@
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "en",
-  "categories": ["portfolio", "developer", "technology"],
+  "dir": "ltr",
+  "categories": ["portfolio", "developer", "technology", "education", "business"],
   "icons": [
     {
       "src": "img/icon-192x192.png",
@@ -39,21 +40,35 @@
       "src": "img/screenshot-desktop.png",
       "sizes": "1280x720",
       "type": "image/png",
-      "form_factor": "wide"
+      "form_factor": "wide",
+      "label": "Desktop view of Klaus portfolio"
     },
     {
       "src": "img/screenshot-mobile.png",
       "sizes": "375x667",
       "type": "image/png",
-      "form_factor": "narrow"
+      "form_factor": "narrow",
+      "label": "Mobile view of Klaus portfolio"
     }
   ],
   "shortcuts": [
     {
       "name": "Projects",
       "short_name": "Projects",
-      "description": "View my featured projects",
-      "url": "/#projects",
+      "description": "View my featured projects and case studies",
+      "url": "/projects.html",
+      "icons": [
+        {
+          "src": "img/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Blog",
+      "short_name": "Blog",
+      "description": "Read technical articles and tutorials",
+      "url": "/blog.html",
       "icons": [
         {
           "src": "img/icon-192x192.png",
@@ -73,5 +88,10 @@
         }
       ]
     }
-  ]
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
 }

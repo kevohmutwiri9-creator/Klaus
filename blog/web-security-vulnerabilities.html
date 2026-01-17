@@ -12,19 +12,19 @@
     <meta property="og:title" content="Common Web Security Vulnerabilities and How to Prevent Them">
     <meta property="og:description" content="An overview of the most common web security threats including XSS, CSRF, and SQL injection. Learn practical prevention strategies and secure coding practices.">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://klaus-portifoliowebsite.netlify.app/blog/web-security-vulnerabilities.html">
-    <meta property="og:image" content="https://klaus-portifoliowebsite.netlify.app/img/blog/web-security-hero.jpg">
+    <meta property="og:url" content="https://klaus-portfolio-website.netlify.app/blog/web-security-vulnerabilities.html">
+    <meta property="og:image" content="https://klaus-portfolio-website.netlify.app/img/blog/web-security-hero.jpg">
     <meta property="og:site_name" content="Klaus Portfolio">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Common Web Security Vulnerabilities and How to Prevent Them">
     <meta name="twitter:description" content="An overview of the most common web security threats including XSS, CSRF, and SQL injection. Learn practical prevention strategies and secure coding practices.">
-    <meta name="twitter:image" content="https://klaus-portifoliowebsite.netlify.app/img/blog/web-security-hero.jpg">
+    <meta name="twitter:image" content="https://klaus-portfolio-website.netlify.app/img/blog/web-security-hero.jpg">
     
     <link rel="stylesheet" href="../styles.css">
     <link rel="icon" type="image/png" href="../img/favicon-optimized.png">
-    <link rel="canonical" href="https://klaus-portifoliowebsite.netlify.app/blog/web-security-vulnerabilities.html">
+    <link rel="canonical" href="https://klaus-portfolio-website.netlify.app/blog/web-security-vulnerabilities.html">
 </head>
 <body>
     <header class="navbar">
@@ -431,7 +431,7 @@ function validateFileType(file) {
 }
 
 function sanitizeInput(input) {
-  return input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+  return input.replace(/&lt;script\b[^&lt;]*(?:(?!&lt;\/script&gt;)&lt;[^&lt;]*)*&lt;\/script&gt;/gi, '');
 }</code></pre>
 
                 <h2>10. Rate Limiting and DDoS Protection</h2>
