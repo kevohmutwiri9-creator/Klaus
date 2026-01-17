@@ -320,43 +320,54 @@ class ModernPortfolioCore {
         }
     }
 
-    hideValidationMessage(container) {
-        const message = container.querySelector('.validation-message');
-        if (message) {
-            message.style.display = 'none';
-        }
-    }
-
     // NEW: Performance monitoring
     initializePerformanceMonitoring() {
-        // Track page load time
-        window.addEventListener('load', () => {
-            const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
-            
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'page_load_time', {
-                    event_category: 'performance',
-                    value: Math.round(loadTime)
-                });
-            }
-            
-            console.log(`⚡ Page loaded in ${loadTime}ms`);
-        });
-        
-        // Track Core Web Vitals
-        if ('PerformanceObserver' in window) {
-            const observer = new PerformanceObserver((list) => {
-                list.getEntries().forEach((entry) => {
-                    if (entry.entryType === 'largest-contentful-paint') {
-                        console.log(`🎨 LCP: ${entry.startTime}ms`);
+        if ('performance' in window) {
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    const navigation = performance.getEntriesByType('navigation')[0];
+                    if (navigation) {
+                        const loadTime = Math.max(0, navigation.loadEventEnd - navigation.loadEventStart);
+                        const domTime = Math.max(0, navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart);
+                        
+                        console.log(`⚡ Page loaded in ${loadTime.toFixed(0)}ms`);
+                        console.log(`🎨 DOM Ready in ${domTime.toFixed(0)}ms`);
+                        
+                        // Track performance metrics if analytics available
+                        if (typeof gtag !== 'undefined') {
+                            gtag('event', 'page_load_time', {
+                                event_category: 'performance',
+                                value: Math.round(loadTime)
+                            });
+                        }
                     }
-                    if (entry.entryType === 'first-input') {
-                        console.log(`⚡ FID: ${entry.processingStart - entry.startTime}ms`);
+                    
+                    // LCP monitoring
+                    if ('PerformanceObserver' in window) {
+                        const observer = new PerformanceObserver((list) => {
+                            const entries = list.getEntries();
+                            const lastEntry = entries[entries.length - 1];
+                            if (lastEntry && lastEntry.startTime > 0) {
+                                console.log(`🎨 LCP: ${Math.round(lastEntry.startTime)}ms`);
+                            }
+                        });
+                        observer.observe({ entryTypes: ['largest-contentful-paint'] });
                     }
-                });
+                    
+                    // FID monitoring
+                    if ('PerformanceObserver' in window) {
+                        const observer = new PerformanceObserver((list) => {
+                            list.getEntries().forEach((entry) => {
+                                if (entry.processingStart) {
+                                    const fid = Math.max(0, entry.processingStart - entry.startTime);
+                                    console.log(`⚡ FID: ${fid.toFixed(3)}ms`);
+                                }
+                            });
+                        });
+                        observer.observe({ entryTypes: ['first-input'] });
+                    }
+                }, 0);
             });
-            
-            observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input'] });
         }
     }
 
