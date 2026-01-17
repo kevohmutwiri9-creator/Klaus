@@ -44,7 +44,7 @@
 
         <section class="resume-section">
             <h2>Professional Summary</h2>
-            <p>Full-Stack Developer & AI Engineer with expertise in building scalable web applications, machine learning solutions, and innovative digital experiences. Passionate about leveraging cutting-edge technologies to solve real-world problems.</p>
+            <p>Computer Science graduate from Baringo National Polytechnic with expertise in full-stack development and machine learning. Passionate about building scalable web applications and innovative digital solutions. Experienced in healthcare IT systems through internship at Tenri Children's Hospital.</p>
         </section>
 
         <section class="resume-section">
@@ -90,35 +90,65 @@
         </section>
 
         <section class="resume-section">
-            <h2>Experience</h2>
-            <div class="experience-item">
-                <h3>Full-Stack Developer</h3>
-                <p class="company">Tech Company | 2022 - Present</p>
-                <ul>
-                    <li>Developed and maintained scalable web applications using React and Node.js</li>
-                    <li>Implemented machine learning models for data analysis and prediction</li>
-                    <li>Led a team of 5 developers in agile development processes</li>
-                    <li>Optimized application performance, reducing load time by 40%</li>
-                </ul>
+            <h2>Education</h2>
+            <div class="education-item">
+                <h3>Diploma in Computer Science</h3>
+                <p class="school">Baringo National Polytechnic | 2023 - 2025</p>
+                <p>Specialized in Full-Stack Development and Machine Learning</p>
             </div>
+            <div class="education-item">
+                <h3>Kenya Certificate of Secondary Education (KCSE)</h3>
+                <p class="school">Magumoni Mixed Day Secondary School | 2019 - 2022</p>
+                <p>Focus on Sciences and Mathematics</p>
+            </div>
+        </section>
+
+        <section class="resume-section">
+            <h2>Internship Experience</h2>
             <div class="experience-item">
-                <h3>Junior Developer</h3>
-                <p class="company">Startup Inc | 2020 - 2022</p>
+                <h3>IT Intern</h3>
+                <p class="company">Tenri Children's Hospital | 2026</p>
                 <ul>
-                    <li>Built responsive front-end interfaces using Vue.js and TypeScript</li>
-                    <li>Developed RESTful APIs and microservices architecture</li>
-                    <li>Collaborated with cross-functional teams to deliver features</li>
-                    <li>Participated in code reviews and mentoring junior developers</li>
+                    <li>Developed healthcare management systems using web technologies</li>
+                    <li>Implemented patient record management solutions</li>
+                    <li>Provided technical support for hospital IT infrastructure</li>
+                    <li>Assisted in database management and system optimization</li>
                 </ul>
             </div>
         </section>
 
         <section class="resume-section">
-            <h2>Education</h2>
-            <div class="education-item">
-                <h3>Bachelor of Science in Computer Science</h3>
-                <p class="school">University Name | 2016 - 2020</p>
-                <p>GPA: 3.8/4.0 | Dean's List</p>
+            <h2>Projects</h2>
+            <div class="experience-item">
+                <h3>My Diary Application</h3>
+                <p class="company">Personal Project | 2025</p>
+                <ul>
+                    <li>Built full-stack diary application with user authentication</li>
+                    <li>Implemented real-time data synchronization</li>
+                    <li>Deployed on Render platform with CI/CD pipeline</li>
+                    <li>Technologies: React, Node.js, MongoDB</li>
+                </ul>
+            </div>
+            <div class="experience-item">
+                <h3>ATS Resume Builder</h3>
+                <p class="company">Personal Project | 2025</p>
+                <ul>
+                    <li>Developed ATS-friendly resume builder with templates</li>
+                    <li>Implemented real-time preview and PDF generation</li>
+                    <li>Deployed on Netlify with serverless functions</li>
+                    <li>Technologies: Vue.js, Express, Puppeteer</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="resume-section">
+            <h2>Contact Information</h2>
+            <div class="contact-info">
+                <p><strong>Email:</strong> <a href="mailto:kevohmutwiri35@gmail.com">kevohmutwiri35@gmail.com</a></p>
+                <p><strong>Phone/WhatsApp:</strong> <a href="https://wa.me/254791674888">+254 791 674 888</a></p>
+                <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/kevoh-mutwiri-136b912a9" target="_blank">linkedin.com/in/kevoh-mutwiri-136b912a9</a></p>
+                <p><strong>GitHub:</strong> <a href="https://github.com/kevohmutwiri9-creator" target="_blank">github.com/kevohmutwiri9-creator</a></p>
+                <p><strong>Location:</strong> Nairobi, Kenya</p>
             </div>
         </section>
 
@@ -137,7 +167,7 @@
 
     <footer class="section-footer">
         <div class="footer-content">
-            <p>&copy; 2024 Klaus. All rights reserved.</p>
+            <p>&copy; <span id="currentYear">2024</span> Klaus. All rights reserved.</p>
             <div class="footer-links">
                 <a href="privacy.html">Privacy</a>
                 <a href="terms.html">Terms</a>
@@ -146,6 +176,10 @@
         </div>
     </footer>
     <!-- Deferred Scripts -->
+    <script>
+        // Update current year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
     <script>
         // Load ads after page load
         window.addEventListener('load', function() {
