@@ -341,25 +341,77 @@
                     <p class="section-subtitle">Showcasing my best work and technical expertise</p>
                 </div>
                 
+                <!-- Project Filter Buttons -->
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All Projects</button>
+                    <button class="filter-btn" data-filter="portfolio">Portfolio</button>
+                    <button class="filter-btn" data-filter="diary">Web Apps</button>
+                    <button class="filter-btn" data-filter="resume">Tools</button>
+                </div>
+                
                 <div class="projects-grid">
-                    <article class="project-card" data-animation="fade-up" data-delay="100">
+                    <article class="project-card" data-animation="fade-up" data-delay="100" data-category="portfolio">
                         <div class="project-image">
-                            <i class="fas fa-robot"></i>
+                            <img src="img/coding-image.jpg" alt="Klaus Portfolio Website" class="lazyload" loading="lazy">
                             <div class="project-overlay">
-                                <a href="#" class="btn btn-ghost">View Project</a>
+                                <a href="https://klaus-portfolio-website.netlify.app" target="_blank" rel="noopener" class="btn btn-ghost">View Project</a>
                             </div>
                         </div>
                         <div class="project-content">
-                            <h3 class="project-title">AI-Powered Analytics Platform</h3>
+                            <h3 class="project-title">Portfolio Website</h3>
                             <p class="project-description">
-                                Advanced analytics dashboard with machine learning insights, real-time data processing, 
-                                and predictive analytics for business intelligence.
+                                Modern, responsive portfolio website showcasing advanced web development skills with 
+                                React, animations, and cutting-edge design patterns.
                             </p>
                             <div class="project-tags">
                                 <span class="tag">React</span>
-                                <span class="tag">Python</span>
-                                <span class="tag">TensorFlow</span>
-                                <span class="tag">PostgreSQL</span>
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">CSS3</span>
+                                <span class="tag">Netlify</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="project-card" data-animation="fade-up" data-delay="200" data-category="diary">
+                        <div class="project-image">
+                            <img src="img/hero-bg-optimized.jpg" alt="My Diary Web App" class="lazyload" loading="lazy">
+                            <div class="project-overlay">
+                                <a href="https://my-diary-m7lx.onrender.com" target="_blank" rel="noopener" class="btn btn-ghost">View Project</a>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">My Diary Web App</h3>
+                            <p class="project-description">
+                                Personal diary application with secure authentication, rich text editing, 
+                                and cloud synchronization for journal entries.
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">Node.js</span>
+                                <span class="tag">Express</span>
+                                <span class="tag">MongoDB</span>
+                                <span class="tag">JWT</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="project-card" data-animation="fade-up" data-delay="300" data-category="resume">
+                        <div class="project-image">
+                            <img src="img/profile.jpg" alt="ATS Resume Builder" class="lazyload" loading="lazy">
+                            <div class="project-overlay">
+                                <a href="https://my-ats-resume-builder.netlify.app/" target="_blank" rel="noopener" class="btn btn-ghost">View Project</a>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">ATS Resume Builder</h3>
+                            <p class="project-description">
+                                Professional resume builder with ATS optimization, multiple templates, 
+                                and real-time preview for job applications.
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">React</span>
+                                <span class="tag">TypeScript</span>
+                                <span class="tag">PDF.js</span>
+                                <span class="tag">Tailwind</span>
                             </div>
                         </div>
                     </article>
