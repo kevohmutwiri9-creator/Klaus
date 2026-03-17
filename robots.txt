@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://klaus-portifoliowebsite.netlify.app/sitemap.xml
+
+# Block common non-content paths
+Disallow: /netlify/
+Disallow: /.netlify/
+Disallow: /_next/
+Disallow: /admin/
+
+# Allow specific important directories
+Allow: /img/
+Allow: /css/
+Allow: /js/
+
+Crawl-delay: 1
