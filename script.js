@@ -1,8 +1,14 @@
 // Enhanced Theme Toggle
 function initThemeToggle() {
-    const themeToggle = document.getElementById('themeToggle');
+    const themeToggle = document.getElementById('theme-toggle');
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
     const currentTheme = localStorage.getItem('theme');
+    
+    // Check if themeToggle exists
+    if (!themeToggle) {
+        console.warn('Theme toggle element not found');
+        return;
+    }
     
     // Set initial theme
     if (currentTheme === 'light' || (!currentTheme && !prefersDarkScheme.matches)) {

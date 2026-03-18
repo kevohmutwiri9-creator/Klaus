@@ -21,8 +21,56 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="img/icon-512x512.png">
     
-    <!-- AOS Animation Library -->
+    <!-- AOS Animation Library (Local Fallback) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        /* Fallback animations if AOS fails to load */
+        [data-animation] {
+            opacity: 1;
+            transform: none;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        [data-animation="fade-up"] {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        [data-animation="fade-up"].aos-animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        [data-animation="slide-left"] {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        
+        [data-animation="slide-left"].aos-animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        [data-animation="slide-right"] {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        
+        [data-animation="slide-right"].aos-animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        [data-animation="scale-up"] {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        
+        [data-animation="scale-up"].aos-animate {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
     
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -656,24 +704,51 @@
     
     <!-- Scroll to Top Button -->
     <button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" style="width: 24px; height: 24px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 15l-6-6-6 6"/>
         </svg>
     </button>
     
     <script>
-        // Initialize AOS (Animate On Scroll)
+        // Initialize AOS (Animate On Scroll) with fallback
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize AOS
+            // Try to initialize AOS
+            let aosLoaded = false;
+            
             if (typeof AOS !== 'undefined') {
-                AOS.init({
-                    duration: 800,
-                    once: true,
-                    offset: 100,
-                    disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches
-                });
+                try {
+                    AOS.init({
+                        duration: 800,
+                        once: true,
+                        offset: 100,
+                        disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                    });
+                    aosLoaded = true;
+                } catch (error) {
+                    console.warn('AOS initialization failed:', error);
+                }
             } else {
-                console.warn('AOS library not loaded');
+                console.warn('AOS library not loaded - using fallback animations');
+            }
+            
+            // Fallback: Add animations manually if AOS fails
+            if (!aosLoaded) {
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+                
+                const animationObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('aos-animate');
+                        }
+                    });
+                }, observerOptions);
+                
+                document.querySelectorAll('[data-animation]').forEach(el => {
+                    animationObserver.observe(el);
+                });
             }
             
             // Initialize Adsterra ads
