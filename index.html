@@ -762,32 +762,32 @@
             const themeToggles = document.querySelectorAll('.theme-toggle');
             const themeIcons = document.querySelectorAll('.theme-icon');
             const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-            
-            // Get current theme from localStorage or system preference
-            const currentTheme = localStorage.getItem('theme') || (prefersDarkScheme.matches ? 'dark' : 'light');
-            
-            // Apply current theme
-            document.documentElement.setAttribute('data-theme', currentTheme);
-            updateThemeIcons(currentTheme);
-            
-            // Add click event to all theme toggles
-            themeToggles.forEach(toggle => {
-                toggle.addEventListener('click', () => {
-                    const currentTheme = document.documentElement.getAttribute('data-theme');
-                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                    
-                    document.documentElement.setAttribute('data-theme', newTheme);
-                    localStorage.setItem('theme', newTheme);
-                    updateThemeIcons(newTheme);
-                });
-            });
-            
-            // Update all theme icons
-            function updateThemeIcons(theme) {
+            const storedTheme = localStorage.getItem('theme');
+            const initialTheme = storedTheme || (prefersDarkScheme.matches ? 'dark' : 'light');
+
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
                 themeIcons.forEach(icon => {
                     icon.textContent = theme === 'dark' ? '☀️' : '🌙';
                 });
             }
+
+            applyTheme(initialTheme);
+
+            themeToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    applyTheme(newTheme);
+                });
+            });
+
+            prefersDarkScheme.addEventListener?.('change', (event) => {
+                if (!localStorage.getItem('theme')) {
+                    applyTheme(event.matches ? 'dark' : 'light');
+                }
+            });
             
             // Form validation and submission
             const contactForm = document.getElementById('contactForm');
@@ -804,40 +804,37 @@
                         return;
                     }
                     
-                    // Disable submit button and show loading state
                     submitBtn.disabled = true;
                     submitBtnText.textContent = 'Sending...';
                     submitSpinner.style.display = 'inline-block';
                     
                     try {
-                        // Get form data
                         const formData = new FormData(contactForm);
-                        const formObject = {};
-                        formData.forEach((value, key) => {
-                            formObject[key] = value;
+                        const payload = Object.fromEntries(formData.entries());
+                        payload.formType = 'contact';
+
+                        const response = await fetch('/.netlify/functions/contact', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
                         });
-                        
-                        // Here you would typically send the form data to a server
-                        // For now, we'll simulate a successful submission
-                        await new Promise(resolve => setTimeout(resolve, 1500));
-                        
-                        // Show success message
+
+                        const result = await response.json().catch(() => ({}));
+
+                        if (!response.ok || !result.success) {
+                            throw new Error(result.message || 'Unable to submit message');
+                        }
+
                         contactForm.reset();
+                        formSuccess.textContent = result.message || 'Thank you! Your message has been sent successfully.';
                         formSuccess.style.display = 'block';
-                        
-                        // Hide success message after 5 seconds
-                        setTimeout(() => {
-                            formSuccess.style.display = 'none';
-                        }, 5000);
-                        
-                        // Scroll to show success message
                         formSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                        
                     } catch (error) {
                         console.error('Error submitting form:', error);
-                        alert('There was an error sending your message. Please try again later.');
+                        formSuccess.textContent = 'There was an error sending your message. Please try again later or email me directly.';
+                        formSuccess.style.display = 'block';
+                        formSuccess.classList.add('error');
                     } finally {
-                        // Reset button state
                         submitBtn.disabled = false;
                         submitBtnText.textContent = 'Send Message';
                         submitSpinner.style.display = 'none';
@@ -935,9 +932,16 @@
             // Smooth scroll for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
+                    const href = this.getAttribute('href');
+                    if (!href || href === '#') {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        return;
+                    }
+
+                    const target = document.querySelector(href);
                     if (target) {
+                        e.preventDefault();
                         target.scrollIntoView({
                             behavior: 'smooth',
                             block: 'start'

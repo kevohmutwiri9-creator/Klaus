@@ -393,6 +393,8 @@ document.querySelectorAll('form[name^="newsletter"]').forEach(form => {
         submitButton.disabled = true;
 
         const formData = new FormData(form);
+        const payload = Object.fromEntries(formData.entries());
+        payload.formType = 'newsletter';
 
         const setStatus = (message, tone = 'info') => {
             if (!statusEl) return;
@@ -413,16 +415,19 @@ document.querySelectorAll('form[name^="newsletter"]').forEach(form => {
 
         try {
             setStatus('Submitting…', 'info');
-            const response = await fetch('/', {
+            const response = await fetch('/.netlify/functions/contact', {
                 method: 'POST',
-                body: formData
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
             });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            const result = await response.json().catch(() => ({}));
+
+            if (!response.ok || !result.success) {
+                throw new Error(result.message || 'Unable to subscribe right now');
             }
 
-            setStatus('Thanks for subscribing! Watch your inbox for the next shipping note.', 'success');
+            setStatus(result.message || 'Thanks for subscribing! Watch your inbox for the next shipping note.', 'success');
             form.reset();
             safeTrack('newsletter_submit', { status: 'success', form: form.name });
         } catch (error) {
@@ -928,26 +933,13 @@ filterButtons.forEach(button => {
     button.addEventListener('click', () => {
         const filter = button.getAttribute('data-filter');
 
-        // Update active button
         filterButtons.forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');
 
-        // Filter projects
         projectCards.forEach(card => {
-            if (filter === 'all') {
-                card.style.display = 'block';
-            } else {
-                const tech = card.querySelector('.project-tech').textContent.toLowerCase();
-                if (filter === 'web' && (tech.includes('react') || tech.includes('node') || tech.includes('html') || tech.includes('css'))) {
-                    card.style.display = 'block';
-                } else if (filter === 'mobile' && (tech.includes('react native') || tech.includes('mobile'))) {
-                    card.style.display = 'block';
-                } else if (filter === 'ml' && (tech.includes('python') || tech.includes('machine learning') || tech.includes('scikit-learn'))) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            }
+            const category = (card.getAttribute('data-category') || '').toLowerCase();
+            const visible = filter === 'all' || category.includes(filter);
+            card.style.display = visible ? 'block' : 'none';
         });
     });
 });
