@@ -752,44 +752,6 @@ window.addEventListener('mousemove', (event) => {
     });
 });
 
-// Lightbox functionality
-const lightboxOverlay = document.createElement('div');
-lightboxOverlay.className = 'lightbox-overlay';
-lightboxOverlay.innerHTML = `
-    <div class="lightbox-content">
-        <img src="" alt="Lightbox preview">
-    </div>
-    <button class="lightbox-close" aria-label="Close preview">&times;</button>
-`;
-document.body.appendChild(lightboxOverlay);
-
-const lightboxImage = lightboxOverlay.querySelector('img');
-const lightboxClose = lightboxOverlay.querySelector('.lightbox-close');
-
-function openLightbox(src, alt) {
-    lightboxImage.src = src;
-    lightboxImage.alt = alt;
-    lightboxOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeLightbox() {
-    lightboxOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-lightboxClose.addEventListener('click', closeLightbox);
-lightboxOverlay.addEventListener('click', (event) => {
-    if (event.target === lightboxOverlay) {
-        closeLightbox();
-    }
-});
-
-document.querySelectorAll('[data-lightbox]').forEach(img => {
-    img.addEventListener('click', () => {
-        openLightbox(img.src, img.dataset.caption || img.alt);
-    });
-});
 
 // Dynamic footer year
 const currentYearEl = document.getElementById('currentYear');
@@ -823,72 +785,6 @@ document.querySelectorAll('.project-image[data-loading]').forEach(wrapper => {
     }
 });
 
-// Sticky CTA visibility
-const stickyCta = document.createElement('div');
-stickyCta.className = 'sticky-cta';
-stickyCta.innerHTML = `<button type="button"><span class="cta-icon">⚡</span> Book a discovery call <span class="cta-badge">Open slots</span></button>`;
-document.body.appendChild(stickyCta);
-
-stickyCta.querySelector('button').addEventListener('click', () => {
-    safeTrack('cta_click', { location: 'sticky' });
-    window.open('https://cal.com/kevoh-mutwiri-ms633b/30min', '_blank');
-});
-
-const heroSection = document.getElementById('hero');
-const footer = document.querySelector('footer.footer');
-const contactSection = document.getElementById('contact');
-
-const stickyVisibilityState = {
-    pastHero: false,
-    nearFooter: false,
-    contactVisible: false
-};
-
-const refreshStickyVisibility = () => {
-    const shouldHide = stickyVisibilityState.nearFooter || stickyVisibilityState.contactVisible;
-    if (shouldHide) {
-        stickyCta.classList.remove('visible');
-        return;
-    }
-
-    stickyCta.classList.toggle('visible', stickyVisibilityState.pastHero);
-};
-
-if (heroSection) {
-    const observerSticky = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            stickyVisibilityState.pastHero = !entry.isIntersecting;
-            refreshStickyVisibility();
-        });
-    }, { threshold: 0, rootMargin: '-80px 0px 0px 0px' });
-
-    observerSticky.observe(heroSection);
-} else {
-    stickyVisibilityState.pastHero = true;
-    refreshStickyVisibility();
-}
-
-if (footer) {
-    const footerObserver = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            stickyVisibilityState.nearFooter = entry.isIntersecting;
-            refreshStickyVisibility();
-        });
-    }, { threshold: 0.1 });
-
-    footerObserver.observe(footer);
-}
-
-if (contactSection) {
-    const contactObserver = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            stickyVisibilityState.contactVisible = entry.isIntersecting;
-            refreshStickyVisibility();
-        });
-    }, { threshold: 0.25 });
-
-    contactObserver.observe(contactSection);
-}
 
 // Project carousel for standalone projects page
 const projectsGrid = document.querySelector('body.section-page .projects-grid');

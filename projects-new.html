@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects · Klaus</title>
+  <meta name="description" content="Projects and product experiments by Klaus, covering web apps, portfolio work, AI-powered tools, and developer utilities." />
+  <link rel="stylesheet" href="styles.css?v=3.0.1-20250117" />
+  <link rel="stylesheet" href="styles-ux-overrides.css?v=3.0.1-20250117" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-color, #0f172a);
+      color: var(--text-color, #f8fafc);
+    }
+    .page-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 4rem 1.25rem 5rem;
+    }
+    .page-header {
+      margin-bottom: 2rem;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--primary-color, #2563eb);
+      text-decoration: none;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+    }
+    .page-header h1 {
+      font-size: clamp(2rem, 3vw, 2.7rem);
+      margin: 0 0 0.5rem;
+    }
+    .page-header p {
+      margin: 0;
+      max-width: 700px;
+      opacity: 0.85;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .project-card {
+      background: var(--card-bg, #fff);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.1);
+    }
+    .project-image {
+      aspect-ratio: 16 / 10;
+      background: linear-gradient(135deg, rgba(37,99,235,0.18), rgba(0,212,255,0.18));
+    }
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .project-content {
+      padding: 1.1rem 1.1rem 1.3rem;
+    }
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.8rem;
+    }
+    .project-tech span {
+      padding: 0.4rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      background: rgba(37,99,235,0.1);
+      color: var(--primary-color, #2563eb);
+    }
+    .project-links {
+      display: flex;
+      gap: 0.7rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .project-link {
+      text-decoration: none;
+      color: var(--text-color, #f8fafc);
+      background: var(--primary-color, #2563eb);
+      padding: 0.6rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="page-header">
+      <a class="back-link" href="index.html">← Back to home</a>
+      <h1>Projects</h1>
+      <p>A closer look at the products, experiments, and developer tools I’ve built to solve real-world problems.</p>
+    </header>
+
+    <section class="projects-grid">
+      <article class="project-card">
+        <div class="project-image">
+          <img src="img/coding-image.jpg" alt="Klaus portfolio website" onerror="this.onerror=null; this.src='img/icon-512x512.png';" />
+        </div>
+        <div class="project-content">
+          <h3>Portfolio Website</h3>
+          <p>Modern portfolio experience with polished responsiveness, story-driven sections, and a strong branded presence.</p>
+          <div class="project-tech"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+          <div class="project-links">
+            <a class="project-link" href="https://klaus-portifoliowebsite.netlify.app" target="_blank" rel="noopener">Live</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-image">
+          <img src="img/diary.png" alt="My Diary app" onerror="this.onerror=null; this.src='img/icon-512x512.png';" />
+        </div>
+        <div class="project-content">
+          <h3>MyDiary</h3>
+          <p>A journal and reflection app built to explore secure storage, thoughtful UX, and habit-tracking workflows.</p>
+          <div class="project-tech"><span>Node.js</span><span>Express</span><span>MongoDB</span></div>
+          <div class="project-links">
+            <a class="project-link" href="https://my-diary-m7lx.onrender.com/" target="_blank" rel="noopener">Live</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-image">
+          <img src="img/ATS resume.png" alt="ATS resume builder" onerror="this.onerror=null; this.src='img/icon-512x512.png';" />
+        </div>
+        <div class="project-content">
+          <h3>ATS Resume Builder</h3>
+          <p>A practical resume builder for job applications with structure, templating, and optimization in mind.</p>
+          <div class="project-tech"><span>React</span><span>TypeScript</span><span>Tailwind</span></div>
+          <div class="project-links">
+            <a class="project-link" href="https://my-ats-resume-builder.netlify.app/" target="_blank" rel="noopener">Live</a>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+</body>
+</html>

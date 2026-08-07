@@ -91,6 +91,7 @@
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="styles.css?v=3.0.1-20250117">
+    <link rel="stylesheet" href="styles-ux-overrides.css?v=3.0.1-20250117">
     <link rel="stylesheet" href="ad-styles.css?v=3.0.1-20250117">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
     
@@ -209,10 +210,10 @@
                 <li><a href="#home" class="nav-link">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="projects.html" class="nav-link">All Projects</a></li>
+                <li><a href="projects-new.html" class="nav-link">All Projects</a></li>
                 <li><a href="blog.html" class="nav-link">Blog</a></li>
                 <li><a href="tutorials.html" class="nav-link">Tutorials</a></li>
-                <li><a href="resume.html" class="nav-link">Resume</a></li>
+                <li><a href="resume-new.html" class="nav-link">Resume</a></li>
                 <li><a href="#skills" class="nav-link">Skills</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
@@ -261,12 +262,16 @@
                 
                 <!-- Hero Visual -->
                 <div class="hero-visual" data-animation="scale-up" data-delay="300">
-                    <div class="floating-elements">
-                        <div class="floating-element" data-float="1"></div>
-                        <div class="floating-element" data-float="2"></div>
-                        <div class="floating-element" data-float="3"></div>
+                        <div class="hero-card">
+                            <img src="img/profile.jpg" alt="Klaus portrait" class="hero-portrait" onerror="this.src='img/icon-512x512.png'; this.alt='Profile image unavailable'">
+                            <div class="hero-badge">Available for freelance & full-time work</div>
+                        </div>
+                        <div class="floating-elements">
+                            <div class="floating-element" data-float="1"></div>
+                            <div class="floating-element" data-float="2"></div>
+                            <div class="floating-element" data-float="3"></div>
+                        </div>
                     </div>
-                </div>
             </div> <!-- Close hero-content -->
             
             <div class="hero-cta" data-animation="fade-up" data-delay="200">
@@ -315,7 +320,7 @@
                     
                     <div class="about-image" data-animation="slide-right">
                         <div class="image-container">
-                            <img src="img/profile.jpg" alt="Klaus - Full-Stack Developer" class="profile-image" onerror="this.src='img/icon-512x512.png'; this.alt='Profile image not available'">
+                            <img src="img/profile.jpg" alt="Klaus - Full-Stack Developer" class="profile-image" onerror="this.onerror=null; this.src='img/icon-512x512.png'; this.alt='Profile image not available'">
                             <div class="image-overlay">
                                 <div class="social-links">
                                     <a href="https://github.com/kevohmutwiri9-creator" target="_blank" rel="noopener" aria-label="GitHub">
@@ -377,7 +382,7 @@
                 <div class="projects-grid">
                     <article class="project-card" data-animation="fade-up" data-delay="100" data-category="portfolio">
                         <div class="project-image">
-                            <img src="img/coding-image.jpg" alt="Klaus Portfolio Website">
+                            <img src="img/coding-image.jpg" alt="Klaus Portfolio Website" loading="lazy" onerror="this.onerror=null; this.src='img/icon-512x512.png'; this.alt='Project preview unavailable'">
                             <div class="project-overlay">
                                 <a href="https://klaus-portifoliowebsite.netlify.app" target="_blank" rel="noopener" class="btn btn-ghost">View Project</a>
                             </div>
@@ -399,7 +404,7 @@
                     
                     <article class="project-card" data-animation="fade-up" data-delay="200" data-category="diary">
                         <div class="project-image">
-                            <img src="img/diary.png" alt="My Diary Web App">
+                            <img src="img/diary.png" alt="My Diary Web App" loading="lazy" onerror="this.onerror=null; this.src='img/icon-512x512.png'; this.alt='Project preview unavailable'">
                             <div class="project-overlay">
                                 <a href="https://my-diary-m7lx.onrender.com" target="_blank" rel="noopener" class="btn btn-ghost">View Project</a>
                             </div>
@@ -421,7 +426,7 @@
                     
                     <article class="project-card" data-animation="fade-up" data-delay="300" data-category="resume">
                         <div class="project-image">
-                            <img src="img/ATS resume.png" alt="ATS Resume Builder">
+                            <img src="img/ATS resume.png" alt="ATS Resume Builder" loading="lazy" onerror="this.onerror=null; this.src='img/icon-512x512.png'; this.alt='Project preview unavailable'">
                             <div class="project-overlay">
                                 <a href="https://my-ats-resume-builder.netlify.app/" target="_blank" rel="noopener" class="btn btn-ghost">View Project</a>
                             </div>
@@ -442,7 +447,7 @@
                     </article>
                     
                     <div class="project-actions">
-                        <a href="projects.html" class="btn btn-primary" data-track="view-all-projects">View All Projects</a>
+                        <a href="projects-new.html" class="btn btn-primary" data-track="view-all-projects">View All Projects</a>
                     </div>
                 </div>
             </div>
@@ -646,11 +651,11 @@
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#projects">Projects</a></li>
-                    <li><a href="projects.html">All Projects</a></li>
+                    <li><a href="projects-new.html">All Projects</a></li>
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="tutorials.html">Tutorials</a></li>
                     <li><a href="case-studies.html">Case Studies</a></li>
-                    <li><a href="resume.html">Resume</a></li>
+                    <li><a href="resume-new.html">Resume</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
