@@ -40,6 +40,29 @@
     z-index: 1;
 }
 
+/* Dotted Pattern Overlay */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    z-index: 1;
+    animation: dottedPatternMove 20s linear infinite;
+}
+
+@keyframes dottedPatternMove {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 20px 20px;
+    }
+}
+
 @keyframes gradientMove {
     0%, 100% {
         transform: translate(0, 0) scale(1);
@@ -983,6 +1006,20 @@ img[loading="lazy"] {
     .nav-menu {
         display: flex;
     }
+    
+    /* Contact section responsive */
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .contact-info {
+        order: 2;
+    }
+    
+    .contact-form {
+        order: 1;
+    }
 }
 
 @media (min-width: 769px) {
@@ -1184,6 +1221,50 @@ img[loading="lazy"] {
     transform: scale(1.1);
     background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(124, 58, 237, 0.2));
     box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3), 0 0 20px rgba(37, 99, 235, 0.2);
+    border-color: var(--primary-color);
+}
+
+/* ===== HERO SKILLS TAGS ===== */
+.hero-skills {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.skill-tag {
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-tag::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--rainbow-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: rainbowRotate 3s linear infinite;
+}
+
+.skill-tag:hover::before {
+    opacity: 0.2;
+}
+
+.skill-tag:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
     border-color: var(--primary-color);
 }
 
@@ -1497,28 +1578,11 @@ img[loading="lazy"] {
     margin-bottom: 0.5rem;
     font-weight: 500;
     transition: color 0.3s ease;
-    animation: labelColor 4s ease infinite;
-}
-
-@keyframes labelColor {
-    0%, 100% {
-        color: var(--text-color);
-    }
-    25% {
-        color: var(--neon-pink);
-    }
-    50% {
-        color: var(--neon-blue);
-    }
-    75% {
-        color: var(--neon-green);
-    }
 }
 
 .form-input:focus + .form-label,
 .form-textarea:focus + .form-label {
     color: var(--primary-color);
-    animation: none;
 }
 
 .form-input,
@@ -1537,19 +1601,130 @@ img[loading="lazy"] {
 .form-textarea:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), 0 0 20px rgba(37, 99, 235, 0.2);
-    animation: inputBorder 3s linear infinite;
 }
 
-@keyframes inputBorder {
+/* ===== CONTACT SECTION ENHANCEMENTS ===== */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--rainbow-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: rainbowRotate 3s linear infinite;
+}
+
+.contact-item:hover::before {
+    opacity: 0.1;
+}
+
+.contact-item:hover {
+    transform: translateX(10px);
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
+}
+
+.contact-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: white;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    animation: iconGradient 3s ease infinite;
+}
+
+@keyframes iconGradient {
     0%, 100% {
-        border-color: var(--primary-color);
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     }
-    33% {
-        border-color: var(--neon-pink);
+    50% {
+        background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
     }
-    66% {
-        border-color: var(--neon-blue);
+}
+
+.contact-details h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.contact-details a,
+.contact-details p {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.contact-details a:hover {
+    color: var(--primary-color);
+}
+
+.contact-cta {
+    margin-top: 1rem;
+}
+
+.contact-cta .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    animation: buttonPulse 2s ease infinite;
+}
+
+@keyframes buttonPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
     }
+    50% {
+        box-shadow: 0 0 0 15px rgba(37, 99, 235, 0);
+    }
+}
+
+.contact-form {
+    padding: 2rem;
+}
+
+.btn-full {
+    width: 100%;
 }
 
 /* ===== FOOTER ENHANCEMENTS ===== */
@@ -1671,19 +1846,23 @@ img[loading="lazy"] {
 .section-header {
     position: relative;
     margin-bottom: 3rem;
+    text-align: center;
 }
 
 .section-title {
     position: relative;
     display: inline-block;
+    font-size: 2.5rem;
+    font-weight: 800;
 }
 
 .section-title::after {
     content: '';
     position: absolute;
     bottom: -10px;
-    left: 0;
-    width: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
     height: 4px;
     background: var(--rainbow-gradient);
     background-size: 200% 200%;
@@ -1694,7 +1873,8 @@ img[loading="lazy"] {
 .section-subtitle {
     color: var(--primary-color);
     opacity: 0.8;
-    margin-top: 0.5rem;
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
     animation: subtitleColor 5s ease infinite;
 }
 
