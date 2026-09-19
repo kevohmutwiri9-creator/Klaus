@@ -659,7 +659,7 @@ class InfiniteScroll {
 class ThemeEnhancer {
     constructor() {
         this.html = document.documentElement;
-        this.themeToggles = document.querySelectorAll('.theme-toggle');
+        this.themeToggles = document.querySelectorAll('.theme-toggle, .nav-sidebar-theme-toggle');
         this.init();
     }
 
@@ -704,6 +704,63 @@ class ThemeEnhancer {
         const currentTheme = this.html.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         this.setTheme(newTheme);
+    }
+}
+
+// ===== SIDEBAR NAVIGATION =====
+class SidebarNavigation {
+    constructor() {
+        this.sidebar = document.getElementById('navSidebar');
+        this.links = document.querySelectorAll('.nav-sidebar-link');
+        this.sections = document.querySelectorAll('section[id]');
+        this.init();
+    }
+
+    init() {
+        // Active state on scroll
+        this.initScrollSpy();
+        
+        // Smooth scroll
+        this.links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+    }
+
+    initScrollSpy() {
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '-80px 0px -200px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    this.setActiveLink(id);
+                }
+            });
+        }, observerOptions);
+
+        this.sections.forEach(section => observer.observe(section));
+    }
+
+    setActiveLink(sectionId) {
+        this.links.forEach(link => {
+            link.classList.remove('active');
+            const href = link.getAttribute('href');
+            if (href === `#${sectionId}`) {
+                link.classList.add('active');
+            }
+        });
     }
 }
 
@@ -791,6 +848,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize smart navigation
     new SmartNavigation();
+    
+    // Initialize sidebar navigation
+    new SidebarNavigation();
     
     // Initialize toast manager
     window.toastManager = new ToastManager();
@@ -894,6 +954,7 @@ window.UIEnhancements = {
     TypingAnimation,
     ToastManager,
     SmartNavigation,
+    SidebarNavigation,
     CustomCursor,
     ScrollReveal,
     ParallaxEffect,

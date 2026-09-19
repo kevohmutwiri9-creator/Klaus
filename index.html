@@ -183,6 +183,28 @@
 </head>
 
 <body>
+    <!-- Particle Effects -->
+    <div class="particle-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
+    <!-- Dynamic Background Shapes -->
+    <div class="dynamic-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    
     <!-- Skip to Content Link -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
     
@@ -203,12 +225,12 @@
     <nav class="nav" id="navigation">
         <div class="nav-container">
             <a href="#home" class="nav-brand">
-                <span>Klaus</span>
+                <span class="rainbow-text">Klaus</span>
                 <span class="brand-accent">.</span>
             </a>
             
             <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#home" class="nav-link rainbow-text">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
@@ -243,6 +265,82 @@
         </div>
     </nav>
     
+    <!-- Vertical Navigation Sidebar -->
+    <nav class="nav-sidebar" id="navSidebar">
+        <a href="#home" class="nav-sidebar-brand">
+            <span class="rainbow-text">K</span>
+        </a>
+        
+        <ul class="nav-sidebar-menu">
+            <li>
+                <a href="#home" class="nav-sidebar-link" aria-label="Home">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-sidebar-tooltip">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="#about" class="nav-sidebar-link" aria-label="About">
+                    <i class="fas fa-user"></i>
+                    <span class="nav-sidebar-tooltip">About</span>
+                </a>
+            </li>
+            <li>
+                <a href="#testimonials" class="nav-sidebar-link" aria-label="Testimonials">
+                    <i class="fas fa-quote-left"></i>
+                    <span class="nav-sidebar-tooltip">Testimonials</span>
+                </a>
+            </li>
+            <li>
+                <a href="#projects" class="nav-sidebar-link" aria-label="Projects">
+                    <i class="fas fa-code"></i>
+                    <span class="nav-sidebar-tooltip">Projects</span>
+                </a>
+            </li>
+            <li>
+                <a href="projects-new.html" class="nav-sidebar-link" aria-label="All Projects">
+                    <i class="fas fa-folder"></i>
+                    <span class="nav-sidebar-tooltip">All Projects</span>
+                </a>
+            </li>
+            <li>
+                <a href="blog.html" class="nav-sidebar-link" aria-label="Blog">
+                    <i class="fas fa-blog"></i>
+                    <span class="nav-sidebar-tooltip">Blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="tutorials.html" class="nav-sidebar-link" aria-label="Tutorials">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span class="nav-sidebar-tooltip">Tutorials</span>
+                </a>
+            </li>
+            <li>
+                <a href="resume-new.html" class="nav-sidebar-link" aria-label="Resume">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="nav-sidebar-tooltip">Resume</span>
+                </a>
+            </li>
+            <li>
+                <a href="#skills" class="nav-sidebar-link" aria-label="Skills">
+                    <i class="fas fa-cogs"></i>
+                    <span class="nav-sidebar-tooltip">Skills</span>
+                </a>
+            </li>
+            <li>
+                <a href="#contact" class="nav-sidebar-link" aria-label="Contact">
+                    <i class="fas fa-envelope"></i>
+                    <span class="nav-sidebar-tooltip">Contact</span>
+                </a>
+            </li>
+        </ul>
+        
+        <div class="nav-sidebar-actions">
+            <button class="nav-sidebar-theme-toggle" id="sidebarThemeToggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </nav>
+    
     <!-- Main Content -->
     <main id="main-content">
         <!-- Hero Section -->
@@ -250,15 +348,15 @@
             <div class="hero-content">
                 <div class="hero-text" data-animation="fade-up">
                     <h1 class="hero-title">
-                        Hi, I'm <span class="highlight">Klaus</span>
+                        Hi, I'm <span class="highlight rainbow-text">Klaus</span>
                     </h1>
                     <p class="hero-subtitle" data-animation="fade-up" data-delay="100">
                         <span id="typing-text"></span><span class="typing-cursor"></span>
                     </p>
                     <div class="hero-actions" data-animation="fade-up" data-delay="200">
-                        <a href="#projects" class="btn btn-primary" data-track="hero-projects">View Projects</a>
-                        <a href="#contact" class="btn btn-secondary" data-track="hero-contact">Get In Touch</a>
-                        <a href="assets/Resume.pdf" class="btn btn-ghost" data-track="hero-resume" download>Download Resume</a>
+                        <a href="#projects" class="btn btn-primary rainbow-text" data-track="hero-projects">View Projects</a>
+                        <a href="#contact" class="btn btn-secondary rainbow-text" data-track="hero-contact">Get In Touch</a>
+                        <a href="assets/Resume.pdf" class="btn btn-ghost rainbow-text" data-track="hero-resume" download>Download Resume</a>
                     </div>
                 </div>
                 
@@ -277,7 +375,7 @@
             </div> <!-- Close hero-content -->
             
             <div class="hero-cta" data-animation="fade-up" data-delay="200">
-                <a href="#about" class="btn btn-primary">Learn More About Me</a>
+                <a href="#about" class="btn btn-primary rainbow-text">Learn More About Me</a>
             </div>
         </section>
         
@@ -357,41 +455,41 @@
                 </div>
                 
                 <div class="testimonials-grid">
-                    <div class="testimonial-card glass-card" data-animation="fade-up" data-delay="100">
+                    <div class="testimonial-card glass-card colorful-border" data-animation="fade-up" data-delay="100">
                         <p class="testimonial-text">
                             "Klaus delivered an exceptional portfolio website that exceeded our expectations. His attention to detail and modern design approach made our project stand out."
                         </p>
                         <div class="testimonial-author">
                             <img src="img/icon-512x512.png" alt="Client" class="testimonial-avatar">
                             <div>
-                                <h4>Sarah Johnson</h4>
-                                <p class="testimonial-role">CEO, TechStart</p>
+                                <h4 class="rainbow-text">Wanjiku Kamau</h4>
+                                <p class="testimonial-role">CEO, Nairobi Tech Hub</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="testimonial-card glass-card" data-animation="fade-up" data-delay="200">
+                    <div class="testimonial-card glass-card colorful-border" data-animation="fade-up" data-delay="200">
                         <p class="testimonial-text">
                             "Working with Klaus was a great experience. He's skilled, responsive, and delivers high-quality work on time. Highly recommended for any web development project."
                         </p>
                         <div class="testimonial-author">
                             <img src="img/icon-512x512.png" alt="Client" class="testimonial-avatar">
                             <div>
-                                <h4>Michael Chen</h4>
-                                <p class="testimonial-role">Product Manager, InnovateCo</p>
+                                <h4 class="rainbow-text">David Ochieng</h4>
+                                <p class="testimonial-role">Product Manager, M-Kopa Solar</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="testimonial-card glass-card" data-animation="fade-up" data-delay="300">
+                    <div class="testimonial-card glass-card colorful-border" data-animation="fade-up" data-delay="300">
                         <p class="testimonial-text">
                             "The AI solutions Klaus implemented for our project were impressive. His deep understanding of machine learning and web development makes him a valuable asset."
                         </p>
                         <div class="testimonial-author">
                             <img src="img/icon-512x512.png" alt="Client" class="testimonial-avatar">
                             <div>
-                                <h4>Emily Rodriguez</h4>
-                                <p class="testimonial-role">CTO, DataDriven</p>
+                                <h4 class="rainbow-text">Grace Akinyi</h4>
+                                <p class="testimonial-role">CTO, Safaricom Innovation</p>
                             </div>
                         </div>
                     </div>
@@ -518,7 +616,7 @@
                     </article>
                     
                     <div class="project-actions">
-                        <a href="projects-new.html" class="btn btn-primary" data-track="view-all-projects">View All Projects</a>
+                        <a href="projects-new.html" class="btn btn-primary rainbow-text" data-track="view-all-projects">View All Projects</a>
                     </div>
                 </div>
             </div>
