@@ -77,22 +77,23 @@
     
     <!-- Preload Critical Resources -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="styles.css?v=3.0.1-20250117" as="style">
+    <link rel="preload" href="css/styles.css?v=3.0.1-20250117" as="style">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style">
     <link rel="preload" href="script.js?v=3.0.1-20250117" as="script">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" as="script">
     
     <!-- PWA Manifest -->
-    <link rel="manifest" href="site.webmanifest">
+    <link rel="manifest" href="assets/site.webmanifest">
     <link rel="apple-touch-icon" href="img/logo.png">
     <meta name="theme-color" content="#0a0a0a">
     <meta name="msapplication-TileColor" content="#0a0a0a">
-    <meta name="msapplication-config" content="browserconfig.xml">
+    <meta name="msapplication-config" content="assets/browserconfig.xml">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="styles.css?v=3.0.1-20250117">
-    <link rel="stylesheet" href="styles-ux-overrides.css?v=3.0.1-20250117">
-    <link rel="stylesheet" href="ad-styles.css?v=3.0.1-20250117">
+    <link rel="stylesheet" href="css/styles.css?v=3.0.1-20250117">
+    <link rel="stylesheet" href="css/styles-ux-overrides.css?v=3.0.1-20250117">
+    <link rel="stylesheet" href="css/ad-styles.css?v=3.0.1-20250117">
+    <link rel="stylesheet" href="css/styles-enhanced.css?v=3.0.1-20250117">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
     
     <!-- Canonical URL -->
@@ -209,6 +210,7 @@
             <ul class="nav-menu" id="navMenu">
                 <li><a href="#home" class="nav-link">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
                 <li><a href="projects-new.html" class="nav-link">All Projects</a></li>
                 <li><a href="blog.html" class="nav-link">Blog</a></li>
@@ -251,12 +253,12 @@
                         Hi, I'm <span class="highlight">Klaus</span>
                     </h1>
                     <p class="hero-subtitle" data-animation="fade-up" data-delay="100">
-                        Full-Stack Developer & AI Engineer building scalable web applications and intelligent solutions
+                        <span id="typing-text"></span><span class="typing-cursor"></span>
                     </p>
                     <div class="hero-actions" data-animation="fade-up" data-delay="200">
                         <a href="#projects" class="btn btn-primary" data-track="hero-projects">View Projects</a>
                         <a href="#contact" class="btn btn-secondary" data-track="hero-contact">Get In Touch</a>
-                        <a href="Resume.pdf" class="btn btn-ghost" data-track="hero-resume" download>Download Resume</a>
+                        <a href="assets/Resume.pdf" class="btn btn-ghost" data-track="hero-resume" download>Download Resume</a>
                     </div>
                 </div>
                 
@@ -288,7 +290,7 @@
                 </div>
                 
                 <div class="about-grid">
-                    <div class="about-content" data-animation="slide-left">
+                    <div class="about-content glass-card" data-animation="slide-left">
                         <p>
                             I'm a Computer Science graduate from Baringo National Polytechnic with expertise in full-stack development and machine learning. 
                             I specialize in building scalable web applications, implementing AI solutions, and creating 
@@ -318,7 +320,7 @@
                         </div>
                     </div>
                     
-                    <div class="about-image" data-animation="slide-right">
+                    <div class="about-image glass-card" data-animation="slide-right">
                         <div class="image-container">
                             <img src="img/profile.jpg" alt="Klaus - Full-Stack Developer" class="profile-image" onerror="this.onerror=null; this.src='img/icon-512x512.png'; this.alt='Profile image not available'">
                             <div class="image-overlay">
@@ -339,6 +341,57 @@
                                         <i class="fab fa-instagram"></i>
                                     </a>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="section section-alt">
+            <div class="container">
+                <div class="section-header" data-animation="fade-up">
+                    <h2 class="section-title">What People Say</h2>
+                    <p class="section-subtitle">Feedback from clients and colleagues</p>
+                </div>
+                
+                <div class="testimonials-grid">
+                    <div class="testimonial-card glass-card" data-animation="fade-up" data-delay="100">
+                        <p class="testimonial-text">
+                            "Klaus delivered an exceptional portfolio website that exceeded our expectations. His attention to detail and modern design approach made our project stand out."
+                        </p>
+                        <div class="testimonial-author">
+                            <img src="img/icon-512x512.png" alt="Client" class="testimonial-avatar">
+                            <div>
+                                <h4>Sarah Johnson</h4>
+                                <p class="testimonial-role">CEO, TechStart</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card glass-card" data-animation="fade-up" data-delay="200">
+                        <p class="testimonial-text">
+                            "Working with Klaus was a great experience. He's skilled, responsive, and delivers high-quality work on time. Highly recommended for any web development project."
+                        </p>
+                        <div class="testimonial-author">
+                            <img src="img/icon-512x512.png" alt="Client" class="testimonial-avatar">
+                            <div>
+                                <h4>Michael Chen</h4>
+                                <p class="testimonial-role">Product Manager, InnovateCo</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card glass-card" data-animation="fade-up" data-delay="300">
+                        <p class="testimonial-text">
+                            "The AI solutions Klaus implemented for our project were impressive. His deep understanding of machine learning and web development makes him a valuable asset."
+                        </p>
+                        <div class="testimonial-author">
+                            <img src="img/icon-512x512.png" alt="Client" class="testimonial-avatar">
+                            <div>
+                                <h4>Emily Rodriguez</h4>
+                                <p class="testimonial-role">CTO, DataDriven</p>
                             </div>
                         </div>
                     </div>
@@ -393,6 +446,12 @@
                                 Modern, responsive portfolio website showcasing advanced web development skills with 
                                 React, animations, and cutting-edge design patterns.
                             </p>
+                            <div class="tech-stack-icons">
+                                <div class="tech-icon" title="React">⚛️</div>
+                                <div class="tech-icon" title="JavaScript">JS</div>
+                                <div class="tech-icon" title="CSS3">🎨</div>
+                                <div class="tech-icon" title="Netlify">🚀</div>
+                            </div>
                             <div class="project-tags">
                                 <span class="tag">React</span>
                                 <span class="tag">JavaScript</span>
@@ -415,6 +474,12 @@
                                 Personal diary application with secure authentication, rich text editing, 
                                 and cloud synchronization for journal entries.
                             </p>
+                            <div class="tech-stack-icons">
+                                <div class="tech-icon" title="Node.js">🟢</div>
+                                <div class="tech-icon" title="Express">⚡</div>
+                                <div class="tech-icon" title="MongoDB">🍃</div>
+                                <div class="tech-icon" title="JWT">🔐</div>
+                            </div>
                             <div class="project-tags">
                                 <span class="tag">Node.js</span>
                                 <span class="tag">Express</span>
@@ -437,6 +502,12 @@
                                 Professional resume builder with ATS optimization, multiple templates, 
                                 and real-time preview for job applications.
                             </p>
+                            <div class="tech-stack-icons">
+                                <div class="tech-icon" title="React">⚛️</div>
+                                <div class="tech-icon" title="TypeScript">TS</div>
+                                <div class="tech-icon" title="PDF.js">📄</div>
+                                <div class="tech-icon" title="Tailwind">🎨</div>
+                            </div>
                             <div class="project-tags">
                                 <span class="tag">React</span>
                                 <span class="tag">TypeScript</span>
@@ -462,7 +533,7 @@
                 </div>
                 
                 <div class="skills-grid">
-                    <div class="skill-category" data-animation="fade-up" data-delay="100">
+                    <div class="skill-category glass-card" data-animation="fade-up" data-delay="100">
                         <h3 class="skill-title">Frontend Development</h3>
                         <div class="skill-list">
                             <div class="skill-item">
@@ -492,7 +563,7 @@
                         </div>
                     </div>
                     
-                    <div class="skill-category" data-animation="fade-up" data-delay="200">
+                    <div class="skill-category glass-card" data-animation="fade-up" data-delay="200">
                         <h3 class="skill-title">Backend Development</h3>
                         <div class="skill-list">
                             <div class="skill-item">
@@ -522,7 +593,7 @@
                         </div>
                     </div>
                     
-                    <div class="skill-category" data-animation="fade-up" data-delay="300">
+                    <div class="skill-category glass-card" data-animation="fade-up" data-delay="300">
                         <h3 class="skill-title">AI & Machine Learning</h3>
                         <div class="skill-list">
                             <div class="skill-item">
@@ -564,7 +635,7 @@
                 </div>
                 
                 <div class="contact-grid">
-                    <div class="contact-info" data-animation="slide-left">
+                    <div class="contact-info glass-card" data-animation="slide-left">
                         <div class="contact-item">
                             <div class="contact-icon">
                                 <i class="fas fa-envelope"></i>
@@ -596,7 +667,7 @@
                         </div>
                     </div>
                     
-                    <div class="contact-form" data-animation="slide-right">
+                    <div class="contact-form glass-card" data-animation="slide-right">
                         <form class="form" id="contactForm" novalidate>
                             <div class="form-group">
                                 <label for="name" class="form-label">Name</label>
@@ -650,6 +721,7 @@
                 <ul class="footer-links">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
                     <li><a href="#projects">Projects</a></li>
                     <li><a href="projects-new.html">All Projects</a></li>
                     <li><a href="blog.html">Blog</a></li>
@@ -700,7 +772,8 @@
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="script.js?v=3.0.1-20250117"></script>
+    <script src="js/script.js?v=3.0.1-20250117"></script>
+    <script src="js/script-enhanced.js?v=3.0.1-20250117"></script>
     
     <!-- Theme Toggle Button (Fixed) -->
     <button id="theme-toggle-fixed" class="theme-toggle theme-toggle-fixed" aria-label="Toggle dark/light mode">
@@ -958,7 +1031,7 @@
             // Service Worker Registration
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
-                    navigator.serviceWorker.register('/sw.js')
+                    navigator.serviceWorker.register('/js/sw.js')
                         .then(registration => {
                             console.log('ServiceWorker registration successful');
                         })
