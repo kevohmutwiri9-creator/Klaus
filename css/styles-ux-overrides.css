@@ -46,10 +46,24 @@
 .section-page .resume-section,
 .section-page .case-study,
 .section-page .tutorial-card {
-  background: var(--card-bg, #ffffff);
+  background: #f8fafc;
+  color: #0f172a;
   border: 1px solid rgba(148, 163, 184, 0.18);
   border-radius: 20px;
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="dark"] .section-page .project-card,
+[data-theme="dark"] .section-page .blog-card,
+[data-theme="dark"] .section-page .resume-section,
+[data-theme="dark"] .section-page .case-study,
+[data-theme="dark"] .section-page .tutorial-card {
+  background: var(--card-bg, #1e293b);
+  color: var(--text-color, #f8fafc);
+}
+
+.section-page .resume-section * {
+  color: inherit;
 }
 
 img {
