@@ -1,0 +1,120 @@
+/* Adsterra Ad Styles */
+/* Ad Container Styles */
+.ad-container {
+    margin: 1rem 0;
+    text-align: center;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.ad-container[data-ad-size="728x90"] {
+    min-height: 90px;
+}
+
+.ad-container[data-ad-size="300x250"] {
+    min-height: 250px;
+}
+
+.ad-container[data-ad-size="300x600"] {
+    min-height: 600px;
+}
+
+.ad-container[data-ad-size="160x600"] {
+    min-height: 600px;
+}
+
+/* Ad Placeholder */
+.ad-placeholder {
+    background: var(--bg-tertiary);
+    border: 1px dashed var(--border-color);
+    border-radius: 8px;
+    padding: 2rem 1rem;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.ad-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.ad-loading i {
+    font-size: 1.5rem;
+    opacity: 0.5;
+}
+
+/* Ad Info Button */
+.ad-info {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
+.ad-info-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.ad-info-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+}
+
+/* Ad Error State */
+.ad-error {
+    background: rgba(248, 113, 113, 0.1);
+    border: 1px solid rgba(248, 113, 113, 0.3);
+    border-radius: 8px;
+    padding: 2rem 1rem;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--danger-color);
+    font-size: 0.9rem;
+}
+
+.ad-error i {
+    font-size: 1.5rem;
+    opacity: 0.7;
+}
+
+/* Adsterra Ad Styles */
+.adsterra-ad {
+    width: 100%;
+    height: auto;
+    min-height: 90px;
+}
+
+.adsterra-ad iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Ad Placement Specific Styles */
+.ad-header {
+    margin: 0 auto 2rem;
+    max-width: 728px;
+}
+
+.ad-sidebar {
+    margin: 2rem 0;
+    max-width: 300px;
+}

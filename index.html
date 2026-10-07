@@ -28,12 +28,12 @@
         [data-animation] {
             opacity: 1;
             transform: none;
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transition: opacity 0.35s ease, transform 0.35s ease;
         }
         
         [data-animation="fade-up"] {
-            opacity: 0;
-            transform: translateY(30px);
+            opacity: 1;
+            transform: translateY(12px);
         }
         
         [data-animation="fade-up"].aos-animate {
@@ -42,8 +42,8 @@
         }
         
         [data-animation="slide-left"] {
-            opacity: 0;
-            transform: translateX(-30px);
+            opacity: 1;
+            transform: translateX(-12px);
         }
         
         [data-animation="slide-left"].aos-animate {
@@ -52,8 +52,8 @@
         }
         
         [data-animation="slide-right"] {
-            opacity: 0;
-            transform: translateX(30px);
+            opacity: 1;
+            transform: translateX(12px);
         }
         
         [data-animation="slide-right"].aos-animate {
@@ -62,8 +62,8 @@
         }
         
         [data-animation="scale-up"] {
-            opacity: 0;
-            transform: scale(0.9);
+            opacity: 1;
+            transform: scale(0.97);
         }
         
         [data-animation="scale-up"].aos-animate {
@@ -79,21 +79,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="css/styles.css?v=3.0.1-20250117" as="style">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style">
-    <link rel="preload" href="script.js?v=3.0.1-20250117" as="script">
+    <link rel="preload" href="js/script.js?v=3.0.1-20250117" as="script">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" as="script">
     
     <!-- PWA Manifest -->
-    <link rel="manifest" href="assets/site.webmanifest">
+    <link rel="manifest" href="site.webmanifest">
     <link rel="apple-touch-icon" href="img/logo.png">
     <meta name="theme-color" content="#0a0a0a">
     <meta name="msapplication-TileColor" content="#0a0a0a">
-    <meta name="msapplication-config" content="assets/browserconfig.xml">
+    <meta name="msapplication-config" content="browserconfig.xml">
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="css/styles.css?v=3.0.1-20250117">
     <link rel="stylesheet" href="css/styles-ux-overrides.css?v=3.0.1-20250117">
     <link rel="stylesheet" href="css/ad-styles.css?v=3.0.1-20250117">
-    <link rel="stylesheet" href="css/styles-enhanced.css?v=3.0.1-20250117">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
     
     <!-- Canonical URL -->
@@ -179,32 +178,23 @@
                 document.documentElement.setAttribute('data-theme', 'light');
             }
         })();
+
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                document.body.classList.add('loaded');
+            }, 150);
+        });
     </script>
+    <style>
+        body.loaded .loading-screen {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Particle Effects -->
-    <div class="particle-container">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
-    
-    <!-- Dynamic Background Shapes -->
-    <div class="dynamic-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-    
     <!-- Skip to Content Link -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
     
@@ -225,14 +215,13 @@
     <nav class="nav" id="navigation">
         <div class="nav-container">
             <a href="#home" class="nav-brand">
-                <span class="rainbow-text">Klaus</span>
+                <span>Klaus</span>
                 <span class="brand-accent">.</span>
             </a>
             
             <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="nav-link rainbow-text">Home</a></li>
+                <li><a href="#home" class="nav-link">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
                 <li><a href="projects-new.html" class="nav-link">All Projects</a></li>
                 <li><a href="blog.html" class="nav-link">Blog</a></li>
@@ -265,82 +254,6 @@
         </div>
     </nav>
     
-    <!-- Vertical Navigation Sidebar -->
-    <nav class="nav-sidebar" id="navSidebar">
-        <a href="#home" class="nav-sidebar-brand">
-            <span class="rainbow-text">K</span>
-        </a>
-        
-        <ul class="nav-sidebar-menu">
-            <li>
-                <a href="#home" class="nav-sidebar-link" aria-label="Home">
-                    <i class="fas fa-home"></i>
-                    <span class="nav-sidebar-tooltip">Home</span>
-                </a>
-            </li>
-            <li>
-                <a href="#about" class="nav-sidebar-link" aria-label="About">
-                    <i class="fas fa-user"></i>
-                    <span class="nav-sidebar-tooltip">About</span>
-                </a>
-            </li>
-            <li>
-                <a href="#testimonials" class="nav-sidebar-link" aria-label="Testimonials">
-                    <i class="fas fa-quote-left"></i>
-                    <span class="nav-sidebar-tooltip">Testimonials</span>
-                </a>
-            </li>
-            <li>
-                <a href="#projects" class="nav-sidebar-link" aria-label="Projects">
-                    <i class="fas fa-code"></i>
-                    <span class="nav-sidebar-tooltip">Projects</span>
-                </a>
-            </li>
-            <li>
-                <a href="projects-new.html" class="nav-sidebar-link" aria-label="All Projects">
-                    <i class="fas fa-folder"></i>
-                    <span class="nav-sidebar-tooltip">All Projects</span>
-                </a>
-            </li>
-            <li>
-                <a href="blog.html" class="nav-sidebar-link" aria-label="Blog">
-                    <i class="fas fa-blog"></i>
-                    <span class="nav-sidebar-tooltip">Blog</span>
-                </a>
-            </li>
-            <li>
-                <a href="tutorials.html" class="nav-sidebar-link" aria-label="Tutorials">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span class="nav-sidebar-tooltip">Tutorials</span>
-                </a>
-            </li>
-            <li>
-                <a href="resume-new.html" class="nav-sidebar-link" aria-label="Resume">
-                    <i class="fas fa-file-alt"></i>
-                    <span class="nav-sidebar-tooltip">Resume</span>
-                </a>
-            </li>
-            <li>
-                <a href="#skills" class="nav-sidebar-link" aria-label="Skills">
-                    <i class="fas fa-cogs"></i>
-                    <span class="nav-sidebar-tooltip">Skills</span>
-                </a>
-            </li>
-            <li>
-                <a href="#contact" class="nav-sidebar-link" aria-label="Contact">
-                    <i class="fas fa-envelope"></i>
-                    <span class="nav-sidebar-tooltip">Contact</span>
-                </a>
-            </li>
-        </ul>
-        
-        <div class="nav-sidebar-actions">
-            <button class="nav-sidebar-theme-toggle" id="sidebarThemeToggle" aria-label="Toggle theme">
-                <span class="theme-icon">🌙</span>
-            </button>
-        </div>
-    </nav>
-    
     <!-- Main Content -->
     <main id="main-content">
         <!-- Hero Section -->
@@ -348,29 +261,29 @@
             <div class="hero-content">
                 <div class="hero-text" data-animation="fade-up">
                     <h1 class="hero-title">
-                        Hi, I'm <span class="highlight rainbow-text">Klaus</span>
+                        Hi, I'm <span class="highlight">Klaus</span>
                     </h1>
                     <p class="hero-subtitle" data-animation="fade-up" data-delay="100">
-                        <span id="typing-text"></span><span class="typing-cursor"></span>
+                        Full-Stack Developer & AI Engineer building scalable web applications and intelligent solutions
                     </p>
-                    <div class="hero-skills" data-animation="fade-up" data-delay="150">
-                        <span class="skill-tag rainbow-text">React</span>
-                        <span class="skill-tag rainbow-text">Node.js</span>
-                        <span class="skill-tag rainbow-text">Python</span>
-                        <span class="skill-tag rainbow-text">AI/ML</span>
+                    <div class="hero-skills" aria-label="Core technologies">
+                        <span>React</span>
+                        <span>Node.js</span>
+                        <span>Python</span>
+                        <span>AI/ML</span>
                     </div>
                     <div class="hero-actions" data-animation="fade-up" data-delay="200">
-                        <a href="#projects" class="btn btn-primary rainbow-text" data-track="hero-projects">View Projects</a>
-                        <a href="#contact" class="btn btn-secondary rainbow-text" data-track="hero-contact">Get In Touch</a>
-                        <a href="assets/Resume.pdf" class="btn btn-ghost rainbow-text" data-track="hero-resume" download>Download Resume</a>
+                        <a href="#projects" class="btn btn-primary" data-track="hero-projects">View Projects</a>
+                        <a href="#contact" class="btn btn-secondary" data-track="hero-contact">Get In Touch</a>
+                        <a href="assets/Resume.pdf" class="btn btn-ghost" data-track="hero-resume" download>Download Resume / CV</a>
                     </div>
                 </div>
                 
                 <!-- Hero Visual -->
                 <div class="hero-visual" data-animation="scale-up" data-delay="300">
-                        <div class="hero-card colorful-border">
+                        <div class="hero-card">
                             <img src="img/profile.jpg" alt="Klaus portrait" class="hero-portrait" onerror="this.src='img/icon-512x512.png'; this.alt='Profile image unavailable'">
-                            <div class="hero-badge rainbow-text">Available for freelance & full-time work</div>
+                            <div class="hero-badge">Available for freelance & full-time work</div>
                         </div>
                         <div class="floating-elements">
                             <div class="floating-element" data-float="1"></div>
@@ -381,7 +294,7 @@
             </div> <!-- Close hero-content -->
             
             <div class="hero-cta" data-animation="fade-up" data-delay="200">
-                <a href="#about" class="btn btn-primary rainbow-text neon-text">Learn More About Me</a>
+                <a href="#about" class="btn btn-primary">Learn More About Me</a>
             </div>
         </section>
         
@@ -389,12 +302,12 @@
         <section id="about" class="section">
             <div class="container">
                 <div class="section-header" data-animation="fade-up">
-                    <h2 class="section-title rainbow-text">About Me</h2>
+                    <h2 class="section-title">About Me</h2>
                     <p class="section-subtitle">Passionate about creating innovative digital solutions</p>
                 </div>
                 
                 <div class="about-grid">
-                    <div class="about-content glass-card colorful-border" data-animation="slide-left">
+                    <div class="about-content" data-animation="slide-left">
                         <p>
                             I'm a Computer Science graduate from Baringo National Polytechnic with expertise in full-stack development and machine learning. 
                             I specialize in building scalable web applications, implementing AI solutions, and creating 
@@ -424,78 +337,27 @@
                         </div>
                     </div>
                     
-                    <div class="about-image glass-card colorful-border" data-animation="slide-right">
+                    <div class="about-image" data-animation="slide-right">
                         <div class="image-container">
                             <img src="img/profile.jpg" alt="Klaus - Full-Stack Developer" class="profile-image" onerror="this.onerror=null; this.src='img/icon-512x512.png'; this.alt='Profile image not available'">
                             <div class="image-overlay">
                                 <div class="social-links">
-                                    <a href="https://github.com/kevohmutwiri9-creator" target="_blank" rel="noopener" aria-label="GitHub" class="rainbow-text">
+                                    <a href="https://github.com/kevohmutwiri9-creator" target="_blank" rel="noopener" aria-label="GitHub">
                                         <i class="fab fa-github"></i>
                                     </a>
-                                    <a href="https://www.linkedin.com/in/kevoh-mutwiri-136b912a9" target="_blank" rel="noopener" aria-label="LinkedIn" class="rainbow-text">
+                                    <a href="https://www.linkedin.com/in/kevoh-mutwiri-136b912a9" target="_blank" rel="noopener" aria-label="LinkedIn">
                                         <i class="fab fa-linkedin"></i>
                                     </a>
-                                    <a href="https://x.com/kevohmutwiri9" target="_blank" rel="noopener" aria-label="Twitter/X" class="rainbow-text">
+                                    <a href="https://x.com/kevohmutwiri9" target="_blank" rel="noopener" aria-label="Twitter/X">
                                         <i class="fab fa-x-twitter"></i>
                                     </a>
-                                    <a href="https://www.facebook.com/kevohx2071" target="_blank" rel="noopener" aria-label="Facebook" class="rainbow-text">
+                                    <a href="https://www.facebook.com/kevohx2071" target="_blank" rel="noopener" aria-label="Facebook">
                                         <i class="fab fa-facebook"></i>
                                     </a>
-                                    <a href="https://www.instagram.com/kevohx2071/" target="_blank" rel="noopener" aria-label="Instagram" class="rainbow-text">
+                                    <a href="https://www.instagram.com/kevohx2071/" target="_blank" rel="noopener" aria-label="Instagram">
                                         <i class="fab fa-instagram"></i>
                                     </a>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Testimonials Section -->
-        <section id="testimonials" class="section section-alt">
-            <div class="container">
-                <div class="section-header" data-animation="fade-up">
-                    <h2 class="section-title">What People Say</h2>
-                    <p class="section-subtitle">Feedback from clients and colleagues</p>
-                </div>
-                
-                <div class="testimonials-grid">
-                    <div class="testimonial-card glass-card colorful-border" data-animation="fade-up" data-delay="100">
-                        <p class="testimonial-text">
-                            "Klaus delivered an exceptional portfolio website that exceeded our expectations. His attention to detail and modern design approach made our project stand out."
-                        </p>
-                        <div class="testimonial-author">
-                            <img src="img/icon-512x512.png" alt="Client" class="testimonial-avatar">
-                            <div>
-                                <h4 class="rainbow-text">Wanjiku Kamau</h4>
-                                <p class="testimonial-role">CEO, Nairobi Tech Hub</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial-card glass-card colorful-border" data-animation="fade-up" data-delay="200">
-                        <p class="testimonial-text">
-                            "Working with Klaus was a great experience. He's skilled, responsive, and delivers high-quality work on time. Highly recommended for any web development project."
-                        </p>
-                        <div class="testimonial-author">
-                            <img src="img/icon-512x512.png" alt="Client" class="testimonial-avatar">
-                            <div>
-                                <h4 class="rainbow-text">David Ochieng</h4>
-                                <p class="testimonial-role">Product Manager, M-Kopa Solar</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial-card glass-card colorful-border" data-animation="fade-up" data-delay="300">
-                        <p class="testimonial-text">
-                            "The AI solutions Klaus implemented for our project were impressive. His deep understanding of machine learning and web development makes him a valuable asset."
-                        </p>
-                        <div class="testimonial-author">
-                            <img src="img/icon-512x512.png" alt="Client" class="testimonial-avatar">
-                            <div>
-                                <h4 class="rainbow-text">Grace Akinyi</h4>
-                                <p class="testimonial-role">CTO, Safaricom Innovation</p>
                             </div>
                         </div>
                     </div>
@@ -524,16 +386,16 @@
         <section id="projects" class="section section-alt">
             <div class="container">
                 <div class="section-header" data-animation="fade-up">
-                    <h2 class="section-title rainbow-text">Featured Projects</h2>
+                    <h2 class="section-title">Featured Projects</h2>
                     <p class="section-subtitle">Showcasing my best work and technical expertise</p>
                 </div>
                 
                 <!-- Project Filter Buttons -->
                 <div class="filter-buttons">
-                    <button class="filter-btn active rainbow-text" data-filter="all">All Projects</button>
-                    <button class="filter-btn rainbow-text" data-filter="portfolio">Portfolio</button>
-                    <button class="filter-btn rainbow-text" data-filter="diary">Web Apps</button>
-                    <button class="filter-btn rainbow-text" data-filter="resume">Tools</button>
+                    <button class="filter-btn active" data-filter="all">All Projects</button>
+                    <button class="filter-btn" data-filter="portfolio">Portfolio</button>
+                    <button class="filter-btn" data-filter="diary">Web Apps</button>
+                    <button class="filter-btn" data-filter="resume">Tools</button>
                 </div>
                 
                 <div class="projects-grid">
@@ -541,26 +403,20 @@
                         <div class="project-image">
                             <img src="img/coding-image.jpg" alt="Klaus Portfolio Website" loading="lazy" onerror="this.onerror=null; this.src='img/icon-512x512.png'; this.alt='Project preview unavailable'">
                             <div class="project-overlay">
-                                <a href="https://klaus-portifoliowebsite.netlify.app" target="_blank" rel="noopener" class="btn btn-ghost rainbow-text">View Project</a>
+                                <a href="https://klaus-portifoliowebsite.netlify.app" target="_blank" rel="noopener" class="btn btn-ghost">View Project</a>
                             </div>
                         </div>
                         <div class="project-content">
-                            <h3 class="project-title rainbow-text">Portfolio Website</h3>
+                            <h3 class="project-title">Portfolio Website</h3>
                             <p class="project-description">
                                 Modern, responsive portfolio website showcasing advanced web development skills with 
                                 React, animations, and cutting-edge design patterns.
                             </p>
-                            <div class="tech-stack-icons">
-                                <div class="tech-icon" title="React">⚛️</div>
-                                <div class="tech-icon" title="JavaScript">JS</div>
-                                <div class="tech-icon" title="CSS3">🎨</div>
-                                <div class="tech-icon" title="Netlify">🚀</div>
-                            </div>
                             <div class="project-tags">
-                                <span class="tag rainbow-text">React</span>
-                                <span class="tag rainbow-text">JavaScript</span>
-                                <span class="tag rainbow-text">CSS3</span>
-                                <span class="tag rainbow-text">Netlify</span>
+                                <span class="tag">React</span>
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">CSS3</span>
+                                <span class="tag">Netlify</span>
                             </div>
                         </div>
                     </article>
@@ -569,26 +425,20 @@
                         <div class="project-image">
                             <img src="img/diary.png" alt="My Diary Web App" loading="lazy" onerror="this.onerror=null; this.src='img/icon-512x512.png'; this.alt='Project preview unavailable'">
                             <div class="project-overlay">
-                                <a href="https://my-diary-m7lx.onrender.com" target="_blank" rel="noopener" class="btn btn-ghost rainbow-text">View Project</a>
+                                <a href="https://my-diary-m7lx.onrender.com" target="_blank" rel="noopener" class="btn btn-ghost">View Project</a>
                             </div>
                         </div>
                         <div class="project-content">
-                            <h3 class="project-title rainbow-text">My Diary Web App</h3>
+                            <h3 class="project-title">My Diary Web App</h3>
                             <p class="project-description">
                                 Personal diary application with secure authentication, rich text editing, 
                                 and cloud synchronization for journal entries.
                             </p>
-                            <div class="tech-stack-icons">
-                                <div class="tech-icon" title="Node.js">🟢</div>
-                                <div class="tech-icon" title="Express">⚡</div>
-                                <div class="tech-icon" title="MongoDB">🍃</div>
-                                <div class="tech-icon" title="JWT">🔐</div>
-                            </div>
                             <div class="project-tags">
-                                <span class="tag rainbow-text">Node.js</span>
-                                <span class="tag rainbow-text">Express</span>
-                                <span class="tag rainbow-text">MongoDB</span>
-                                <span class="tag rainbow-text">JWT</span>
+                                <span class="tag">Node.js</span>
+                                <span class="tag">Express</span>
+                                <span class="tag">MongoDB</span>
+                                <span class="tag">JWT</span>
                             </div>
                         </div>
                     </article>
@@ -597,32 +447,26 @@
                         <div class="project-image">
                             <img src="img/ATS resume.png" alt="ATS Resume Builder" loading="lazy" onerror="this.onerror=null; this.src='img/icon-512x512.png'; this.alt='Project preview unavailable'">
                             <div class="project-overlay">
-                                <a href="https://my-ats-resume-builder.netlify.app/" target="_blank" rel="noopener" class="btn btn-ghost rainbow-text">View Project</a>
+                                <a href="https://my-ats-resume-builder.netlify.app/" target="_blank" rel="noopener" class="btn btn-ghost">View Project</a>
                             </div>
                         </div>
                         <div class="project-content">
-                            <h3 class="project-title rainbow-text">ATS Resume Builder</h3>
+                            <h3 class="project-title">ATS Resume Builder</h3>
                             <p class="project-description">
                                 Professional resume builder with ATS optimization, multiple templates, 
                                 and real-time preview for job applications.
                             </p>
-                            <div class="tech-stack-icons">
-                                <div class="tech-icon" title="React">⚛️</div>
-                                <div class="tech-icon" title="TypeScript">TS</div>
-                                <div class="tech-icon" title="PDF.js">📄</div>
-                                <div class="tech-icon" title="Tailwind">🎨</div>
-                            </div>
                             <div class="project-tags">
-                                <span class="tag rainbow-text">React</span>
-                                <span class="tag rainbow-text">TypeScript</span>
-                                <span class="tag rainbow-text">PDF.js</span>
-                                <span class="tag rainbow-text">Tailwind</span>
+                                <span class="tag">React</span>
+                                <span class="tag">TypeScript</span>
+                                <span class="tag">PDF.js</span>
+                                <span class="tag">Tailwind</span>
                             </div>
                         </div>
                     </article>
                     
                     <div class="project-actions">
-                        <a href="projects-new.html" class="btn btn-primary rainbow-text" data-track="view-all-projects">View All Projects</a>
+                        <a href="projects-new.html" class="btn btn-primary" data-track="view-all-projects">View All Projects</a>
                     </div>
                 </div>
             </div>
@@ -632,34 +476,34 @@
         <section id="skills" class="section">
             <div class="container">
                 <div class="section-header" data-animation="fade-up">
-                    <h2 class="section-title rainbow-text">Technical Skills</h2>
+                    <h2 class="section-title">Technical Skills</h2>
                     <p class="section-subtitle">Technologies and tools I work with</p>
                 </div>
                 
                 <div class="skills-grid">
-                    <div class="skill-category glass-card colorful-border" data-animation="fade-up" data-delay="100">
-                        <h3 class="skill-title rainbow-text">Frontend Development</h3>
+                    <div class="skill-category" data-animation="fade-up" data-delay="100">
+                        <h3 class="skill-title">Frontend Development</h3>
                         <div class="skill-list">
                             <div class="skill-item">
-                                <span class="skill-name rainbow-text">React</span>
+                                <span class="skill-name">React</span>
                                 <div class="skill-bar">
                                     <div class="skill-progress" data-skill="90"></div>
                                 </div>
                             </div>
                             <div class="skill-item">
-                                <span class="skill-name rainbow-text">TypeScript</span>
+                                <span class="skill-name">TypeScript</span>
                                 <div class="skill-bar">
                                     <div class="skill-progress" data-skill="85"></div>
                                 </div>
                             </div>
                             <div class="skill-item">
-                                <span class="skill-name rainbow-text">Vue.js</span>
+                                <span class="skill-name">Vue.js</span>
                                 <div class="skill-bar">
                                     <div class="skill-progress" data-skill="80"></div>
                                 </div>
                             </div>
                             <div class="skill-item">
-                                <span class="skill-name rainbow-text">CSS/Sass</span>
+                                <span class="skill-name">CSS/Sass</span>
                                 <div class="skill-bar">
                                     <div class="skill-progress" data-skill="95"></div>
                                 </div>
@@ -667,29 +511,29 @@
                         </div>
                     </div>
                     
-                    <div class="skill-category glass-card colorful-border" data-animation="fade-up" data-delay="200">
-                        <h3 class="skill-title rainbow-text">Backend Development</h3>
+                    <div class="skill-category" data-animation="fade-up" data-delay="200">
+                        <h3 class="skill-title">Backend Development</h3>
                         <div class="skill-list">
                             <div class="skill-item">
-                                <span class="skill-name rainbow-text">Node.js</span>
+                                <span class="skill-name">Node.js</span>
                                 <div class="skill-bar">
                                     <div class="skill-progress" data-skill="90"></div>
                                 </div>
                             </div>
                             <div class="skill-item">
-                                <span class="skill-name rainbow-text">Python</span>
+                                <span class="skill-name">Python</span>
                                 <div class="skill-bar">
                                     <div class="skill-progress" data-skill="95"></div>
                                 </div>
                             </div>
                             <div class="skill-item">
-                                <span class="skill-name rainbow-text">PostgreSQL</span>
+                                <span class="skill-name">PostgreSQL</span>
                                 <div class="skill-bar">
                                     <div class="skill-progress" data-skill="85"></div>
                                 </div>
                             </div>
                             <div class="skill-item">
-                                <span class="skill-name rainbow-text">MongoDB</span>
+                                <span class="skill-name">MongoDB</span>
                                 <div class="skill-bar">
                                     <div class="skill-progress" data-skill="80"></div>
                                 </div>
@@ -697,29 +541,29 @@
                         </div>
                     </div>
                     
-                    <div class="skill-category glass-card colorful-border" data-animation="fade-up" data-delay="300">
-                        <h3 class="skill-title rainbow-text">AI & Machine Learning</h3>
+                    <div class="skill-category" data-animation="fade-up" data-delay="300">
+                        <h3 class="skill-title">AI & Machine Learning</h3>
                         <div class="skill-list">
                             <div class="skill-item">
-                                <span class="skill-name rainbow-text">TensorFlow</span>
+                                <span class="skill-name">TensorFlow</span>
                                 <div class="skill-bar">
                                     <div class="skill-progress" data-skill="85"></div>
                                 </div>
                             </div>
                             <div class="skill-item">
-                                <span class="skill-name rainbow-text">PyTorch</span>
+                                <span class="skill-name">PyTorch</span>
                                 <div class="skill-bar">
                                     <div class="skill-progress" data-skill="80"></div>
                                 </div>
                             </div>
                             <div class="skill-item">
-                                <span class="skill-name rainbow-text">Scikit-learn</span>
+                                <span class="skill-name">Scikit-learn</span>
                                 <div class="skill-bar">
                                     <div class="skill-progress" data-skill="90"></div>
                                 </div>
                             </div>
                             <div class="skill-item">
-                                <span class="skill-name rainbow-text">OpenCV</span>
+                                <span class="skill-name">OpenCV</span>
                                 <div class="skill-bar">
                                     <div class="skill-progress" data-skill="75"></div>
                                 </div>
@@ -734,76 +578,70 @@
         <section id="contact" class="section section-alt">
             <div class="container">
                 <div class="section-header" data-animation="fade-up">
-                    <h2 class="section-title rainbow-text">Get In Touch</h2>
+                    <h2 class="section-title">Get In Touch</h2>
                     <p class="section-subtitle">Let's discuss your next project</p>
                 </div>
                 
                 <div class="contact-grid">
-                    <div class="contact-info glass-card colorful-border" data-animation="slide-left">
+                    <div class="contact-info" data-animation="slide-left">
                         <div class="contact-item">
-                            <div class="contact-icon rainbow-text">
+                            <div class="contact-icon">
                                 <i class="fas fa-envelope"></i>
                             </div>
                             <div class="contact-details">
-                                <h3 class="rainbow-text">Email</h3>
-                                <a href="mailto:kevohmutwiri35@gmail.com" class="rainbow-text">kevohmutwiri35@gmail.com</a>
+                                <h3>Email</h3>
+                                <a href="mailto:kevohmutwiri35@gmail.com">kevohmutwiri35@gmail.com</a>
                             </div>
                         </div>
                         
                         <div class="contact-item">
-                            <div class="contact-icon rainbow-text">
+                            <div class="contact-icon">
                                 <i class="fas fa-phone"></i>
                             </div>
                             <div class="contact-details">
-                                <h3 class="rainbow-text">Phone & WhatsApp</h3>
-                                <a href="https://wa.me/254791674888" target="_blank" rel="noopener" class="rainbow-text">+254 791 674 888</a>
+                                <h3>Phone & WhatsApp</h3>
+                                <a href="https://wa.me/254791674888" target="_blank" rel="noopener">+254 791 674 888</a>
                             </div>
                         </div>
                         
                         <div class="contact-item">
-                            <div class="contact-icon rainbow-text">
+                            <div class="contact-icon">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
                             <div class="contact-details">
-                                <h3 class="rainbow-text">Location</h3>
-                                <p class="rainbow-text">Nairobi, Kenya</p>
+                                <h3>Location</h3>
+                                <p>Nairobi, Kenya</p>
                             </div>
-                        </div>
-                        
-                        <div class="contact-cta">
-                            <a href="https://wa.me/254791674888" target="_blank" rel="noopener" class="btn btn-primary rainbow-text btn-full">
-                                <i class="fab fa-whatsapp"></i> Chat on WhatsApp
-                            </a>
                         </div>
                     </div>
                     
-                    <div class="contact-form glass-card colorful-border" data-animation="slide-right">
+                    <div class="contact-form" data-animation="slide-right">
                         <form class="form" id="contactForm" novalidate>
                             <div class="form-group">
-                                <label for="name" class="form-label rainbow-text">Name</label>
+                                <label for="name" class="form-label">Name</label>
                                 <input type="text" id="name" name="name" class="form-input" required>
                                 <div class="error-message" id="nameError"></div>
                             </div>
                             
                             <div class="form-group">
-                                <label for="email" class="form-label rainbow-text">Email</label>
+                                <label for="email" class="form-label">Email</label>
                                 <input type="email" id="email" name="email" class="form-input" required>
                                 <div class="error-message" id="emailError"></div>
                             </div>
                             
                             <div class="form-group">
-                                <label for="subject" class="form-label rainbow-text">Subject</label>
+                                <label for="subject" class="form-label">Subject</label>
                                 <input type="text" id="subject" name="subject" class="form-input" required>
                                 <div class="error-message" id="subjectError"></div>
                             </div>
                             
                             <div class="form-group">
-                                <label for="message" class="form-label rainbow-text">Message</label>
+                                <label for="message" class="form-label">Message</label>
                                 <textarea id="message" name="message" class="form-textarea" rows="5" required></textarea>
                                 <div class="error-message" id="messageError"></div>
                             </div>
                             
-                            <button type="submit" class="btn btn-primary rainbow-text btn-full" id="submitBtn">
+                            <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
                                 <span class="btn-text">Send Message</span>
                                 <span class="loading-spinner" id="submitSpinner" style="display: none;"></span>
                             </button>
@@ -831,7 +669,6 @@
                 <ul class="footer-links">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
                     <li><a href="#projects">Projects</a></li>
                     <li><a href="projects-new.html">All Projects</a></li>
                     <li><a href="blog.html">Blog</a></li>
@@ -883,7 +720,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="js/script.js?v=3.0.1-20250117"></script>
-    <script src="js/script-enhanced.js?v=3.0.1-20250117"></script>
     
     <!-- Theme Toggle Button (Fixed) -->
     <button id="theme-toggle-fixed" class="theme-toggle theme-toggle-fixed" aria-label="Toggle dark/light mode">
@@ -1141,7 +977,7 @@
             // Service Worker Registration
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
-                    navigator.serviceWorker.register('/js/sw.js')
+                    navigator.serviceWorker.register('/sw.js')
                         .then(registration => {
                             console.log('ServiceWorker registration successful');
                         })
