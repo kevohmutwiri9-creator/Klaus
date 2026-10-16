@@ -1,6 +1,6 @@
 // Service Worker for Klaus Portfolio
-const CACHE_NAME = 'klaus-portfolio-v3';
-const RUNTIME_CACHE = 'klaus-runtime-v3';
+const CACHE_NAME = 'klaus-portfolio-v4';
+const RUNTIME_CACHE = 'klaus-runtime-v4';
 
 // Critical assets to cache immediately
 const CRITICAL_ASSETS = [
@@ -9,8 +9,12 @@ const CRITICAL_ASSETS = [
   '/css/styles.css',
   '/css/styles-enhanced.css',
   '/css/styles-ux-overrides.css',
+  '/css/site-navigation.css',
+  '/css/site-chat.css',
   '/css/ad-styles.css',
   '/js/script.js',
+  '/js/site-navigation.js',
+  '/js/site-chat.js',
   '/js/script-enhanced.js',
   '/img/logo.png',
   '/img/icon-512x512.png',

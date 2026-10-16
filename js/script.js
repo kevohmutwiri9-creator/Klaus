@@ -1,3 +1,70 @@
+function animateStat(element, value) {
+    const target = Math.max(0, Math.floor(value));
+    const start = Number(element.textContent) || 0;
+
+    if (document.hidden || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        element.textContent = String(target);
+        return;
+    }
+
+    const startedAt = performance.now();
+    const duration = 650;
+    const update = now => {
+        const progress = Math.min((now - startedAt) / duration, 1);
+        element.textContent = String(Math.round(start + (target - start) * progress));
+        if (progress < 1) requestAnimationFrame(update);
+    };
+
+    requestAnimationFrame(update);
+}
+
+function updatePortfolioStats() {
+    const experienceStat = document.querySelector('[data-stat="years-experience"]');
+    if (experienceStat) {
+        const startYear = Number(experienceStat.dataset.startYear) || 2023;
+        experienceStat.textContent = String(Math.max(0, new Date().getFullYear() - startYear));
+    }
+
+    const repositoryStat = document.querySelector('[data-stat="github-repositories"]');
+    if (!repositoryStat) return;
+
+    const cacheKey = 'github-public-repository-count';
+    try {
+        const cachedValue = localStorage.getItem(cacheKey);
+        const cachedCount = cachedValue === null ? NaN : Number(cachedValue);
+        if (Number.isInteger(cachedCount) && cachedCount >= 0) {
+            repositoryStat.textContent = String(cachedCount);
+        }
+    } catch (error) {
+        console.warn('Unable to read the cached GitHub repository count:', error);
+    }
+
+    fetch('https://api.github.com/users/kevohmutwiri9-creator/repos?per_page=100&type=owner', {
+        headers: { Accept: 'application/vnd.github+json' },
+        cache: 'no-store'
+    })
+        .then(response => {
+            if (!response.ok) throw new Error(`GitHub API returned ${response.status}`);
+            return response.json();
+        })
+        .then(repositories => {
+            if (!Array.isArray(repositories)) throw new Error('GitHub did not return a repository list');
+            const projectCount = repositories.filter(repository => !repository.fork).length;
+            try {
+                localStorage.setItem(cacheKey, String(projectCount));
+            } catch (error) {
+                console.warn('Unable to cache the GitHub repository count:', error);
+            }
+            animateStat(repositoryStat, projectCount);
+        })
+        .catch(error => {
+            console.warn('Unable to load the GitHub repository count:', error);
+            repositoryStat.textContent = '—';
+        });
+}
+
+updatePortfolioStats();
+
 // Enhanced Theme Toggle
 function initThemeToggle() {
     const themeToggle = document.getElementById('theme-toggle');
@@ -442,24 +509,58 @@ document.querySelectorAll('form[name^="newsletter"]').forEach(form => {
     });
 });
 
-// Mobile menu toggle
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
 const navLinks = document.querySelectorAll('.nav-menu a[data-nav-section]');
 
-if (hamburger && navMenu) {
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
+const navToggle = document.getElementById('navToggle');
+const navigation = document.getElementById('navigation');
+const navBackdrop = document.getElementById('navBackdrop');
+
+if (navToggle && navigation && navBackdrop) {
+    const navIcon = navToggle.querySelector('i');
+
+    const closeNavigation = (restoreFocus = false) => {
+        document.body.classList.remove('nav-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.setAttribute('aria-label', 'Open navigation');
+        navigation.setAttribute('aria-hidden', 'true');
+        navigation.inert = true;
+        navBackdrop.hidden = true;
+        navIcon?.classList.replace('fa-xmark', 'fa-bars');
+
+        if (restoreFocus) navToggle.focus();
+    };
+
+    const openNavigation = () => {
+        document.body.classList.add('nav-open');
+        navToggle.setAttribute('aria-expanded', 'true');
+        navToggle.setAttribute('aria-label', 'Close navigation');
+        navigation.setAttribute('aria-hidden', 'false');
+        navigation.inert = false;
+        navBackdrop.hidden = false;
+        navIcon?.classList.replace('fa-bars', 'fa-xmark');
+        navigation.querySelector('a')?.focus();
+    };
+
+    navToggle.addEventListener('click', () => {
+        if (navToggle.getAttribute('aria-expanded') === 'true') {
+            closeNavigation();
+        } else {
+            openNavigation();
+        }
     });
 
-    // Close mobile menu when clicking on a link
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
-        });
+    navBackdrop.addEventListener('click', () => closeNavigation(true));
+    navigation.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => window.setTimeout(() => closeNavigation(), 0));
     });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && navToggle.getAttribute('aria-expanded') === 'true') {
+            closeNavigation(true);
+        }
+    });
+    window.addEventListener('scroll', () => {
+        if (navToggle.getAttribute('aria-expanded') === 'true') closeNavigation();
+    }, { passive: true });
 }
 
 // Section observer for active nav state

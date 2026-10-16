@@ -79,19 +79,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="css/styles.css?v=3.0.1-20261007-left-nav" as="style">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style">
-    <link rel="preload" href="js/script.js?v=3.0.1-20261007-left-nav" as="script">
+    <link rel="preload" href="js/script.js?v=3.0.1-20261007-auto-hide-nav" as="script">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" as="script">
     
     <!-- PWA Manifest -->
-    <link rel="manifest" href="site.webmanifest">
+    <link rel="manifest" href="assets/site.webmanifest">
     <link rel="apple-touch-icon" href="img/logo.png">
     <meta name="theme-color" content="#0a0a0a">
     <meta name="msapplication-TileColor" content="#0a0a0a">
-    <meta name="msapplication-config" content="browserconfig.xml">
+    <meta name="msapplication-config" content="assets/browserconfig.xml">
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="css/styles.css?v=3.0.1-20261007-left-nav">
-    <link rel="stylesheet" href="css/styles-ux-overrides.css?v=3.0.1-20261007-left-nav">
+    <link rel="stylesheet" href="css/styles-ux-overrides.css?v=3.0.1-20261007-auto-hide-nav">
     <link rel="stylesheet" href="css/ad-styles.css?v=3.0.1-20261007-left-nav">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
     
@@ -192,6 +192,12 @@
             pointer-events: none;
         }
     </style>
+
+    <link rel="stylesheet" href="css/site-navigation.css">
+    <script defer src="js/site-navigation.js"></script>
+
+    <link rel="stylesheet" href="css/site-chat.css">
+    <script defer src="js/site-chat.js"></script>
 </head>
 
 <body>
@@ -212,7 +218,11 @@
     </div>
     
     <!-- Navigation -->
-    <nav class="nav" id="navigation">
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Open navigation" aria-controls="navigation" aria-expanded="false">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+    </button>
+    <button class="nav-backdrop" id="navBackdrop" type="button" aria-label="Close navigation" hidden></button>
+    <nav class="nav" id="navigation" aria-hidden="true" inert>
         <div class="nav-container">
             <a href="#home" class="nav-brand">
                 <span>Klaus</span>
@@ -220,15 +230,17 @@
             </a>
             
             <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="projects-new.html" class="nav-link">All Projects</a></li>
-                <li><a href="blog.html" class="nav-link">Blog</a></li>
-                <li><a href="tutorials.html" class="nav-link">Tutorials</a></li>
-                <li><a href="resume-new.html" class="nav-link">Resume</a></li>
-                <li><a href="#skills" class="nav-link">Skills</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#home" class="nav-link" data-nav-section="home"><i class="fas fa-house" aria-hidden="true"></i><span>Home</span></a></li>
+                <li><a href="#about" class="nav-link" data-nav-section="about"><i class="fas fa-user" aria-hidden="true"></i><span>About</span></a></li>
+                <li><a href="#projects" class="nav-link" data-nav-section="projects"><i class="fas fa-briefcase" aria-hidden="true"></i><span>Projects</span></a></li>
+                <li><a href="projects-new.html" class="nav-link"><i class="fas fa-layer-group" aria-hidden="true"></i><span>All Projects</span></a></li>
+                <li><a href="blog.html" class="nav-link"><i class="fas fa-pen-to-square" aria-hidden="true"></i><span>Blog</span></a></li>
+                <li><a href="tutorials.html" class="nav-link"><i class="fas fa-graduation-cap" aria-hidden="true"></i><span>Tutorials</span></a></li>
+                <li><a href="case-studies.html" class="nav-link"><i class="fas fa-chart-line" aria-hidden="true"></i><span>Case Studies</span></a></li>
+                <li><a href="insights.html" class="nav-link"><i class="fas fa-lightbulb" aria-hidden="true"></i><span>Insights</span></a></li>
+                <li><a href="resume-new.html" class="nav-link"><i class="fas fa-file-lines" aria-hidden="true"></i><span>Resume</span></a></li>
+                <li><a href="#skills" class="nav-link" data-nav-section="skills"><i class="fas fa-code" aria-hidden="true"></i><span>Skills</span></a></li>
+                <li><a href="#contact" class="nav-link" data-nav-section="contact"><i class="fas fa-envelope" aria-hidden="true"></i><span>Contact</span></a></li>
             </ul>
             
             <div class="search-container">
@@ -237,18 +249,9 @@
                 <div class="search-results" id="searchResults"></div>
             </div>
             
-            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">
-                <span></span>
-            </button>
-            
             <div class="nav-actions">
                 <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
                     <span class="theme-icon">🌙</span>
-                </button>
-                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
-                    <span></span>
-                    <span></span>
-                    <span></span>
                 </button>
             </div>
         </div>
@@ -323,11 +326,11 @@
                         
                         <div class="about-stats">
                             <div class="stat">
-                                <span class="stat-number" data-count="10">0</span>
-                                <span class="stat-label">Projects Completed</span>
+                                <span class="stat-number" data-stat="github-repositories" aria-live="polite">—</span>
+                                <span class="stat-label">Public GitHub Projects</span>
                             </div>
                             <div class="stat">
-                                <span class="stat-number" data-count="2">0</span>
+                                <span class="stat-number" data-stat="years-experience" data-start-year="2023">3</span>
                                 <span class="stat-label">Years Experience</span>
                             </div>
                             <div class="stat">
@@ -674,6 +677,7 @@
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="tutorials.html">Tutorials</a></li>
                     <li><a href="case-studies.html">Case Studies</a></li>
+                    <li><a href="insights.html">Insights</a></li>
                     <li><a href="resume-new.html">Resume</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -719,7 +723,7 @@
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="js/script.js?v=3.0.1-20250117"></script>
+    <script src="js/script.js?v=3.0.1-20261007-auto-hide-nav"></script>
     
     <!-- Theme Toggle Button (Fixed) -->
     <button id="theme-toggle-fixed" class="theme-toggle theme-toggle-fixed" aria-label="Toggle dark/light mode">

@@ -1,0 +1,122 @@
+.site-menu-toggle {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1202;
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.24);
+    cursor: pointer;
+}
+
+body.has-site-menu {
+    padding-top: 76px;
+}
+
+body.has-site-menu .navbar {
+    display: none !important;
+}
+
+.site-menu-toggle span {
+    font-size: 1.35rem;
+    line-height: 1;
+}
+
+.site-menu-toggle:focus-visible,
+.site-menu-panel a:focus-visible {
+    outline: 3px solid #f59e0b;
+    outline-offset: 3px;
+}
+
+.site-menu-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: rgba(15, 23, 42, 0.48);
+    cursor: default;
+}
+
+.site-menu-backdrop[hidden] {
+    display: none;
+}
+
+.site-menu-panel {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 1201;
+    width: min(320px, calc(100vw - 3rem));
+    height: 100vh;
+    height: 100dvh;
+    padding: 1.25rem;
+    overflow-y: auto;
+    background: #0f172a;
+    color: #f8fafc;
+    transform: translateX(-105%);
+    visibility: hidden;
+    transition: transform 220ms ease, visibility 220ms ease;
+}
+
+body.site-menu-open {
+    overflow: hidden;
+}
+
+body.site-menu-open .site-menu-panel {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+.site-menu-brand {
+    display: inline-block;
+    margin: 0 0 1.5rem 3.25rem;
+    color: #f8fafc;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.site-menu-brand span {
+    color: #60a5fa;
+}
+
+.site-menu-panel ul {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.site-menu-panel li a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.65rem 0.8rem;
+    border-radius: 6px;
+    color: #e2e8f0;
+    font: 500 0.98rem/1.3 Inter, system-ui, sans-serif;
+    text-decoration: none;
+    transition: background-color 160ms ease, color 160ms ease;
+}
+
+.site-menu-panel li a:hover,
+.site-menu-panel li a:focus-visible {
+    background: rgba(37, 99, 235, 0.24);
+    color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .site-menu-panel,
+    .site-menu-panel li a {
+        transition: none;
+    }
+}
