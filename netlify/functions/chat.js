@@ -18,7 +18,9 @@ exports.handler = async (event) => {
 
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
-    return response(503, { error: 'Chat is not configured yet.' });
+    return response(503, {
+      error: 'Chat is not configured. Set GROQ_API_KEY for Netlify Functions and redeploy.'
+    });
   }
 
   const rawBody = event.isBase64Encoded
@@ -83,12 +85,45 @@ exports.handler = async (event) => {
     });
 
     if (!upstream.ok) {
-      console.error('Groq chat request failed with status', upstream.status);
-      return response(upstream.status === 429 ? 429 : 502, {
-        error: upstream.status === 429
-          ? 'The assistant is busy. Please try again shortly.'
-          : 'The assistant could not respond right now.'
+      const failure = await upstream.json().catch(() => ({}));
+      const details = failure.error || {};
+      const errorDetails = `${details.code || ''} ${details.message || ''}`;
+      console.error('Groq chat request failed:', {
+        status: upstream.status,
+        type: details.type,
+        code: details.code,
+        message: details.message
       });
+
+      if (upstream.status === 401 || upstream.status === 403) {
+        return response(503, {
+          error: 'Groq rejected the API key. Check GROQ_API_KEY in Netlify environment variables, then redeploy.'
+        });
+      }
+
+      if (upstream.status === 404) {
+        return response(503, {
+          error: 'The configured Groq model is unavailable. Set GROQ_MODEL to an active model ID in Netlify.'
+        });
+      }
+
+      if (/model.*(decommission|not found|unavailable|unsupported)/i.test(errorDetails)) {
+        return response(503, {
+          error: 'The configured Groq model is unavailable. Set GROQ_MODEL to an active model ID in Netlify.'
+        });
+      }
+
+      if (upstream.status === 429) {
+        return response(429, { error: 'The assistant is busy. Check your Groq usage limits or try again shortly.' });
+      }
+
+      if (upstream.status === 400) {
+        return response(502, {
+          error: 'Groq rejected the chat request. Check the function logs for the model or request error.'
+        });
+      }
+
+      return response(502, { error: 'The assistant could not respond right now. Check the Netlify function logs.' });
     }
 
     const result = await upstream.json();

@@ -1133,7 +1133,7 @@ function initLightbox() {
     
     // Check if lightbox elements exist before adding event listeners
     if (!lightbox || !lightboxImg || !lightboxCaption || !closeBtn) {
-        console.log('Lightbox elements not found, skipping initialization');
+        console.debug('Lightbox elements not found, skipping initialization');
         return;
     }
     
