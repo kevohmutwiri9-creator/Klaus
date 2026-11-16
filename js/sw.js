@@ -1,6 +1,6 @@
 // Service Worker for Klaus Portfolio
-const CACHE_NAME = 'klaus-portfolio-v4';
-const RUNTIME_CACHE = 'klaus-runtime-v4';
+const CACHE_NAME = 'klaus-portfolio-v5';
+const RUNTIME_CACHE = 'klaus-runtime-v5';
 
 // Critical assets to cache immediately
 const CRITICAL_ASSETS = [
@@ -96,8 +96,24 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== location.origin && !url.hostname.includes('fonts.googleapis.com')) {
     return;
   }
+
+  if (url.pathname === '/assets/Resume.pdf') {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          if (response.status === 200) {
+            caches.open(RUNTIME_CACHE).then((cache) => {
+              cache.put(event.request, response.clone());
+            });
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
   
-  // Strategy: Network First for HTML, Cache First for assets
+  // Strategy: Network First for HTML and the resume, Cache First for assets
   if (url.pathname.endsWith('.html') || url.pathname === '/') {
     event.respondWith(
       fetch(event.request)
