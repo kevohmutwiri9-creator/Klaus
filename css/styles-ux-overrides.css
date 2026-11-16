@@ -387,8 +387,144 @@ body.nav-open .nav {
   display: none;
 }
 
+.approach-section {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.approach-section::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at 12% 18%, rgba(37, 99, 235, 0.13), transparent 38%),
+    radial-gradient(ellipse at 88% 82%, rgba(124, 58, 237, 0.12), transparent 38%);
+  content: '';
+  pointer-events: none;
+}
+
+.approach-section .section-header {
+  max-width: 760px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.approach-section .section-title {
+  max-width: 700px;
+}
+
+.approach-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.approach-card {
+  position: relative;
+  min-height: 245px;
+  padding: 1.6rem;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 20px;
+  background: var(--card-bg, #fff);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.approach-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(37, 99, 235, 0.4);
+  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.14);
+}
+
+.approach-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+
+.approach-step {
+  color: var(--primary-color, #2563eb);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.approach-icon {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(37, 99, 235, 0.16);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.13), rgba(124, 58, 237, 0.12));
+  color: var(--primary-color, #2563eb);
+  font-size: 1.1rem;
+}
+
+.approach-card h3 {
+  margin: 0 0 0.7rem;
+  color: var(--text-color, #0f172a);
+  font-size: 1.2rem;
+  line-height: 1.35;
+}
+
+.approach-card p {
+  margin: 0;
+  color: var(--text-color, #334155);
+  line-height: 1.7;
+  opacity: 0.78;
+}
+
+.approach-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.25rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.approach-cta p {
+  margin: 0;
+  color: var(--text-color, #0f172a);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.approach-cta .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .nav {
     transition: none;
+  }
+
+  .approach-card {
+    transition: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .approach-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .approach-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .approach-card {
+    min-height: 0;
   }
 }
